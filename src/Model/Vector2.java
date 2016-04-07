@@ -18,9 +18,13 @@ package Model;
  */
 public class Vector2 {
 
-    public static final int MAX_X = 13; // BoardWidth - 1
-    public static final int MAX_Y = 15; //BoardHeight - 1
-    public static final double ROUND_FACTOR = 1000.0;
+    public static final int DIVS_PER_TILE = 18;
+
+    public static final int NUM_TILE_HORIZONTAL = 14;
+    public static final int NUM_TILE_VERTICAL = 16;
+
+    public static final int MAX_X = (NUM_TILE_HORIZONTAL - 1) * DIVS_PER_TILE; // BoardWidth - 1
+    public static final int MAX_Y = (NUM_TILE_VERTICAL - 1) * DIVS_PER_TILE; //BoardHeight - 1
 
     private double x;
     private double y;
@@ -31,11 +35,11 @@ public class Vector2 {
     }
 
     public void setX(double x) {
-        this.x = Math.round(x * ROUND_FACTOR) / ROUND_FACTOR;
+        this.x = x;
     }
 
     public void setY(double y) {
-        this.y = Math.round(y * ROUND_FACTOR) / ROUND_FACTOR;
+        this.y = y;
     }
 
     public double getX() {
@@ -46,9 +50,23 @@ public class Vector2 {
         return this.y;
     }
 
+    private void adjust() {
+        if (this.y > MAX_Y) {
+            this.y = MAX_Y;
+        } else if (this.y < 0) {
+            this.y = 0.0;
+        }
+        if (this.x > MAX_X) {
+            this.x = MAX_X;
+        } else if (this.x < 0) {
+            this.x = 0.0;
+        }
+
+    }
+
     @Override
     public String toString() {
-        return String.format("<%.3f, %.3f>", this.x, this.y);
+        return String.format("<%d, %d>", this.x, this.y);
     }
 
 }

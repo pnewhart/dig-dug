@@ -19,6 +19,31 @@ package Model;
 public abstract class Character {
 
     /**
+     * Location in the Dig Dug board
+     */
+    protected Vector2 location;
+
+    /**
+     * Direction in the Dig Dug board (LEFT, RIGHT, UP, DOWN)
+     */
+    protected Direction direction;
+
+    /**
+     * Speed the character can move on the Dig Dug board
+     */
+    protected double speed;
+
+    /**
+     * Is the character moving
+     */
+    protected boolean isMoving;
+
+    /**
+     * The board that the character is within
+     */
+    protected GameBoard board;
+
+    /**
      * This method will have the character goUp according to the individual
      * character's speed and location, changing its direction to up
      */

@@ -18,16 +18,28 @@ package Model;
  */
 public class Driller extends Character {
 
-    private Vector2 location;
-    private Direction direction;
-    private double speed;
-    private boolean isMoving;
+    private boolean isShooting;
+    private Gun gun;
 
+    public Driller(GameBoard board) {
+        this.location = new Vector2(Vector2.MAX_X / 2, Vector2.MAX_Y / 2);
+        this.direction = Direction.RIGHT;
+        this.speed = 0.18;
+        this.isMoving = false;
+        this.isShooting = false;
+        this.gun = null;
+        this.board = board;
+    }
+
+    // REMOVE THIS ONCE YOU GET THE CORRECT GAMEBOARD!!!!!!!!!!!
     public Driller() {
         this.location = new Vector2(Vector2.MAX_X / 2, Vector2.MAX_Y / 2);
         this.direction = Direction.RIGHT;
-        this.speed = 0.01;
+        this.speed = 0.18;
         this.isMoving = false;
+        this.isShooting = false;
+        this.gun = null;
+        board = null;
     }
 
     public Vector2 getLocation() {
@@ -68,7 +80,9 @@ public class Driller extends Character {
             if (this.location.getY() < 0) {
                 this.location.setY(0);
             }
-            this.direction = Direction.UP;
+            if (location.getY() != 0.0) {
+                this.direction = Direction.UP;
+            }
         }
         this.isMoving = true;
     }
@@ -159,8 +173,19 @@ public class Driller extends Character {
         this.isMoving = false;
     }
 
+    public void shoot(boolean pump) {
+        if (!isShooting) {
+            isShooting = true;
+            this.gun = new Gun(location, direction, board);
+        } else {
+            this.gun.shoot(pump);
+        }
+    }
+
     /**
+     * Gets the location of the Driller, what cell is he most in.
      *
+     * @return Vector2
      */
     public Vector2 getCurrentCell() {
         Vector2 curCell = new Vector2(0, 0);
