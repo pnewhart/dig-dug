@@ -84,9 +84,21 @@ public class Tile {
 
     }
 
-    @Override
-    public String toString() {
-        String returnString = "Hole is %d filled";
-        return returnString;
+    public void printOut() {
+        int leastFill = 100;
+        if (leftHole.getPercentFill() < leastFill) {
+            leastFill = leftHole.getPercentFill();
+        }
+        if (rightHole.getPercentFill() < leastFill) {
+            leastFill = rightHole.getPercentFill();
+        }
+        if (upHole.getPercentFill() < leastFill) {
+            leastFill = upHole.getPercentFill();
+        }
+        if (downHole.getPercentFill() < leastFill) {
+            leastFill = downHole.getPercentFill();
+        }
+        String returnString = String.format(" |%d| ", leastFill);
+        System.out.print(returnString);
     }
 }
