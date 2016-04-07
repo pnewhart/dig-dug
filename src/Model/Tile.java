@@ -17,9 +17,76 @@ package Model;
  * @author laa024
  */
 public class Tile {
+    private Hole leftHole = new Hole();
+    private Hole rightHole = new Hole();
+    private Hole upHole = new Hole();
+    private Hole downHole = new Hole();
 
-    public Tile(int num) {
+    /**
+     * destroys part of a hole in a certain direction
+     *
+     * @param dir
+     * @param percentToDestroy
+     */
+    public void makeHole(Direction dir, int percentToDestroy) {
+        try {
+            if (dir == Direction.RIGHT) {
+                rightHole.destroy(percentToDestroy);
+            }
+            if (dir == Direction.LEFT) {
+                leftHole.destroy(percentToDestroy);
+            }
+            if (dir == Direction.UP) {
+                upHole.destroy(percentToDestroy);
+            }
+            if (dir == Direction.DOWN) {
+                downHole.destroy(percentToDestroy);
+            }
+
+        } catch (Exception e) {
+            System.out.println("tried to remove more dirt than available");
+
+        }
 
     }
 
+    /**
+     *
+     * @return true if tile is full
+     */
+    public boolean isFull() {
+        if (leftHole.isFull() && rightHole.isFull() && upHole.isFull() && downHole.isFull()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @return true if tile is empty
+     */
+    public boolean isEmpty() {
+        if (leftHole.isEmpty() && rightHole.isEmpty() && upHole.isEmpty() && downHole.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * clears the tile in a specific direction
+     *
+     * @param dir
+     */
+    protected void clearTile(Direction dir) {
+        this.makeHole(dir, 100);
+
+    }
+
+    @Override
+    public String toString() {
+        String returnString = "Hole is %d filled";
+        return returnString;
+    }
 }
