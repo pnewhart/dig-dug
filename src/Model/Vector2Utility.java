@@ -18,7 +18,7 @@ package Model;
  */
 public class Vector2Utility {
 
-    public static final double EPSILON = 0.1;
+    public static final double EPSILON = 1.0;
 
     public static Vector2 add(Vector2 vec1, Vector2 vec2) {
         return new Vector2(vec1.getX() + vec2.getX(), vec1.getX() + vec2.getX());

@@ -24,7 +24,7 @@ public class Driller extends Character {
     public Driller(GameBoard board) {
         this.location = new Vector2(Vector2.MAX_X / 2, Vector2.MAX_Y / 2);
         this.direction = Direction.RIGHT;
-        this.speed = 0.18;
+        this.speed = 0.5;
         this.isMoving = false;
         this.isShooting = false;
         this.gun = null;
@@ -35,7 +35,7 @@ public class Driller extends Character {
     public Driller() {
         this.location = new Vector2(Vector2.MAX_X / 2, Vector2.MAX_Y / 2);
         this.direction = Direction.RIGHT;
-        this.speed = 0.18;
+        this.speed = 0.5;
         this.isMoving = false;
         this.isShooting = false;
         this.gun = null;
