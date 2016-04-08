@@ -16,7 +16,7 @@ package Model;
  *
  * @author spg011
  */
-public abstract class Character {
+public abstract class Character extends Object {
 
     /**
      * Location in the Dig Dug board

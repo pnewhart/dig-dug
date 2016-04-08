@@ -18,7 +18,7 @@ package Model;
  */
 public class Vector2 {
 
-    public static final int DIVS_PER_TILE = 18;
+    public static final int DIVS_PER_TILE = 16;
 
     public static final int NUM_TILE_HORIZONTAL = 14;
     public static final int NUM_TILE_VERTICAL = 16;
@@ -26,8 +26,8 @@ public class Vector2 {
     public static final int MAX_X = NUM_TILE_HORIZONTAL - 1; // BoardWidth - 1
     public static final int MAX_Y = NUM_TILE_VERTICAL - 1; //BoardHeight - 1
 
-    public static final int MAX_TILE_X = MAX_X * DIVS_PER_TILE; // BoardWidth - 1
-    public static final int MAX_TILE_Y = MAX_Y * DIVS_PER_TILE; //BoardHeight - 1
+    public static final int MAX_DIV_X = MAX_X * DIVS_PER_TILE; // BoardWidth - 1
+    public static final int MAX_DIV_Y = MAX_Y * DIVS_PER_TILE; //BoardHeight - 1
 
     private double x;
     private double y;
@@ -39,10 +39,12 @@ public class Vector2 {
 
     public void setX(double x) {
         this.x = x;
+        this.adjust();
     }
 
     public void setY(double y) {
         this.y = y;
+        this.adjust();
     }
 
     public double getX() {

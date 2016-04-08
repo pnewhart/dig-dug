@@ -16,8 +16,16 @@ package Model;
  *
  * @author laa024
  */
-public interface Object {
+public abstract class Object {
 
     public Vector2 location = null;
+
+    public Vector2 getTile() {
+        return Vector2Utility.divide(this.location, Vector2.DIVS_PER_TILE);
+    }
+
+    public Vector2 getDiv() {
+        return this.location;
+    }
 
 }
