@@ -16,11 +16,18 @@ package Model;
  *
  * @author laa024
  */
-public class Tile {
+public class Tile implements Object {
+
     private Hole leftHole = new Hole();
     private Hole rightHole = new Hole();
     private Hole upHole = new Hole();
     private Hole downHole = new Hole();
+    private boolean clearedHorizontal = false;
+    private boolean clearedVertical = false;
+
+    public Tile() {
+
+    }
 
     /**
      * destroys part of a hole in a certain direction
@@ -41,6 +48,12 @@ public class Tile {
             }
             if (dir == Direction.DOWN) {
                 downHole.destroy(percentToDestroy);
+            }
+            if (rightHole.getPercentFill() + leftHole.getPercentFill() > 100) {
+                this.clearTileHorizontal();
+            }
+            if (upHole.getPercentFill() + downHole.getPercentFill() > 100) {
+                this.clearTileVertical();
             }
 
         } catch (Exception e) {
@@ -84,6 +97,20 @@ public class Tile {
 
     }
 
+    protected void clearTileHorizontal() {
+
+        rightHole.clearHole();
+        leftHole.clearHole();
+        clearedHorizontal = true;
+    }
+
+    public void clearTileVertical() {
+
+        upHole.clearHole();
+        downHole.clearHole();
+        clearedVertical = true;
+    }
+
     public void printOut() {
         int leastFill = 100;
         if (leftHole.getPercentFill() < leastFill) {
@@ -98,7 +125,8 @@ public class Tile {
         if (downHole.getPercentFill() < leastFill) {
             leastFill = downHole.getPercentFill();
         }
-        String returnString = String.format(" |%d| ", leastFill);
+
+        String returnString = String.format(" |%20d| ", leastFill);
         System.out.print(returnString);
     }
 }
