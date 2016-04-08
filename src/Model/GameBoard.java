@@ -24,8 +24,8 @@ import java.io.IOException;
  */
 public class GameBoard {
 
-    final static int BOARD_HEIGHT = Vector2.MAX_Y;
-    final static int BOARD_WIDTH = Vector2.MAX_X;
+    final static int BOARD_HEIGHT = Vector2.MAX_Y + 1;
+    final static int BOARD_WIDTH = Vector2.MAX_X + 1;
     private Tile[][] board = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
 
     public GameBoard() {
@@ -75,7 +75,7 @@ public class GameBoard {
             System.out.print(character);
             System.out.print(i);
             System.out.println(j);
-            if (j == BOARD_WIDTH + 1) {
+            if (j == BOARD_WIDTH) {
                 j = 0;
                 i++;
             }
@@ -109,12 +109,13 @@ public class GameBoard {
     }
 
     public void printString() {
-        for (int i = 0; i < (BOARD_HEIGHT - 1); i++) {
-            for (int j = 0; j < (BOARD_WIDTH - 1); j++) {
+        for (int i = 0; i < (BOARD_HEIGHT); i++) {
+            for (int j = 0; j < (BOARD_WIDTH); j++) {
+
                 board[i][j].printOut();
 
             }
-            System.out.print("  \n");
+            System.out.print("\n");
 
         }
 

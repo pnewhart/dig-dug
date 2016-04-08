@@ -79,4 +79,8 @@ public class Hole {
         }
 
     }
+
+    public void clearHole() {
+        percentFill = MIN_FILL;
+    }
 }
