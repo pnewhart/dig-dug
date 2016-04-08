@@ -20,6 +20,10 @@ public abstract class Object {
 
     public Vector2 location = null;
 
+    public void setDiv(Vector2 location) {
+        this.location = location;
+    }
+
     public Vector2 getTile() {
         return Vector2Utility.divide(this.location, Vector2.DIVS_PER_TILE);
     }

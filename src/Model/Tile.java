@@ -16,7 +16,7 @@ package Model;
  *
  * @author laa024
  */
-public class Tile implements Object {
+public class Tile extends Object {
 
     private Hole leftHole = new Hole();
     private Hole rightHole = new Hole();
