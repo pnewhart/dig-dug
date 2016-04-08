@@ -28,6 +28,14 @@ public class Vector2Utility {
         return new Vector2(-vec.getX(), -vec.getX());
     }
 
+    public static Vector2 divide(Vector2 vec, double div) {
+        return new Vector2(vec.getX() / div, vec.getX() / div);
+    }
+
+    public static Vector2 divide(Vector2 vec, int div) {
+        return new Vector2(vec.getX() / div, vec.getX() / div);
+    }
+
     public static Vector2 scale(Vector2 vec, double factor) {
         return new Vector2(factor * vec.getX(), factor * vec.getX());
     }

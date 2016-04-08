@@ -18,7 +18,7 @@ package Model;
  */
 public class Vector2 {
 
-    public static final int DIVS_PER_TILE = 18;
+    public static final int DIVS_PER_TILE = 16;
 
     public static final int NUM_TILE_HORIZONTAL = 14;
     public static final int NUM_TILE_VERTICAL = 16;
@@ -39,10 +39,12 @@ public class Vector2 {
 
     public void setX(double x) {
         this.x = x;
+        this.adjust();
     }
 
     public void setY(double y) {
         this.y = y;
+        this.adjust();
     }
 
     public double getX() {
