@@ -32,16 +32,18 @@ public class Vector2Utility {
         return new Vector2(vec.getX() / div, vec.getX() / div);
     }
 
-    public static Vector2 divide(Vector2 vec, int div) {
-        return new Vector2(vec.getX() / div, vec.getX() / div);
+    public static Vector2 roundDivide(Vector2 vec, double div) {
+        return new Vector2(Math.round(vec.getX() / div), Math.round(
+                           vec.getX() / div));
     }
 
     public static Vector2 scale(Vector2 vec, double factor) {
         return new Vector2(factor * vec.getX(), factor * vec.getX());
     }
 
-    public static boolean isNear(double num1, double num2) {
-        return Math.abs(num1 - num2) < EPSILON;
+    public static boolean isNearTile(Vector2 vec) {
+        return (vec.getX() - Math.round(vec.getX() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON) && (vec.getX() - Math.round(
+                                                                                                                   vec.getX() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON);
     }
 
 }

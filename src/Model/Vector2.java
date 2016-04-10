@@ -58,13 +58,13 @@ public class Vector2 {
     }
 
     private void adjust() {
-        if (this.y > MAX_Y) {
-            this.y = MAX_Y;
+        if (this.y > MAX_DIV_Y) {
+            this.y = MAX_DIV_Y;
         } else if (this.y < 0) {
             this.y = 0.0;
         }
-        if (this.x > MAX_X) {
-            this.x = MAX_X;
+        if (this.x > MAX_DIV_X) {
+            this.x = MAX_DIV_X;
         } else if (this.x < 0) {
             this.x = 0.0;
         }
@@ -73,7 +73,7 @@ public class Vector2 {
 
     @Override
     public String toString() {
-        return String.format("<%d, %d>", this.x, this.y);
+        return String.format("<%.2f, %.2f>", this.x, this.y);
     }
 
 }

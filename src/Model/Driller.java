@@ -22,7 +22,9 @@ public class Driller extends Character {
     private Gun gun;
 
     public Driller(GameBoard board) {
-        this.location = new Vector2(Vector2.MAX_X / 2, Vector2.MAX_Y / 2);
+        this.location = new Vector2(
+                (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
+                (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE);
         this.direction = Direction.RIGHT;
         this.speed = 0.5;
         this.isMoving = false;
@@ -33,7 +35,9 @@ public class Driller extends Character {
 
     // REMOVE THIS ONCE YOU GET THE CORRECT GAMEBOARD!!!!!!!!!!!
     public Driller() {
-        this.location = new Vector2(Vector2.MAX_X / 2, Vector2.MAX_Y / 2);
+        this.location = new Vector2(
+                (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
+                (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE);
         this.direction = Direction.RIGHT;
         this.speed = 0.5;
         this.isMoving = false;
@@ -54,7 +58,7 @@ public class Driller extends Character {
         return speed;
     }
 
-    public boolean isIsMoving() {
+    public boolean isMoving() {
         return isMoving;
     }
 
@@ -68,18 +72,15 @@ public class Driller extends Character {
     public void goUp() {
         //this.location.setX(Math.round(this.location.getX()));
 
-        if (this.direction == Direction.LEFT && !Vector2Utility.isNear(
-                this.location.getX(), Math.floor(this.location.getX()))) {
+        if (this.direction == Direction.LEFT && !Vector2Utility.isNearTile(
+                this.location)) {
             this.location.setX(this.location.getX() - speed);
-        } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNear(
-                this.location.getX(), Math.ceil(this.location.getX()))) {
+        } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
+                this.location)) {
             this.location.setX(this.location.getX() + speed);
         } else {
-            location.setX(Math.round(location.getX()));
+            location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
             location.setY(location.getY() - speed);
-            if (this.location.getY() < 0) {
-                this.location.setY(0);
-            }
             if (location.getY() != 0.0) {
                 this.direction = Direction.UP;
             }
@@ -97,19 +98,18 @@ public class Driller extends Character {
     public void goDown() {
         //this.location.setX(Math.round(this.location.getX()));
 
-        if (this.direction == Direction.LEFT && !Vector2Utility.isNear(
-                this.location.getX(), Math.floor(this.location.getX()))) {
+        if (this.direction == Direction.LEFT && !Vector2Utility.isNearTile(
+                this.location)) {
             this.location.setX(this.location.getX() - speed);
-        } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNear(
-                this.location.getX(), Math.ceil(this.location.getX()))) {
+        } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
+                this.location)) {
             this.location.setX(this.location.getX() + speed);
         } else {
-            location.setX(Math.round(location.getX()));
+            location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
             location.setY(location.getY() + speed);
-            if (this.location.getY() > Vector2.MAX_Y) {
-                this.location.setY(Vector2.MAX_Y);
+            if (location.getY() != 0.0) {
+                this.direction = Direction.DOWN;
             }
-            this.direction = Direction.DOWN;
         }
         this.isMoving = true;
     }
@@ -124,14 +124,14 @@ public class Driller extends Character {
     public void goLeft() {
         //this.location.setX(Math.round(this.location.getX()));
 
-        if (this.direction == Direction.UP && !Vector2Utility.isNear(
-                this.location.getY(), Math.floor(this.location.getY()))) {
+        if (this.direction == Direction.UP && !Vector2Utility.isNearTile(
+                this.location)) {
             this.location.setY(this.location.getY() - speed);
-        } else if (this.direction == Direction.DOWN && !Vector2Utility.isNear(
-                this.location.getY(), Math.ceil(this.location.getY()))) {
+        } else if (this.direction == Direction.DOWN && !Vector2Utility.isNearTile(
+                this.location)) {
             this.location.setY(this.location.getY() + speed);
         } else {
-            location.setY(Math.round(location.getY()));
+            location.setY(this.getTile().getY() * Vector2.DIVS_PER_TILE);
             location.setX(location.getX() - speed);
             if (this.location.getX() < 0) {
                 this.location.setX(0);
@@ -151,17 +151,17 @@ public class Driller extends Character {
     public void goRight() {
         //this.location.setX(Math.round(this.location.getX()));
 
-        if (this.direction == Direction.UP && !Vector2Utility.isNear(
-                this.location.getY(), Math.floor(this.location.getY()))) {
+        if (this.direction == Direction.UP && !Vector2Utility.isNearTile(
+                this.location)) {
             this.location.setY(this.location.getY() - speed);
-        } else if (this.direction == Direction.DOWN && !Vector2Utility.isNear(
-                this.location.getY(), Math.ceil(this.location.getY()))) {
+        } else if (this.direction == Direction.DOWN && !Vector2Utility.isNearTile(
+                this.location)) {
             this.location.setY(this.location.getY() + speed);
         } else {
-            location.setY(Math.round(location.getY()));
+            location.setY(this.getTile().getY() * Vector2.DIVS_PER_TILE);
             location.setX(location.getX() + speed);
-            if (this.location.getX() > Vector2.MAX_X) {
-                this.location.setX(Vector2.MAX_X);
+            if (this.location.getX() < 0) {
+                this.location.setX(0);
             }
             this.direction = Direction.RIGHT;
         }

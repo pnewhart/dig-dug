@@ -38,27 +38,27 @@ public class DrillerTest {
      * Test not exact location
      */
     @Test
-    public void testNotExact() {
-        System.out.println("goUp");
+    public void testSteps() {
+        System.out.println("testSteps");
         Driller driller = new Driller();
         double speed = driller.getSpeed();
-        Vector2 loc1 = driller.getCurrentCell();
-        for (int i = 0; i < 85; i++) {
+        Vector2 loc1 = driller.getDiv();
+        for (int i = 0; i < 25; i++) {
             driller.goUp();
         }
-        Vector2 loc2 = driller.getCurrentCell();
-        for (int i = 0; i < 85; i++) {
+        Vector2 loc2 = driller.getDiv();
+        for (int i = 0; i < 25; i++) {
             driller.goRight();
         }
-        Vector2 loc3 = driller.getCurrentCell();
-        for (int i = 0; i < 85; i++) {
+        Vector2 loc3 = driller.getDiv();
+        for (int i = 0; i < 25; i++) {
             driller.goDown();
         }
-        Vector2 loc4 = driller.getCurrentCell();
-        for (int i = 0; i < 85; i++) {
+        Vector2 loc4 = driller.getDiv();
+        for (int i = 0; i < 25; i++) {
             driller.goLeft();
         }
-        Vector2 loc5 = driller.getCurrentCell();
+        Vector2 loc5 = driller.getDiv();
         System.out.printf("%s, %s, %s, %s, %s\n", loc1, loc2, loc3, loc4, loc5);
     }
 
@@ -70,15 +70,16 @@ public class DrillerTest {
         System.out.println("goUp");
         Driller driller = new Driller();
         double speed = driller.getSpeed();
-        double oldX = driller.getLocation().getX();
+        //double oldX = driller.getLocation().getX();
         double oldY = driller.getLocation().getY();
-        for (int i = 0; i < 100; i++) {
+        int steps = 80;
+        for (int i = 0; i < steps; i++) {
             driller.goUp();
         }
-        double newX = driller.getLocation().getX();
+        //double newX = driller.getLocation().getX();
         double newY = driller.getLocation().getY();
-        assertEquals(oldY - 100 * speed, newY, Vector2Utility.EPSILON);
-        assertEquals(oldX, newX, Vector2Utility.EPSILON);
+        assertEquals(oldY - steps * speed, newY, Vector2Utility.EPSILON);
+        //assertEquals(oldX, newX, Vector2Utility.EPSILON);
     }
 
     /**
@@ -89,15 +90,16 @@ public class DrillerTest {
         System.out.println("goDown");
         Driller driller = new Driller();
         double speed = driller.getSpeed();
-        double oldX = driller.getLocation().getX();
+        //double oldX = driller.getLocation().getX();
         double oldY = driller.getLocation().getY();
-        for (int i = 0; i < 100; i++) {
+        int steps = 80;
+        for (int i = 0; i < steps; i++) {
             driller.goDown();
         }
-        double newX = driller.getLocation().getX();
+        //double newX = driller.getLocation().getX();
         double newY = driller.getLocation().getY();
-        assertEquals(oldY + 100 * speed, newY, Vector2Utility.EPSILON);
-        assertEquals(oldX, newX, Vector2Utility.EPSILON);
+        assertEquals(oldY + steps * speed, newY, Vector2Utility.EPSILON);
+        //assertEquals(oldX, newX, Vector2Utility.EPSILON);
     }
 
     /**
@@ -109,14 +111,15 @@ public class DrillerTest {
         Driller driller = new Driller();
         double speed = driller.getSpeed();
         double oldX = driller.getLocation().getX();
-        double oldY = driller.getLocation().getY();
-        for (int i = 0; i < 100; i++) {
+        //double oldY = driller.getLocation().getY();
+        int steps = 80;
+        for (int i = 0; i < steps; i++) {
             driller.goLeft();
         }
         double newX = driller.getLocation().getX();
-        double newY = driller.getLocation().getY();
-        assertEquals(oldX - 100 * speed, newX, Vector2Utility.EPSILON);
-        assertEquals(oldY, newY, Vector2Utility.EPSILON);
+        //double newY = driller.getLocation().getY();
+        //assertEquals(oldY + steps * speed, newY, Vector2Utility.EPSILON);
+        assertEquals(oldX - steps * speed, newX, Vector2Utility.EPSILON);
     }
 
     /**
@@ -128,13 +131,14 @@ public class DrillerTest {
         Driller driller = new Driller();
         double speed = driller.getSpeed();
         double oldX = driller.getLocation().getX();
-        double oldY = driller.getLocation().getY();
-        for (int i = 0; i < 100; i++) {
+        //double oldY = driller.getLocation().getY();
+        int steps = 80;
+        for (int i = 0; i < steps; i++) {
             driller.goRight();
         }
         double newX = driller.getLocation().getX();
-        double newY = driller.getLocation().getY();
-        assertEquals(oldX + 100 * speed, newX, Vector2Utility.EPSILON);
-        assertEquals(oldY, newY, Vector2Utility.EPSILON);
+        //double newY = driller.getLocation().getY();
+        //assertEquals(oldY + steps * speed, newY, Vector2Utility.EPSILON);
+        assertEquals(oldX + steps * speed, newX, Vector2Utility.EPSILON);
     }
 }
