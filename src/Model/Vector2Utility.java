@@ -21,29 +21,29 @@ public class Vector2Utility {
     public static final double EPSILON = 1.0;
 
     public static Vector2 add(Vector2 vec1, Vector2 vec2) {
-        return new Vector2(vec1.getX() + vec2.getX(), vec1.getX() + vec2.getX());
+        return new Vector2(vec1.getX() + vec2.getX(), vec1.getY() + vec2.getY());
     }
 
     public static Vector2 negate(Vector2 vec) {
-        return new Vector2(-vec.getX(), -vec.getX());
+        return new Vector2(-vec.getX(), -vec.getY());
     }
 
     public static Vector2 divide(Vector2 vec, double div) {
-        return new Vector2(vec.getX() / div, vec.getX() / div);
+        return new Vector2(vec.getX() / div, vec.getY() / div);
     }
 
     public static Vector2 roundDivide(Vector2 vec, double div) {
         return new Vector2(Math.round(vec.getX() / div), Math.round(
-                           vec.getX() / div));
+                           vec.getY() / div));
     }
 
     public static Vector2 scale(Vector2 vec, double factor) {
-        return new Vector2(factor * vec.getX(), factor * vec.getX());
+        return new Vector2(factor * vec.getX(), factor * vec.getY());
     }
 
     public static boolean isNearTile(Vector2 vec) {
-        return (vec.getX() - Math.round(vec.getX() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON) && (vec.getX() - Math.round(
-                                                                                                                   vec.getX() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON);
+        return (vec.getX() - Math.round(vec.getX() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON) && (vec.getY() - Math.round(
+                                                                                                                   vec.getY() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON);
     }
 
 }

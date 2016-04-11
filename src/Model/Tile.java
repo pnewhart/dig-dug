@@ -12,6 +12,8 @@
  * **************************************** */
 package Model;
 
+import java.io.File;
+
 /**
  *
  * @author laa024
@@ -24,10 +26,35 @@ public class Tile extends Object {
     private Hole downHole = new Hole();
     private boolean clearedHorizontal = false;
     private boolean clearedVertical = false;
-    private Vector2 location;
+    private int xCoord;
+    private String biome;
+    private int layer;
+    private File northDig = null;
+    private File southDig = null;
+    private File eastDig = null;
+    private File westDig = null;
+    private int northDigInt = 0;
+    private int southDigInt = 0;
+    private int eastDigInt = 0;
+    private int westDigInt = 0;
+
+    public String getBiome() {
+        return biome;
+    }
+
+    public void setBiome(String biome) {
+        this.biome = biome;
+    }
+
+    public int getLayer() {
+        return layer;
+    }
+
+    public void setLayer(int layer) {
+        this.layer = layer;
+    }
 
     public Tile(int x, int y) {
-        location = new Vector2(x, y);
 
     }
 
@@ -128,17 +155,8 @@ public class Tile extends Object {
             leastFill = downHole.getPercentFill();
         }
 
-        //String returnString = String.format(" |%20d| ", leastFill);
-        String returnString = String.format(" |%20d| ", leastFill);
+        String returnString = String.format(" |%5d| ", leastFill);
         System.out.print(returnString);
-    }
-
-    public Vector2 getLocation() {
-        return location;
-    }
-
-    public void setLocation(Vector2 location) {
-        this.location = location;
     }
 
 }

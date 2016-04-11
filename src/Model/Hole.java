@@ -19,7 +19,7 @@ package Model;
 public class Hole {
 
     private int percentFill;
-    private final int MAX_FILL = 100;
+    private final int MAX_FILL = 19;
     private final int MIN_FILL = 0;
 
     /**
