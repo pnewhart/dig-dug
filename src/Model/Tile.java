@@ -54,10 +54,6 @@ public class Tile extends Object {
         this.layer = layer;
     }
 
-    public Tile(int x, int y) {
-
-    }
-
     /**
      * destroys part of a hole in a certain direction
      *
@@ -78,10 +74,10 @@ public class Tile extends Object {
             if (dir == Direction.DOWN) {
                 downHole.destroy(percentToDestroy);
             }
-            if (rightHole.getPercentFill() + leftHole.getPercentFill() > 100) {
+            if (rightHole.getPercentFill() + leftHole.getPercentFill() > 19) {
                 this.clearTileHorizontal();
             }
-            if (upHole.getPercentFill() + downHole.getPercentFill() > 100) {
+            if (upHole.getPercentFill() + downHole.getPercentFill() > 19) {
                 this.clearTileVertical();
             }
 
@@ -122,7 +118,7 @@ public class Tile extends Object {
      * @param dir
      */
     protected void clearTile(Direction dir) {
-        this.makeHole(dir, 100);
+        this.makeHole(dir, 19);
 
     }
 
@@ -155,8 +151,9 @@ public class Tile extends Object {
             leastFill = downHole.getPercentFill();
         }
 
-        String returnString = String.format(" |%5d| ", leastFill);
+        String returnString = String.format(" |%3d |", leastFill);
         System.out.print(returnString);
+
     }
 
 }

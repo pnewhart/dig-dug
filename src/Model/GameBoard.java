@@ -33,7 +33,7 @@ public class GameBoard {
     public GameBoard() {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
-                board[i][j] = new Tile(i, j);
+                board[i][j] = new Tile();
             }
         }
 
@@ -74,9 +74,7 @@ public class GameBoard {
         while ((num = buf.read()) != -1) {
 
             char character = (char) num;
-            System.out.print(character);
-            System.out.print(i);
-            System.out.println(j);
+
             if (j == BOARD_WIDTH) {
                 j = 0;
                 i++;
@@ -109,7 +107,7 @@ public class GameBoard {
         }
         buf.close();
     }
-//TODO: May need to use this in future 
+//TODO: May need to use this in future
 
     /**
      *
@@ -141,10 +139,10 @@ public class GameBoard {
         for (int i = 0; i < (BOARD_HEIGHT); i++) {
             for (int j = 0; j < (BOARD_WIDTH); j++) {
 
-                System.out.print(board[i][j].getLocation());
+                board[i][j].printOut();
 
             }
-            System.out.print(" \n");
+            System.out.print("  \n");
 
         }
 
