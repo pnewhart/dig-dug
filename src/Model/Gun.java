@@ -18,7 +18,7 @@ import java.util.Date;
  *
  * @author spg011
  */
-public class Gun {
+public class Gun extends Object {
 
     public static final int MAX_LENGTH = 3;
     private static final double SPEED = 0.02;
@@ -46,10 +46,6 @@ public class Gun {
 
     public double getLength() {
         return length;
-    }
-
-    public Vector2 getLocation() {
-        return location;
     }
 
     public Direction getDirection() {

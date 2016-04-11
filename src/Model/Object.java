@@ -18,18 +18,18 @@ package Model;
  */
 public abstract class Object {
 
-    public Vector2 location = null;
+    protected Vector2 location = null;
 
     public void setDiv(Vector2 location) {
         this.location = location;
     }
 
     public Vector2 getTile() {
-        return Vector2Utility.divide(this.location, Vector2.DIVS_PER_TILE);
+        return Vector2Utility.roundDivide(this.location, Vector2.DIVS_PER_TILE);
     }
 
     public Vector2 getDiv() {
-        return this.location;
+        return new Vector2(this.location.getX(), this.location.getY());
     }
 
 }

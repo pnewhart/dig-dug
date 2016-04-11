@@ -19,11 +19,6 @@ package Model;
 public abstract class Character extends Object {
 
     /**
-     * Location in the Dig Dug board
-     */
-    protected Vector2 location;
-
-    /**
      * Direction in the Dig Dug board (LEFT, RIGHT, UP, DOWN)
      */
     protected Direction direction;
