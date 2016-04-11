@@ -24,8 +24,10 @@ public class Tile extends Object {
     private Hole downHole = new Hole();
     private boolean clearedHorizontal = false;
     private boolean clearedVertical = false;
+    private Vector2 location;
 
-    public Tile() {
+    public Tile(int x, int y) {
+        location = new Vector2(x, y);
 
     }
 
@@ -126,7 +128,17 @@ public class Tile extends Object {
             leastFill = downHole.getPercentFill();
         }
 
+        //String returnString = String.format(" |%20d| ", leastFill);
         String returnString = String.format(" |%20d| ", leastFill);
         System.out.print(returnString);
     }
+
+    public Vector2 getLocation() {
+        return location;
+    }
+
+    public void setLocation(Vector2 location) {
+        this.location = location;
+    }
+
 }

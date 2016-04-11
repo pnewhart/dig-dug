@@ -31,7 +31,7 @@ public class GameBoard {
     public GameBoard() {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
-                board[i][j] = new Tile();
+                board[i][j] = new Tile(i, j);
             }
         }
 
@@ -112,7 +112,7 @@ public class GameBoard {
         for (int i = 0; i < (BOARD_HEIGHT); i++) {
             for (int j = 0; j < (BOARD_WIDTH); j++) {
 
-                board[i][j].printOut();
+                System.out.print(board[i][j].getLocation());
 
             }
             System.out.print("\n");
