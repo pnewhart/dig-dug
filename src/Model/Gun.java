@@ -24,7 +24,6 @@ public class Gun extends Object {
     private static final double SPEED = 0.02;
 
     private double length;
-    private Vector2 location;
     private Direction direction;
     private boolean destroyed;
 
