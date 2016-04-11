@@ -32,4 +32,8 @@ public abstract class Object {
         return new Vector2(this.location.getX(), this.location.getY());
     }
 
+    public boolean containsDiv(int x, int y) {
+        return x >= this.location.getX() && x < this.location.getX() + Vector2.DIVS_PER_TILE && y >= this.location.getY() && y < this.location.getY() + Vector2.DIVS_PER_TILE;
+    }
+
 }

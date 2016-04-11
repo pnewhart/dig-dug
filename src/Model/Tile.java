@@ -12,6 +12,8 @@
  * **************************************** */
 package Model;
 
+import java.io.File;
+
 /**
  *
  * @author laa024
@@ -24,9 +26,32 @@ public class Tile extends Object {
     private Hole downHole = new Hole();
     private boolean clearedHorizontal = false;
     private boolean clearedVertical = false;
+    private int xCoord;
+    private String biome;
+    private int layer;
+    private File northDig = null;
+    private File southDig = null;
+    private File eastDig = null;
+    private File westDig = null;
+    private int northDigInt = 0;
+    private int southDigInt = 0;
+    private int eastDigInt = 0;
+    private int westDigInt = 0;
 
-    public Tile() {
+    public String getBiome() {
+        return biome;
+    }
 
+    public void setBiome(String biome) {
+        this.biome = biome;
+    }
+
+    public int getLayer() {
+        return layer;
+    }
+
+    public void setLayer(int layer) {
+        this.layer = layer;
     }
 
     /**
@@ -49,10 +74,10 @@ public class Tile extends Object {
             if (dir == Direction.DOWN) {
                 downHole.destroy(percentToDestroy);
             }
-            if (rightHole.getPercentFill() + leftHole.getPercentFill() > 100) {
+            if (rightHole.getPercentFill() + leftHole.getPercentFill() > 19) {
                 this.clearTileHorizontal();
             }
-            if (upHole.getPercentFill() + downHole.getPercentFill() > 100) {
+            if (upHole.getPercentFill() + downHole.getPercentFill() > 19) {
                 this.clearTileVertical();
             }
 
@@ -93,7 +118,7 @@ public class Tile extends Object {
      * @param dir
      */
     protected void clearTile(Direction dir) {
-        this.makeHole(dir, 100);
+        this.makeHole(dir, 19);
 
     }
 
@@ -126,7 +151,9 @@ public class Tile extends Object {
             leastFill = downHole.getPercentFill();
         }
 
-        String returnString = String.format(" |%20d| ", leastFill);
+        String returnString = String.format(" |%3d |", leastFill);
         System.out.print(returnString);
+
     }
+
 }

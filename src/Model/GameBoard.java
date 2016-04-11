@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -27,6 +28,7 @@ public class GameBoard {
     final static int BOARD_HEIGHT = Vector2.MAX_Y + 1;
     final static int BOARD_WIDTH = Vector2.MAX_X + 1;
     private Tile[][] board = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
+    protected ArrayList<Object> objects = new ArrayList<Object>();
 
     public GameBoard() {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
@@ -72,9 +74,7 @@ public class GameBoard {
         while ((num = buf.read()) != -1) {
 
             char character = (char) num;
-            System.out.print(character);
-            System.out.print(i);
-            System.out.println(j);
+
             if (j == BOARD_WIDTH) {
                 j = 0;
                 i++;
@@ -107,6 +107,33 @@ public class GameBoard {
         }
         buf.close();
     }
+//TODO: May need to use this in future
+
+    /**
+     *
+     * @param coord in div not tile
+     * @return
+     */
+    //public boolean isHole(Vector2 coord) {
+    //coord = coord.getTile();
+    //int x = (int) coord.getX() / Vector2.DIVS_PER_TILE;
+    //int y = (int) coord.getY() / Vector2.DIVS_PER_TILE;
+    //return board[x][y].isThere((int) coord.getX() % Vector2.DIVS_PER_TILE,
+    //                           (int) coord.getY() % Vector2.DIVS_PER_TILE);
+//
+    //}
+    public boolean isThereObject(Vector2 coord) {
+
+        for (int i = 0; i < objects.size(); i++) {
+            if (objects.get(i).containsDiv((int) coord.getX(),
+                                           (int) coord.getY())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 
     public void printString() {
         for (int i = 0; i < (BOARD_HEIGHT); i++) {
@@ -115,7 +142,7 @@ public class GameBoard {
                 board[i][j].printOut();
 
             }
-            System.out.print("\n");
+            System.out.print("  \n");
 
         }
 
