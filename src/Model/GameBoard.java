@@ -33,7 +33,7 @@ public class GameBoard {
     public GameBoard() {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
-                board[i][j] = new Tile();
+                board[i][j] = new Tile(i, j);
             }
         }
 
@@ -53,6 +53,11 @@ public class GameBoard {
         } else {
             return true;
         }
+    }
+
+    public boolean isDivEmpty(Vector2 v) {
+        return isEmpty((int) v.getX() / Vector2.DIVS_PER_TILE,
+                       (int) v.getY() / Vector2.DIVS_PER_TILE);
     }
 
     /**
@@ -133,6 +138,28 @@ public class GameBoard {
             }
         }
         return false;
+    }
+
+    public ArrayList<Object> returnObjectAt(Vector2 coord) {
+        ArrayList<Object> returnList = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i++) {
+            if (objects.get(i).containsDiv((int) coord.getX(),
+                                           (int) coord.getY())) {
+                returnList.add(objects.get(i));
+            }
+
+        }
+        return returnList;
+
+    }
+
+    public boolean isClearedVertical(Tile t) {
+        return t.isClearedVertical();
+
+    }
+
+    public boolean isClearedHorizontal(Tile t) {
+        return t.isClearedHorizontal();
     }
 
     public void printString() {
