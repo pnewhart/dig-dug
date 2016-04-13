@@ -38,6 +38,10 @@ public class Tile extends Object {
     private int eastDigInt = 0;
     private int westDigInt = 0;
 
+    public Tile(int x, int y) {
+        this.location = new Vector2(x, y);
+    }
+
     public String getBiome() {
         return biome;
     }
@@ -136,6 +140,26 @@ public class Tile extends Object {
         clearedVertical = true;
     }
 
+    public boolean isClearedHorizontal() {
+        if (upHole.isEmpty() && downHole.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isClearedVertical() {
+        if (leftHole.isEmpty() && rightHole.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     *
+     */
     public void printOut() {
         int leastFill = 100;
         if (leftHole.getPercentFill() < leastFill) {
