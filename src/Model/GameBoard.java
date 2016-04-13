@@ -140,8 +140,17 @@ public class GameBoard {
         return false;
     }
 
-    public Object returnObjectAt(Vector2 point) {
-        return board[(int) point.getX()][(int) point.getY()];
+    public ArrayList<Object> returnObjectAt(Vector2 coord) {
+        ArrayList<Object> returnList = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i++) {
+            if (objects.get(i).containsDiv((int) coord.getX(),
+                                           (int) coord.getY())) {
+                returnList.add(objects.get(i));
+            }
+
+        }
+        return returnList;
+
     }
 
     public boolean isClearedVertical(Tile t) {
