@@ -19,7 +19,7 @@ package Model;
 public abstract class Object {
 
     protected Vector2 location = null;
-    protected boolean isPumpable;
+    protected boolean isPumpable = false;
 
     public boolean isPumpable() {
         return isPumpable;

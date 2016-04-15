@@ -140,7 +140,7 @@ public class GameBoard {
         return false;
     }
 
-    public ArrayList<Object> returnObjectAt(Vector2 coord) {
+    public ArrayList<Object> returnObjectsAt(Vector2 coord) {
         ArrayList<Object> returnList = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
             if (objects.get(i).containsDiv((int) coord.getX(),
@@ -165,14 +165,16 @@ public class GameBoard {
         return false;
     }
 
-    public ArrayList<Object> returnPumpableObjectAt(Vector2 coord) {
-        ArrayList<Object> returnList = new ArrayList<>();
+    public ArrayList<Pumpable> returnPumpableObjectsAt(Vector2 coord) {
+        ArrayList<Pumpable> returnList = new ArrayList<>();
+        Pumpable b;
         for (int i = 0; i < objects.size(); i++) {
             Object a = objects.get(i);
             if (objects.get(i).containsDiv((int) coord.getX(),
                                            (int) coord.getY())) {
                 if (a.isPumpable()) {
-                    returnList.add(a);
+                    b = (Pumpable) a;
+                    returnList.add(b);
                 }
             }
         }
