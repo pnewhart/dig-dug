@@ -18,7 +18,7 @@ import java.util.Date;
  *
  * @author spg011
  */
-public abstract class Pumpable {
+public abstract class Pumpable extends Object {
 
     private static final double DEFLATE_TIME = 0.8;
     private static final double PUMP_TIME = 0.5;
@@ -27,6 +27,8 @@ public abstract class Pumpable {
     protected Date prevPumpTime;
     protected Date prevDeflateTime;
     protected int pumpCount;
+
+    protected boolean isPumpable = true;
 
     /**
      * Method that handles pumping
