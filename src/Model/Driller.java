@@ -62,6 +62,12 @@ public class Driller extends Character {
         return isMoving;
     }
 
+    public boolean isDigging() {
+        Vector2 front = Vector2Utility.add(this.getFront(),
+                                           this.direction.getVector());
+        return isMoving && !this.board.isDivEmpty(front);
+    }
+
     /**
      * This method will have the character goUp according to the individual
      * character's speed and location, changing its direction to up. When the
@@ -201,6 +207,32 @@ public class Driller extends Character {
             curCell.setY(location.getY());
         }
         return curCell;
+    }
+
+    /**
+     * Current location of the front in divs
+     *
+     * @return Vector2 front location in divs
+     */
+    public Vector2 getFront() {
+        Vector2 front = this.getDiv();
+        if (this.direction == Direction.RIGHT) {
+            front = Vector2Utility.add(front, Vector2Utility.scale(
+                                       Direction.RIGHT.getVector(),
+                                       Vector2.DIVS_PER_TILE));
+        } else if (this.direction == Direction.DOWN) {
+            front = Vector2Utility.add(front, Vector2Utility.scale(
+                                       Direction.DOWN.getVector(),
+                                       Vector2.DIVS_PER_TILE));
+        }
+
+        if (this.direction == Direction.RIGHT || this.direction == Direction.LEFT) {
+            Vector2Utility.add(front, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
+        } else {
+            Vector2Utility.add(front, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
+        }
+
+        return front;
     }
 
 }

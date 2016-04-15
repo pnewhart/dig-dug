@@ -34,6 +34,8 @@ public class Gun extends Object {
 
     private GameBoard board;
 
+    private Pumpable pumpingObject;
+
     public boolean isPumping() {
         return isPumping;
     }
@@ -111,16 +113,21 @@ public class Gun extends Object {
         } else if (!isPumping()) {
             if (!this.board.isDivEmpty(tip)) { // If there is a wall destroy the gun
                 this.destroyed = true;
+            } else if (this.isPumping()) {
+                if (pump) {
+                    this.pumpingObject.pump();
+                } else {
+                    this.pumpingObject.deflate();
+                }
             } else if (this.board.isPumpableObjectAt(tip)) {                 // If there is a pumpable object, set isPumping true
                 ArrayList<Pumpable> objects = this.board.returnPumpableObjectsAt(
                         tip);
-                objects.get(0).pump();
-
+                this.isPumping = true;
+                this.pumpingObject = objects.get(0);
+                this.pumpingObject.pump();
             }
         } else {                                                            // Else increase length
             this.length += SPEED;
         }
     }
-}
-
 }
