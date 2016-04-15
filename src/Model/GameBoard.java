@@ -159,26 +159,24 @@ public class GameBoard {
             if (objects.get(i).containsDiv((int) coord.getX(),
                                            (int) coord.getY())) {
                 return a.isPumpable();
-            } else {
-                return a.isPumpable();
             }
 
         }
+        return false;
     }
 
-    public Object returnPumpableObjectAt(Vector2 coord) {
+    public ArrayList<Object> returnPumpableObjectAt(Vector2 coord) {
+        ArrayList<Object> returnList = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
             Object a = objects.get(i);
             if (objects.get(i).containsDiv((int) coord.getX(),
                                            (int) coord.getY())) {
                 if (a.isPumpable()) {
-                    return a;
+                    returnList.add(a);
                 }
-            } else {
-                return null;
             }
-
         }
+        return returnList;
     }
 
     public boolean isClearedVertical(Tile t) {
