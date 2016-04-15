@@ -12,6 +12,7 @@
  * **************************************** */
 package Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -24,24 +25,18 @@ public class Gun extends Object {
     private static final double SPEED = 0.02;
 
     private double length;
-    private Vector2 location;
     private Direction direction;
     private boolean destroyed;
 
-    private Date prevPump;
-    private int pumpCount;
+    private boolean isPumping;
 
     private Date timeCreated;
     private int prevTime;
 
     private GameBoard board;
 
-    public int pumpCount() {
-        return pumpCount;
-    }
-
     public boolean isPumping() {
-        return pumpCount > 0;
+        return isPumping;
     }
 
     public double getLength() {
@@ -63,8 +58,7 @@ public class Gun extends Object {
         this.location = location;
         this.destroyed = false;
 
-        this.pumpCount = 0;
-        this.prevPump = new Date();
+        this.isPumping = false;
         this.board = board;
     }
 
@@ -79,29 +73,53 @@ public class Gun extends Object {
         return now.compareTo(timeCreated);
     }
 
+    /**
+     * Current location of the tip in divs
+     *
+     * @return Vector2 tip location in divs
+     */
     public Vector2 getTip() {
-        Vector2 tip = Vector2Utility.add(this.location, Vector2Utility.scale(
+        Vector2 tip = Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
                                          direction.getVector(), length));
         if (this.direction == Direction.RIGHT) {
-            tip = Vector2Utility.add(tip, Direction.RIGHT.getVector());
+            tip = Vector2Utility.add(tip, Vector2Utility.scale(
+                                     Direction.RIGHT.getVector(),
+                                     Vector2.DIVS_PER_TILE));
         } else if (this.direction == Direction.DOWN) {
-            tip = Vector2Utility.add(tip, Direction.DOWN.getVector());
+            tip = Vector2Utility.add(tip, Vector2Utility.scale(
+                                     Direction.DOWN.getVector(),
+                                     Vector2.DIVS_PER_TILE));
         }
 
         if (this.direction == Direction.RIGHT || this.direction == Direction.LEFT) {
-            Vector2Utility.add(tip, new Vector2(0, 0.5));
+            Vector2Utility.add(tip, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
         } else {
-            Vector2Utility.add(tip, new Vector2(0.5, 0));
+            Vector2Utility.add(tip, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
         }
 
         return tip;
     }
 
+    /**
+     * Handles the pumping in the game
+     *
+     * @param pump
+     */
     public void shoot(boolean pump) {
+        Vector2 tip = this.getTip();
         if (this.length >= MAX_LENGTH) {
             this.destroyed = true;
         } else if (!isPumping()) {
-            this.length += SPEED;
+            if (!this.board.isDivEmpty(tip)) { // If there is a wall destroy the gun
+                this.destroyed = true;
+            } else if (this.board.isTherePumpableObjectAt(tip)) {                 // If there is a pumpable object, set isPumping true
+                ArrayList<Object> objects = this.board.returnObjectAt(tip);
+                for (obj ) {
+
+                }
+            } else {                                                            // Else increase length
+                this.length += SPEED;
+            }
         } else {
             if (pump) {
                 //Get object from board for location tip
