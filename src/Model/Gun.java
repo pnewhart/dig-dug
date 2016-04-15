@@ -112,9 +112,9 @@ public class Gun extends Object {
         } else if (!isPumping()) {
             if (!this.board.isDivEmpty(tip)) { // If there is a wall destroy the gun
                 this.destroyed = true;
-            } else if (this.board.isTherePumpableObjectAt(tip)) {                 // If there is a pumpable object, set isPumping true
+            } else if (this.board.isPumpableObjectAt(tip)) {                 // If there is a pumpable object, set isPumping true
                 ArrayList<Object> objects = this.board.returnObjectAt(tip);
-                for (obj ) {
+                for (obj   ) {
 
                 }
             } else {                                                            // Else increase length
