@@ -19,6 +19,11 @@ package Model;
 public abstract class Object {
 
     protected Vector2 location = null;
+    protected boolean isPumpable;
+
+    public boolean isPumpable() {
+        return isPumpable;
+    }
 
     public void setDiv(Vector2 location) {
         this.location = location;
