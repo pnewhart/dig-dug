@@ -127,7 +127,7 @@ public class GameBoard {
     //                           (int) coord.getY() % Vector2.DIVS_PER_TILE);
 //
     //}
-    public boolean isThereObject(Vector2 coord) {
+    public boolean isThereObjectAt(Vector2 coord) {
 
         for (int i = 0; i < objects.size(); i++) {
             if (objects.get(i).containsDiv((int) coord.getX(),
@@ -151,6 +151,34 @@ public class GameBoard {
         }
         return returnList;
 
+    }
+
+    public boolean isPumpableObjectAt(Vector2 coord) {
+        for (int i = 0; i < objects.size(); i++) {
+            Object a = objects.get(i);
+            if (objects.get(i).containsDiv((int) coord.getX(),
+                                           (int) coord.getY())) {
+                return a.isPumpable();
+            } else {
+                return a.isPumpable();
+            }
+
+        }
+    }
+
+    public Object returnPumpableObjectAt(Vector2 coord) {
+        for (int i = 0; i < objects.size(); i++) {
+            Object a = objects.get(i);
+            if (objects.get(i).containsDiv((int) coord.getX(),
+                                           (int) coord.getY())) {
+                if (a.isPumpable()) {
+                    return a;
+                }
+            } else {
+                return null;
+            }
+
+        }
     }
 
     public boolean isClearedVertical(Tile t) {
