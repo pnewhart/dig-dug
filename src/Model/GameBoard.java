@@ -27,7 +27,7 @@ public class GameBoard {
 
     final static int BOARD_HEIGHT = Vector2.MAX_Y + 1;
     final static int BOARD_WIDTH = Vector2.MAX_X + 1;
-    private Tile[][] board = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
+    public Tile[][] board = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
     protected ArrayList<Object> objects = new ArrayList<Object>();
     final static int DIVS_TO_DIG = 1;
 

@@ -20,9 +20,39 @@ public class Rock extends Object {
 
     private boolean isBroken = false;
     private final int SPEED = 32; //moves over an entire tile per half second
+    private GameBoard gBoard;
 
-    public boolean shouldFall() {
+    public Rock(GameBoard b) {
+        this.gBoard = b;
 
+    }
+
+    public boolean shouldRockFall() {
+        int x = ((int) this.location.getX());
+        int y = ((int) this.location.getY()) - 1; // -1 to look at the tile below the rock
+        if (this.gBoard.board[x][y].isClearedVertical() || this.gBoard.board[x][y].isEmpty()) {
+            this.breakRock();
+            return true;
+
+        } else {
+            return false;
+
+        }
+
+    }
+
+    private Vector2 getBelow() {
+        Vector2 below = Vector2Utility.add(this.location,
+                                           Direction.DOWN.getVector());
+        return below;
+    }
+
+    public boolean isIsBroken() {
+        return isBroken;
+    }
+
+    public void breakRock() {
+        this.isBroken = true;
     }
 
 }
