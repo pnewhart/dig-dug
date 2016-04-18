@@ -38,22 +38,43 @@ public class Tile extends Object {
     private int eastDigInt = 0;
     private int westDigInt = 0;
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public Tile(int x, int y) {
         this.location = new Vector2(x, y);
     }
 
+    /**
+     *
+     * @return string that represents biome
+     */
     public String getBiome() {
         return biome;
     }
 
+    /**
+     *
+     * @param biome
+     */
     public void setBiome(String biome) {
         this.biome = biome;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLayer() {
         return layer;
     }
 
+    /**
+     *
+     * @param layer
+     */
     public void setLayer(int layer) {
         this.layer = layer;
     }
@@ -126,6 +147,9 @@ public class Tile extends Object {
 
     }
 
+    /**
+     * clears the tile in the horizontal direction
+     */
     protected void clearTileHorizontal() {
 
         rightHole.clearHole();
@@ -133,6 +157,9 @@ public class Tile extends Object {
         clearedHorizontal = true;
     }
 
+    /**
+     * clears tile in vertical direction
+     */
     public void clearTileVertical() {
 
         upHole.clearHole();
@@ -140,6 +167,11 @@ public class Tile extends Object {
         clearedVertical = true;
     }
 
+    /**
+     * checks if tile is cleared horizontally
+     *
+     * @return boolean
+     */
     public boolean isClearedHorizontal() {
         if (upHole.isEmpty() && downHole.isEmpty()) {
             return true;
@@ -148,6 +180,11 @@ public class Tile extends Object {
         }
     }
 
+    /**
+     * checks if tile is cleared vertically
+     *
+     * @return boolean
+     */
     public boolean isClearedVertical() {
         if (leftHole.isEmpty() && rightHole.isEmpty()) {
             return true;
@@ -158,7 +195,7 @@ public class Tile extends Object {
     }
 
     /**
-     *
+     * used to check tiles
      */
     public void printOut() {
         int leastFill = 100;

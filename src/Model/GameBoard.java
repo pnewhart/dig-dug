@@ -31,6 +31,9 @@ public class GameBoard {
     protected ArrayList<Object> objects = new ArrayList<Object>();
     final static int DIVS_TO_DIG = 1;
 
+    /**
+     * creates a new GameBoard of tiles
+     */
     public GameBoard() {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -44,7 +47,6 @@ public class GameBoard {
      *
      * @param location(in terms of divs)
      * @param d
-     * @param percentDug
      */
     public void makeHole(Vector2 location, Direction d) {
         int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
@@ -53,6 +55,12 @@ public class GameBoard {
 
     }
 
+    /**
+     * clears the dirt from a tile
+     *
+     * @param num
+     * @param dir
+     */
     public void clearTile(Vector2 num, Direction dir) {
         int x = (int) num.getX();
         int y = (int) num.getY();
@@ -61,6 +69,13 @@ public class GameBoard {
 
     }
 
+    /**
+     * checks to see if tile is empty
+     *
+     * @param x
+     * @param y
+     * @return true if tile is empty
+     */
     public boolean isEmpty(int x, int y) {
         if (board[x][y].isEmpty()) {
             return false;
@@ -69,6 +84,12 @@ public class GameBoard {
         }
     }
 
+    /**
+     * checks to see if specific div is empty
+     *
+     * @param v
+     * @return true if div is empty
+     */
     public boolean isDivEmpty(Vector2 v) {
         return isEmpty((int) v.getX() / Vector2.DIVS_PER_TILE,
                        (int) v.getY() / Vector2.DIVS_PER_TILE);
@@ -141,6 +162,12 @@ public class GameBoard {
     //                           (int) coord.getY() % Vector2.DIVS_PER_TILE);
 //
     //}
+    /**
+     * checks to see if there is an object at the coord
+     *
+     * @param coord
+     * @return true if object is at given coord
+     */
     public boolean isThereObjectAt(Vector2 coord) {
 
         for (int i = 0; i < objects.size(); i++) {
@@ -154,6 +181,12 @@ public class GameBoard {
         return false;
     }
 
+    /**
+     * returns all objects at coord
+     *
+     * @param coord
+     * @return list of objects at certain coord
+     */
     public ArrayList<Object> returnObjectsAt(Vector2 coord) {
         ArrayList<Object> returnList = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
@@ -167,6 +200,12 @@ public class GameBoard {
 
     }
 
+    /**
+     * checks to see if pumpable object is at coord
+     *
+     * @param coord
+     * @return true if pumpable object is there
+     */
     public boolean isPumpableObjectAt(Vector2 coord) {
         for (int i = 0; i < objects.size(); i++) {
             Object a = objects.get(i);
@@ -179,6 +218,11 @@ public class GameBoard {
         return false;
     }
 
+    /**
+     *
+     * @param coord
+     * @return list of pumpable objects at coord
+     */
     public ArrayList<Pumpable> returnPumpableObjectsAt(Vector2 coord) {
         ArrayList<Pumpable> returnList = new ArrayList<>();
         Pumpable b;
@@ -195,15 +239,30 @@ public class GameBoard {
         return returnList;
     }
 
+    /**
+     * checks if tile is cleared vertically
+     *
+     * @param t
+     * @return boolean
+     */
     public boolean isClearedVertical(Tile t) {
         return t.isClearedVertical();
 
     }
 
+    /**
+     * checks if tile is cleared horizontally
+     *
+     * @param t
+     * @return boolean
+     */
     public boolean isClearedHorizontal(Tile t) {
         return t.isClearedHorizontal();
     }
 
+    /**
+     * used to check board
+     */
     public void printString() {
         for (int i = 0; i < (BOARD_HEIGHT); i++) {
             for (int j = 0; j < (BOARD_WIDTH); j++) {

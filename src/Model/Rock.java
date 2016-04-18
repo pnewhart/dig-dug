@@ -22,11 +22,20 @@ public class Rock extends Object {
     private final int SPEED = 32; //moves over an entire tile per half second
     private GameBoard gBoard;
 
+    /**
+     *
+     * @param Gameboard b
+     */
     public Rock(GameBoard b) {
         this.gBoard = b;
 
     }
 
+    /**
+     * checks to see if rock should fall
+     *
+     * @return true if rock should fall
+     */
     public boolean shouldRockFall() {
         int x = ((int) this.location.getX());
         int y = ((int) this.location.getY()) - 1; // -1 to look at the tile below the rock
