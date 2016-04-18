@@ -30,7 +30,7 @@ public class Rock extends Object {
     public boolean shouldRockFall() {
         int x = ((int) this.location.getX());
         int y = ((int) this.location.getY()) - 1; // -1 to look at the tile below the rock
-        if (this.gBoard.board[x][y].isClearedVertical() || this.gBoard.board[x][y].isEmpty()) {
+        if (this.gBoard.board[x][y].isClearedVertical() || this.gBoard.board[x][y].isEmpty() || this.gBoard.board[x][y].isClearedHorizontal()) {
             this.breakRock();
             return true;
 
@@ -43,7 +43,9 @@ public class Rock extends Object {
 
     private Vector2 getBelow() {
         Vector2 below = Vector2Utility.add(this.location,
-                                           Direction.DOWN.getVector());
+                                           Vector2Utility.scale(
+                                                   Direction.DOWN.getVector(),
+                                                   Vector2.DIVS_PER_TILE + 1));
         return below;
     }
 
