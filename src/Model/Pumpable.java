@@ -29,6 +29,11 @@ public abstract class Pumpable extends Object {
     protected int pumpCount;
 
     protected boolean isPumpable = true;
+    private boolean isPopped = false;
+
+    public boolean isIsPopped() {
+        return isPopped;
+    }
 
     /**
      * Method that handles pumping
@@ -39,8 +44,14 @@ public abstract class Pumpable extends Object {
             prevPumpTime = new Date();
             prevDeflateTime = new Date();
         }
+        if (pumpCount > MAX_PUMPS) {
+            isPopped = true;
+        }
     }
 
+    /**
+     * Method that handles deflating
+     */
     public void deflate() {
         if (curDeflateTime() > DEFLATE_TIME) {
             pumpCount += 1;
