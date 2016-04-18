@@ -29,6 +29,7 @@ public class GameBoard {
     final static int BOARD_WIDTH = Vector2.MAX_X + 1;
     private Tile[][] board = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
     protected ArrayList<Object> objects = new ArrayList<Object>();
+    final static int DIVS_TO_DIG = 1;
 
     public GameBoard() {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
@@ -36,6 +37,19 @@ public class GameBoard {
                 board[i][j] = new Tile(i, j);
             }
         }
+
+    }
+
+    /**
+     *
+     * @param location(in terms of divs)
+     * @param d
+     * @param percentDug
+     */
+    public void makeHole(Vector2 location, Direction d) {
+        int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
+        board[x][y].makeHole(d, DIVS_TO_DIG);
 
     }
 

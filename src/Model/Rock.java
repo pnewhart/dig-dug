@@ -21,9 +21,8 @@ public class Rock extends Object {
     private boolean isBroken = false;
     private final int SPEED = 32; //moves over an entire tile per half second
 
-    private boolean shouldFall() {
-        if ((int) location.getY() - 1) {
-        }
+    public boolean shouldFall() {
+
     }
 
 }
