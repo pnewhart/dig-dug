@@ -5,8 +5,8 @@
  * Date: Apr 18, 2016
  * Time: 6:16:18 AM *
  * Project: csci205FinalProject
- * Package: View
- * File: View
+ * Package: MainView
+ * File: MainView
  * Description:
  *
  * **************************************** */
@@ -16,12 +16,12 @@ package View;
  *
  * @author tjf010
  */
-public class View extends javax.swing.JFrame {
+public class MainView extends javax.swing.JFrame {
 
     /**
      * Creates new form GameBoard
      */
-    public View() {
+    public MainView() {
         initComponents();
     }
 
@@ -37,18 +37,17 @@ public class View extends javax.swing.JFrame {
         gameBoardVisual1 = new View.GameBoardVisual();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 800));
         setResizable(false);
 
         javax.swing.GroupLayout gameBoardVisual1Layout = new javax.swing.GroupLayout(gameBoardVisual1);
         gameBoardVisual1.setLayout(gameBoardVisual1Layout);
         gameBoardVisual1Layout.setHorizontalGroup(
             gameBoardVisual1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 582, Short.MAX_VALUE)
+            .addGap(0, 384, Short.MAX_VALUE)
         );
         gameBoardVisual1Layout.setVerticalGroup(
             gameBoardVisual1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 433, Short.MAX_VALUE)
+            .addGap(0, 265, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -57,13 +56,15 @@ public class View extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(gameBoardVisual1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(gameBoardVisual1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(198, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(gameBoardVisual1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(gameBoardVisual1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         pack();
@@ -86,18 +87,22 @@ public class View extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(
+            java.util.logging.Logger.getLogger(MainView.class.getName()).log(
                     java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(
+            java.util.logging.Logger.getLogger(MainView.class.getName()).log(
                     java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(
+            java.util.logging.Logger.getLogger(MainView.class.getName()).log(
                     java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(
+            java.util.logging.Logger.getLogger(MainView.class.getName()).log(
                     java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -106,7 +111,7 @@ public class View extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                View gb = new View();
+                MainView gb = new MainView();
                 gb.setVisible(true);
             }
         });

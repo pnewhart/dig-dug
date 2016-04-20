@@ -12,7 +12,7 @@
  * **************************************** */
 package ModelNew;
 
-import View.View;
+import View.MainView;
 
 /**
  *
@@ -21,7 +21,7 @@ import View.View;
 public class ModelViewUtility {
     public static double PIXELS_PER_DIV;
 
-    public ModelViewUtility(ModelMain model, View view) {
+    public ModelViewUtility(ModelMain model, MainView view) {
         //PIXELS_PER_DIV = view.getVector2.DIVS_PER_TILE;
     }
 
