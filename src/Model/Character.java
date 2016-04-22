@@ -24,6 +24,11 @@ public abstract class Character extends Object {
     protected Direction direction;
 
     /**
+     * Direction in the Dig Dug board (LEFT, RIGHT, UP, DOWN)
+     */
+    protected Direction prevDirection;
+
+    /**
      * Speed the character can move on the Dig Dug board
      */
     protected double speed;

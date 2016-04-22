@@ -10,7 +10,7 @@
  * Description:
  *
  * **************************************** */
-package ModelNew;
+package Model;
 
 /**
  *
@@ -22,20 +22,20 @@ public class Box {
     private int westX;
     private int northY;
     private int southY;
-    private DivLocation boxLoc;
+    private Vector2 boxLoc;
 
-    public Box(int lengthX, int lengthY, DivLocation loc) {
+    public Box(int lengthX, int lengthY, Vector2 loc) {
         //these variables are offsets of the location. For example, a box in the gameboard at location (div 0, div 0) covers Xdiv's 0-15 and Ydiv's 0-15
         //locations of boxes are the coordinates of the div of the North West corner
 
         this.boxLoc = loc;
-        this.eastX = loc.getDivX();
-        this.westX = loc.getDivX() + lengthX - 1;
-        this.northY = loc.getDivY();
-        this.southY = loc.getDivY() + lengthY - 1;
+        this.eastX = (int) loc.getX();
+        this.westX = loc.getX() + lengthX - 1;
+        this.northY = loc.getY();
+        this.southY = loc.getY() + lengthY - 1;
     }
 
-    public DivLocation getBoxLoc() {
+    public Vector2 getBoxLoc() {
         return boxLoc;
     }
 
@@ -56,11 +56,11 @@ public class Box {
     }
 
     public void moveBox(Direction dir, int numDivs) {
-        int changeX = dir.getVector().getX() * numDivs;
-        int changeY = dir.getVector().getY() * numDivs;
+        double changeX = dir.getVector().getX() * numDivs;
+        double changeY = dir.getVector().getY() * numDivs;
 
-        this.boxLoc.setDivX(this.boxLoc.getDivX() + changeX);
-        this.boxLoc.setDivY(this.boxLoc.getDivY() + changeY);
+        this.boxLoc.setX(this.boxLoc.getX() + changeX);
+        this.boxLoc.setY(this.boxLoc.getY() + changeY);
         this.eastX += changeX;
         this.westX += changeX;
         this.northY += changeY;

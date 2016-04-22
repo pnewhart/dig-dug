@@ -10,7 +10,7 @@
  * Description:
  *
  * **************************************** */
-package ModelNew;
+package Model;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

@@ -10,7 +10,7 @@
  * Description:
  *
  * **************************************** */
-package ModelNew;
+package Model;
 
 /**
  *
