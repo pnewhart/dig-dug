@@ -12,6 +12,8 @@
  * **************************************** */
 package Model;
 
+import java.util.Date;
+
 /**
  *
  * @author spg011
@@ -20,6 +22,11 @@ public class Driller extends Character {
 
     private boolean isShooting;
     private Gun gun;
+
+    private boolean isCrushed;
+    private boolean isKilled;
+
+    private Date deadTime;
 
     public Driller(GameBoard board) {
         this.location = new Vector2(
@@ -32,6 +39,10 @@ public class Driller extends Character {
         this.isShooting = false;
         this.gun = null;
         this.board = board;
+
+        this.isCrushed = false;
+        this.isKilled = false;
+        this.deadTime = null;
     }
 
     // REMOVE THIS ONCE YOU GET THE CORRECT GAMEBOARD!!!!!!!!!!!
@@ -49,6 +60,10 @@ public class Driller extends Character {
 
     public Vector2 getLocation() {
         return new Vector2(location.getX(), location.getY());
+    }
+
+    public Direction getPrevDirection() {
+        return prevDirection;
     }
 
     public Direction getDirection() {
@@ -69,8 +84,10 @@ public class Driller extends Character {
         return isMoving && !this.board.isDivEmpty(front);
     }
 
-    public void move(boolean move, Direction direction) {
-        if (move) {
+    public void move(Direction direction) {
+        if (this.isShooting && !this.gun.isPumping()) {
+            this.stop();
+        } else {
             if (direction == Direction.UP) {
                 this.goUp();
             } else if (direction == Direction.DOWN) {
@@ -79,9 +96,20 @@ public class Driller extends Character {
                 this.goLeft();
             } else if (direction == Direction.RIGHT) {
                 this.goRight();
+            } else {
+                this.stop();
             }
-            this.board.makeHole(location, direction);
         }
+        this.board.makeHole(this.getFront(), direction);
+        this.gun.destroy();
+    }
+
+    /**
+     * Does nothing it is just for the override
+     */
+    @Override
+    public void move() {
+
     }
 
     /**
@@ -102,8 +130,11 @@ public class Driller extends Character {
             this.location.setX(this.location.getX() + speed);
         } else {
             location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
-            location.setY(location.getY() - speed);
+            if (this.board.isRockAt(this.getFront())) {
+                location.setY(location.getY() - speed);
+            }
             if (location.getY() != 0.0) {
+                this.prevDirection = direction;
                 this.direction = Direction.UP;
             }
         }
@@ -130,6 +161,7 @@ public class Driller extends Character {
             location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
             location.setY(location.getY() + speed);
             if (location.getY() != 0.0) {
+                this.prevDirection = direction;
                 this.direction = Direction.DOWN;
             }
         }
@@ -158,6 +190,7 @@ public class Driller extends Character {
             if (this.location.getX() < 0) {
                 this.location.setX(0);
             }
+            this.prevDirection = direction;
             this.direction = Direction.LEFT;
         }
         this.isMoving = true;
@@ -185,6 +218,7 @@ public class Driller extends Character {
             if (this.location.getX() < 0) {
                 this.location.setX(0);
             }
+            this.prevDirection = direction;
             this.direction = Direction.RIGHT;
         }
         this.isMoving = true;
@@ -249,6 +283,35 @@ public class Driller extends Character {
         }
 
         return front;
+    }
+
+    /**
+     * This will crush Mr Driller when at rock is above him and falling
+     */
+    public void crush() {
+        this.isCrushed = true;
+        this.deadTime = new Date();
+    }
+
+    /**
+     * This will kill Mr Driller when an enemy collides into him
+     */
+    public void kill() {
+        this.isKilled = true;
+        this.deadTime = new Date();
+    }
+
+    /**
+     * This is Mr Driller dead in any way
+     *
+     * @return boolean
+     */
+    public boolean isDead() {
+        return this.isCrushed || this.isKilled;
+    }
+
+    public double timeSinceDeath() {
+        return new Date().compareTo(deadTime) / 1000.0;
     }
 
 }

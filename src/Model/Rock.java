@@ -21,6 +21,7 @@ public class Rock extends Object {
     private boolean isBroken = false;
     private final int SPEED = 32; //moves over an entire tile per half second
     private GameBoard gBoard;
+    private boolean isFalling;
     private double ONE_SECOND_NS = Math.pow(10, 9);
 
     /**
@@ -68,6 +69,18 @@ public class Rock extends Object {
         while (startTime < ONE_SECOND_NS) {
         }
         this.isBroken = true;
+    }
+
+    @Override
+    public void move() {
+        if (shouldRockFall() && !this.isFalling) {
+            this.isFalling = true;
+            this.location.setX(this.location.getX() + this.SPEED);
+        } else if (shouldRockFall() && this.isFalling) {
+            this.location.setX(this.location.getX() + this.SPEED);
+        } else if (!shouldRockFall() && this.isFalling) {
+            this.isBroken = true;
+        }
     }
 
 }

@@ -34,7 +34,7 @@ public class Gun extends Object {
 
     private GameBoard board;
 
-    private Pumpable pumpingObject;
+    private Enemy pumpingObject;
 
     public boolean isPumping() {
         return isPumping;
@@ -71,7 +71,7 @@ public class Gun extends Object {
      */
     public double curTime() {
         Date now = new Date();
-        return now.compareTo(timeCreated);
+        return now.compareTo(timeCreated) / 1000.0;
     }
 
     /**
@@ -113,21 +113,36 @@ public class Gun extends Object {
         } else if (!isPumping()) {
             if (!this.board.isDivEmpty(tip)) { // If there is a wall destroy the gun
                 this.destroyed = true;
-            } else if (this.isPumping()) {
-                if (pump) {
-                    this.pumpingObject.pump();
-                } else {
-                    this.pumpingObject.deflate();
-                }
             } else if (this.board.isPumpableObjectAt(tip)) {                 // If there is a pumpable object, set isPumping true
-                ArrayList<Pumpable> objects = this.board.returnPumpableObjectsAt(
+                ArrayList<Enemy> objects = this.board.returnPumpableObjectsAt(
                         tip);
                 this.isPumping = true;
                 this.pumpingObject = objects.get(0);
                 this.pumpingObject.pump();
+            } else {
+                this.length += SPEED;                                        // Else increase length
             }
-        } else {                                                            // Else increase length
-            this.length += SPEED;
+        } else {
+            if (pump) {
+                this.pumpingObject.pump();
+            } else {
+                this.pumpingObject.deflate();
+                if (this.pumpingObject.isNotPumped()) {
+                    this.destroyed = true;
+                }
+            }
         }
+    }
+
+    public void destroy() {
+        if (this.isPumping) {
+            this.pumpingObject = null;
+        }
+        this.destroyed = true;
+    }
+
+    @Override
+    public void move() {
+
     }
 }
