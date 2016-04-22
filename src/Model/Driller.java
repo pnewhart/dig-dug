@@ -25,6 +25,7 @@ public class Driller extends Character {
         this.location = new Vector2(
                 (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
                 (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE);
+        this.prevDirection = Direction.DOWN;
         this.direction = Direction.RIGHT;
         this.speed = 0.5;
         this.isMoving = false;
@@ -66,6 +67,21 @@ public class Driller extends Character {
         Vector2 front = Vector2Utility.add(this.getFront(),
                                            this.direction.getVector());
         return isMoving && !this.board.isDivEmpty(front);
+    }
+
+    public void move(boolean move, Direction direction) {
+        if (move) {
+            if (direction == Direction.UP) {
+                this.goUp();
+            } else if (direction == Direction.DOWN) {
+                this.goDown();
+            } else if (direction == Direction.LEFT) {
+                this.goLeft();
+            } else if (direction == Direction.RIGHT) {
+                this.goRight();
+            }
+            this.board.makeHole(location, direction);
+        }
     }
 
     /**
@@ -180,7 +196,7 @@ public class Driller extends Character {
     }
 
     public void shoot(boolean pump) {
-        if (!isShooting) {
+        if (!isShooting && pump) {
             isShooting = true;
             this.gun = new Gun(location, direction, board);
         } else {
