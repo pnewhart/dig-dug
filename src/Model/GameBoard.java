@@ -240,6 +240,17 @@ public class GameBoard {
     }
 
     /**
+     * Checks if there if a Rock at the given Vector2 in divs (THIS NEEDS TO BE
+     * FINISHED!)
+     *
+     * @param coord (divs)
+     * @return
+     */
+    public boolean isRockAt(Vector2 coord) {
+        return false;
+    }
+
+    /**
      * checks if tile is cleared vertically
      *
      * @param t

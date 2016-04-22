@@ -138,9 +138,16 @@ public class Enemy extends Object {
      */
     public void deflate() {
         if (curDeflateTime() > DEFLATE_TIME) {
-            pumpCount += 1;
+            pumpCount -= 1;
             prevDeflateTime = new Date();
         }
+    }
+
+    /**
+     * Time since last pump is too great
+     */
+    public boolean isNotPumped() {
+        return pumpCount == 0;
     }
 
     /**
@@ -161,7 +168,7 @@ public class Enemy extends Object {
      */
     public double curPumpTime() {
         Date now = new Date();
-        return now.compareTo(prevPumpTime);
+        return now.compareTo(prevPumpTime) / 1000.0;
     }
 
     /**
@@ -172,7 +179,7 @@ public class Enemy extends Object {
      */
     public double curDeflateTime() {
         Date now = new Date();
-        return now.compareTo(prevDeflateTime);
+        return now.compareTo(prevDeflateTime) / 1000.0;
     }
 
 }
