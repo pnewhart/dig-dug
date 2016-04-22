@@ -21,6 +21,7 @@ public class Rock extends Object {
     private boolean isBroken = false;
     private final int SPEED = 32; //moves over an entire tile per half second
     private GameBoard gBoard;
+    private double ONE_SECOND_NS = Math.pow(10, 9);
 
     /**
      *
@@ -63,6 +64,9 @@ public class Rock extends Object {
     }
 
     public void breakRock() {
+        long startTime = System.nanoTime();
+        while (startTime < ONE_SECOND_NS) {
+        }
         this.isBroken = true;
     }
 
