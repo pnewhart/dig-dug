@@ -34,7 +34,7 @@ public class Gun extends Object {
 
     private GameBoard board;
 
-    private Pumpable pumpingObject;
+    private Enemy pumpingObject;
 
     public boolean isPumping() {
         return isPumping;
@@ -120,7 +120,7 @@ public class Gun extends Object {
                     this.pumpingObject.deflate();
                 }
             } else if (this.board.isPumpableObjectAt(tip)) {                 // If there is a pumpable object, set isPumping true
-                ArrayList<Pumpable> objects = this.board.returnPumpableObjectsAt(
+                ArrayList<Enemy> objects = this.board.returnPumpableObjectsAt(
                         tip);
                 this.isPumping = true;
                 this.pumpingObject = objects.get(0);
@@ -129,5 +129,10 @@ public class Gun extends Object {
         } else {                                                            // Else increase length
             this.length += SPEED;
         }
+    }
+
+    @Override
+    public void move() {
+
     }
 }

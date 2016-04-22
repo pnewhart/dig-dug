@@ -223,15 +223,15 @@ public class GameBoard {
      * @param coord
      * @return list of pumpable objects at coord
      */
-    public ArrayList<Pumpable> returnPumpableObjectsAt(Vector2 coord) {
-        ArrayList<Pumpable> returnList = new ArrayList<>();
-        Pumpable b;
+    public ArrayList<Enemy> returnPumpableObjectsAt(Vector2 coord) {
+        ArrayList<Enemy> returnList = new ArrayList<>();
+        Enemy b;
         for (int i = 0; i < objects.size(); i++) {
             Object a = objects.get(i);
             if (objects.get(i).containsDiv((int) coord.getX(),
                                            (int) coord.getY())) {
                 if (a.isPumpable()) {
-                    b = (Pumpable) a;
+                    b = (Enemy) a;
                     returnList.add(b);
                 }
             }
