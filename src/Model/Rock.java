@@ -21,6 +21,7 @@ public class Rock extends Object {
     private boolean isBroken = false;
     private final int SPEED = 32; //moves over an entire tile per half second
     private GameBoard gBoard;
+    private boolean isFalling;
 
     /**
      *
@@ -64,6 +65,18 @@ public class Rock extends Object {
 
     public void breakRock() {
         this.isBroken = true;
+    }
+
+    @Override
+    public void move() {
+        if (shouldRockFall() && !this.isFalling) {
+            this.isFalling = true;
+            this.location.setX(this.location.getX() + this.SPEED);
+        } else if (shouldRockFall() && this.isFalling) {
+            this.location.setX(this.location.getX() + this.SPEED);
+        } else if (!shouldRockFall() && this.isFalling) {
+            this.isBroken = true;
+        }
     }
 
 }

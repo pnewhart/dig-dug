@@ -51,6 +51,10 @@ public class Driller extends Character {
         return new Vector2(location.getX(), location.getY());
     }
 
+    public Direction getPrevDirection() {
+        return prevDirection;
+    }
+
     public Direction getDirection() {
         return direction;
     }
@@ -69,19 +73,25 @@ public class Driller extends Character {
         return isMoving && !this.board.isDivEmpty(front);
     }
 
-    public void move(boolean move, Direction direction) {
-        if (move) {
-            if (direction == Direction.UP) {
-                this.goUp();
-            } else if (direction == Direction.DOWN) {
-                this.goDown();
-            } else if (direction == Direction.LEFT) {
-                this.goLeft();
-            } else if (direction == Direction.RIGHT) {
-                this.goRight();
-            }
-            this.board.makeHole(location, direction);
+    public void move(Direction direction) {
+        if (direction == Direction.UP) {
+            this.goUp();
+        } else if (direction == Direction.DOWN) {
+            this.goDown();
+        } else if (direction == Direction.LEFT) {
+            this.goLeft();
+        } else if (direction == Direction.RIGHT) {
+            this.goRight();
         }
+        this.board.makeHole(this.getFront(), direction);
+    }
+
+    /**
+     * Does nothing it is just for the override
+     */
+    @Override
+    public void move() {
+
     }
 
     /**
@@ -104,6 +114,7 @@ public class Driller extends Character {
             location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
             location.setY(location.getY() - speed);
             if (location.getY() != 0.0) {
+                this.prevDirection = direction;
                 this.direction = Direction.UP;
             }
         }
@@ -130,6 +141,7 @@ public class Driller extends Character {
             location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
             location.setY(location.getY() + speed);
             if (location.getY() != 0.0) {
+                this.prevDirection = direction;
                 this.direction = Direction.DOWN;
             }
         }
@@ -158,6 +170,7 @@ public class Driller extends Character {
             if (this.location.getX() < 0) {
                 this.location.setX(0);
             }
+            this.prevDirection = direction;
             this.direction = Direction.LEFT;
         }
         this.isMoving = true;
@@ -185,6 +198,7 @@ public class Driller extends Character {
             if (this.location.getX() < 0) {
                 this.location.setX(0);
             }
+            this.prevDirection = direction;
             this.direction = Direction.RIGHT;
         }
         this.isMoving = true;

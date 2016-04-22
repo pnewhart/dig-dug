@@ -14,7 +14,7 @@ package MainGame;
 
 import Model.Driller;
 import Model.GameBoard;
-import Model.Pumpable;
+import Model.Enemy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class Model {
     private GameBoard theBoard;
     private Driller player1;
-    private ArrayList<Pumpable> enemies;
+    private ArrayList<Enemy> enemies;
     private Collectable collectables;
     private ArrayList<Rock> rocks;
     private HashMap<String, BufferedImage> imageMap;

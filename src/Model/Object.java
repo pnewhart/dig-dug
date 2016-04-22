@@ -41,4 +41,9 @@ public abstract class Object {
         return x >= this.location.getX() && x < this.location.getX() + Vector2.DIVS_PER_TILE && y >= this.location.getY() && y < this.location.getY() + Vector2.DIVS_PER_TILE;
     }
 
+    /**
+     * Handles all the movements
+     */
+    public abstract void move();
+
 }

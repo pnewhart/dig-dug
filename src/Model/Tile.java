@@ -37,6 +37,15 @@ public class Tile extends Object {
     private int southDigInt = 0;
     private int eastDigInt = 0;
     private int westDigInt = 0;
+    private boolean hasBeenUpdated = true;
+
+    public boolean isHasBeenUpdated() {
+        return hasBeenUpdated;
+    }
+
+    public void setHasBeenUpdated(boolean hasBeenUpdated) {
+        this.hasBeenUpdated = hasBeenUpdated;
+    }
 
     /**
      *
@@ -105,7 +114,7 @@ public class Tile extends Object {
             if (upHole.getPercentFill() + downHole.getPercentFill() > 19) {
                 this.clearTileVertical();
             }
-
+            this.hasBeenUpdated = true;
         } catch (Exception e) {
             System.out.println("tried to remove more dirt than available");
 
@@ -215,6 +224,14 @@ public class Tile extends Object {
         String returnString = String.format(" |%3d |", leastFill);
         System.out.print(returnString);
 
+    }
+
+    /**
+     * Will not be called
+     */
+    @Override
+    public void move() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
