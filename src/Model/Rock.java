@@ -12,6 +12,8 @@
  * **************************************** */
 package Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author laa024
@@ -23,6 +25,8 @@ public class Rock extends Object {
     private GameBoard gBoard;
     private boolean isFalling;
     private double ONE_SECOND_NS = Math.pow(10, 9);
+    protected boolean canCrush = true;
+    protected boolean isCrushed = true;
 
     /**
      *
@@ -60,6 +64,21 @@ public class Rock extends Object {
         return below;
     }
 
+    private void crushObjectBelow(ArrayList<Object> objectList) {
+        for (int i = 0; i < objectList.size(); i++) {
+            Object obj = objectList.get(i);
+            if (obj.containsDiv((int) this.getBelow().getX(),
+                                (int) this.getBelow().getY())) {
+                if (obj.canCrush) {
+                    obj.crush();
+                }
+                //Add other collisions for things that arent e
+
+            }
+        }
+
+    }
+
     public boolean isIsBroken() {
         return isBroken;
     }
@@ -81,6 +100,11 @@ public class Rock extends Object {
         } else if (!shouldRockFall() && this.isFalling) {
             this.isBroken = true;
         }
+    }
+
+    @Override
+    public void crush() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
