@@ -12,39 +12,39 @@
  * **************************************** */
 package View;
 
-import Model.Vector2;
-import ModelNew.ModelMain;
-import ModelNew.Tile;
+import Model.GameManager;
+import Model.Tile;
 import java.awt.Graphics;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author tjf010
  */
 public class GameBoardVisual extends javax.swing.JComponent {
-    private ModelMain theModel;
+    private GameManager theModel;
 
     /**
      * Creates new form GameBoardVisualP
      */
     public GameBoardVisual() {
         initComponents();
+    }
 
-        this.theModel = new ModelMain();
+    public void setTheModel(GameManager theModel) {
+        this.theModel = theModel;
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        for (Tile[] row : this.theModel.getGameBoard().getBoard()) {
+        for (Tile[] row : theModel.getTheBoard().getBoard()) {
             for (Tile tile : row) {
-                int pixelsPerTile = (int) (this.getSize().getHeight() / Vector2.NUM_TILE_VERTICAL);
+                ImageIcon baseImage = theModel.getBoardImageMap().get(
+                        tile.getBaseImageKey());
 
-                int pixelLocX = tile.getBoardX() * pixelsPerTile;
-                int pixelLocY = tile.getBoardY() * pixelsPerTile;
-
-                g.drawRect(pixelLocX, pixelLocY,
-                           16 * (pixelsPerTile / Vector2.DIVS_PER_TILE),
-                           16 * (pixelsPerTile / Vector2.DIVS_PER_TILE));
+                int tileX = (int) tile.getLocation().getX();
+                int tileY = (int) tile.getLocation().getY();
+                g.drawImage(baseImage.getImage(), tileX, tileY, null);
             }
         }
     }
@@ -57,6 +57,8 @@ public class GameBoardVisual extends javax.swing.JComponent {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        setPreferredSize(new java.awt.Dimension(672, 768));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

@@ -12,8 +12,6 @@
  * **************************************** */
 package Model;
 
-import java.io.File;
-
 /**
  *
  * @author laa024
@@ -24,20 +22,14 @@ public class Tile extends Object {
     private Hole rightHole = new Hole();
     private Hole upHole = new Hole();
     private Hole downHole = new Hole();
+    private String baseImageKey;
     private boolean clearedHorizontal = false;
     private boolean clearedVertical = false;
     private int xCoord;
     private String biome;
     private int layer;
-    private File northDig = null;
-    private File southDig = null;
-    private File eastDig = null;
-    private File westDig = null;
-    private int northDigInt = 0;
-    private int southDigInt = 0;
-    private int eastDigInt = 0;
-    private int westDigInt = 0;
     private boolean hasBeenUpdated = true;
+    private Vector2 location;
 
     public boolean isHasBeenUpdated() {
         return hasBeenUpdated;
@@ -54,6 +46,34 @@ public class Tile extends Object {
      */
     public Tile(int x, int y) {
         this.location = new Vector2(x, y);
+    }
+
+    public Vector2 getLocation() {
+        return location;
+    }
+
+    public String getBaseImageKey() {
+        return baseImageKey;
+    }
+
+    public void setBaseImageKey(String baseImageKey) {
+        this.baseImageKey = baseImageKey;
+    }
+
+    public String getLeftHoleImageKey() {
+        return "digWest" + this.leftHole.getPercentFill();
+    }
+
+    public String getRightHoleImageKey() {
+        return "digEast" + this.rightHole.getPercentFill();
+    }
+
+    public String getUpHoleImageKey() {
+        return "digNorth" + this.upHole.getPercentFill();
+    }
+
+    public String getDownHoleImageKey() {
+        return "digSouth" + this.downHole.getPercentFill();
     }
 
     /**

@@ -287,4 +287,8 @@ public class GameBoard {
 
     }
 
+    public Tile[][] getBoard() {
+        return board;
+    }
+
 }
