@@ -37,7 +37,7 @@ public class Controller implements ActionListener, ChangeListener {
     }
 
     @Override
-    public void keyPressed(keyEvent e) {
+    public void keyPressed(KeyEvent e) {
 
     }
 }
