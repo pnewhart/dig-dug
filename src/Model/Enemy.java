@@ -38,6 +38,9 @@ public class Enemy extends Object {
 
     protected boolean isPumpable = true;
     private boolean isPopped = false;
+    public boolean isFloating = false;
+    protected boolean canCrush = true;
+    protected boolean isCrushed = false;
 
     public Enemy(GameBoard b) {
         gBoard = b;
@@ -83,6 +86,62 @@ public class Enemy extends Object {
             this.direction = directions.get(i);
             this.location = locations.get(i);
         }
+    }
+
+    /**
+     * makes enemy float to driller location that is given
+     *
+     * @param Vector2 coord
+     */
+    public void floatToDriller(Vector2 coord) {
+        Vector2 drillerLocation = coord;
+        double enemyX = this.location.getX();
+        double enemyY = this.location.getY();
+        double drillerX = drillerLocation.getX();
+        double drillerY = drillerLocation.getY();
+        double horizontalMove = drillerX - enemyX;
+        double verticalMove = drillerY - enemyY;
+        int i = 0;
+        startFloat();
+        while (i < 10 && isFloating) {
+
+            if (horizontalMove < 0) {
+                if (verticalMove < 0) {
+                    this.location = new Vector2((enemyX + (.1 * horizontalMove)),
+                                                (enemyY + (.1 * verticalMove))); // vert and horiz are negative
+                } else {
+                    this.location = new Vector2((enemyX + (.1 * horizontalMove)),
+                                                (enemyY - (.1 * verticalMove))); // vert is positive horiz is negative
+                }
+
+            } else {
+                if (verticalMove < 0) {
+                    this.location = new Vector2((enemyX - (.1 * horizontalMove)),
+                                                (enemyY + (.1 * verticalMove))); // vert is neg and horiz is positive
+
+                } else {
+                    this.location = new Vector2((enemyX - (.1 * horizontalMove)),
+                                                (enemyY - (.1 * verticalMove))); // vert and horiz are positive
+                }
+            }
+            i++;
+        }
+        stopFloat();
+
+    }
+
+    public void startFloat() {
+        isFloating = true;
+    }
+
+    public void stopFloat() {
+        isFloating = false;
+    }
+
+    @Override
+    public void crush() {
+        isCrushed = true;
+
     }
 
     /**

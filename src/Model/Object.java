@@ -20,6 +20,8 @@ public abstract class Object {
 
     protected Vector2 location = null;
     protected boolean isPumpable = false;
+    protected boolean canCrush = false;
+    protected boolean isCrushed = false;
 
     public boolean isPumpable() {
         return isPumpable;
@@ -45,5 +47,7 @@ public abstract class Object {
      * Handles all the movements
      */
     public abstract void move();
+
+    public abstract void crush();
 
 }
