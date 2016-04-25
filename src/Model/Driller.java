@@ -18,7 +18,32 @@ import java.util.Date;
  *
  * @author spg011
  */
-public class Driller extends Character {
+public class Driller extends Object {
+
+    /**
+     * Direction in the Dig Dug board (LEFT, RIGHT, UP, DOWN)
+     */
+    private Direction direction;
+
+    /**
+     * Direction in the Dig Dug board (LEFT, RIGHT, UP, DOWN)
+     */
+    private Direction prevDirection;
+
+    /**
+     * Speed the character can move on the Dig Dug board
+     */
+    private double speed;
+
+    /**
+     * Is the character moving
+     */
+    private boolean isMoving;
+
+    /**
+     * The board that the character is within
+     */
+    private GameBoard board;
 
     private boolean isShooting;
     private Gun gun;
@@ -50,12 +75,16 @@ public class Driller extends Character {
         this.location = new Vector2(
                 (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
                 (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE);
+        this.prevDirection = Direction.DOWN;
         this.direction = Direction.RIGHT;
         this.speed = 0.5;
         this.isMoving = false;
         this.isShooting = false;
         this.gun = null;
-        board = null;
+
+        this.isCrushed = false;
+        this.isKilled = false;
+        this.deadTime = null;
     }
 
     public Vector2 getLocation() {
@@ -101,7 +130,9 @@ public class Driller extends Character {
             }
         }
         this.board.makeHole(this.getFront(), direction);
-        this.gun.destroy();
+        if (this.isShooting) {
+            this.gun.destroy();
+        }
     }
 
     /**
@@ -118,7 +149,6 @@ public class Driller extends Character {
      * driller is not aligned with any column it will move in its current
      * direction to the next column.
      */
-    @Override
     public void goUp() {
         //this.location.setX(Math.round(this.location.getX()));
 
@@ -147,7 +177,6 @@ public class Driller extends Character {
      * driller is not aligned with any column it will move in its current
      * direction to the next column.
      */
-    @Override
     public void goDown() {
         //this.location.setX(Math.round(this.location.getX()));
 
@@ -174,7 +203,6 @@ public class Driller extends Character {
      * driller is not aligned with any row it will move in its current direction
      * to the next row.
      */
-    @Override
     public void goLeft() {
         //this.location.setX(Math.round(this.location.getX()));
 
@@ -202,7 +230,6 @@ public class Driller extends Character {
      * driller is not aligned with any row it will move in its current direction
      * to the next row.
      */
-    @Override
     public void goRight() {
         //this.location.setX(Math.round(this.location.getX()));
 
@@ -224,7 +251,6 @@ public class Driller extends Character {
         this.isMoving = true;
     }
 
-    @Override
     public void stop() {
         this.isMoving = false;
     }

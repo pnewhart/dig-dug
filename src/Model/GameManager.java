@@ -32,8 +32,8 @@ public class GameManager {
     private HashMap<String, ImageIcon> boardImageMap;
 
     public GameManager() {
-        loadSprites();
-        initializeFromFile();
+        //loadSprites();
+        //initializeFromFile();
 
         theBoard = new GameBoard();
         player1 = new Driller(theBoard);
@@ -107,6 +107,10 @@ public class GameManager {
 
     public void movePlayer(Direction dir) {
         player1.move(dir);
+    }
+
+    public void shoot(boolean shot) {
+        this.player1.shoot(shot);
     }
 
     public void initializeFromFile() {
