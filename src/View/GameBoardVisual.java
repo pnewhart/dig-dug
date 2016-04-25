@@ -21,6 +21,8 @@ import java.awt.Graphics;
  */
 public class GameBoardVisual extends javax.swing.JComponent {
     private GameManager theModel;
+//    private Timer timer;
+//    private final int DELAY = 25;
 
     /**
      * Creates new form GameBoardVisualP
@@ -28,6 +30,14 @@ public class GameBoardVisual extends javax.swing.JComponent {
     public GameBoardVisual() {
         initComponents();
         theModel = new GameManager();
+//
+//        timer = new Timer();
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                repaint();
+//            }
+//        }, 0, DELAY);
     }
 
     public GameManager getTheModel() {

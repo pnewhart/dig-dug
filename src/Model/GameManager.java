@@ -110,7 +110,7 @@ public class GameManager {
     }
 
     public void movePlayer(Direction dir) {
-        System.out.println(this.player1.getDiv());
+        //System.out.println(this.player1.getDiv());
         player1.move(dir);
     }
 

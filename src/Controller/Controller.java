@@ -19,6 +19,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -31,6 +33,15 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private MainView GUI;
     private Direction moveState;
     private boolean shoot;
+    private Timer timer;
+
+    private boolean rightIsPressed;
+    private boolean leftIsPressed;
+    private boolean upIsPressed;
+    private boolean downIsPressed;
+    private boolean spaceIsPressed;
+
+    private final int DELAY = 25;
 
     public Controller(MainView GUI, GameManager theModel) {
         this.theModel = theModel;
@@ -39,16 +50,45 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         this.shoot = false;
 
         GUI.addKeyListener(this);
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, 0, DELAY);
+
     }
 
     public void update() {
+        if (rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
+            moveState = Direction.RIGHT;
+            shoot = false;
+        }
+        if (!rightIsPressed && leftIsPressed && !upIsPressed && !downIsPressed) {
+            moveState = Direction.LEFT;
+            shoot = false;
+        }
+        if (!rightIsPressed && !leftIsPressed && upIsPressed && !downIsPressed) {
+            moveState = Direction.UP;
+            shoot = false;
+        }
+        if (!rightIsPressed && !leftIsPressed && !upIsPressed && downIsPressed) {
+            moveState = Direction.DOWN;
+            shoot = false;
+        }
+        if (!rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
+            moveState = null;
+        }
+
         this.theModel.movePlayer(moveState);
-        this.theModel.shoot(shoot);
+        //this.theModel.shoot(shoot);
+        GUI.repaint();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
     }
 
     @Override
@@ -59,17 +99,24 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            this.moveState = Direction.RIGHT;
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            this.moveState = Direction.LEFT;
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            this.moveState = Direction.UP;
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            this.moveState = Direction.DOWN;
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            this.shoot = true;
+            rightIsPressed = true;
         }
 
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            leftIsPressed = true;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            upIsPressed = true;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            downIsPressed = true;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            spaceIsPressed = true;
+        }
     }
 
     @Override
@@ -79,19 +126,24 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            this.moveState = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            this.moveState = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            this.moveState = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            this.moveState = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            this.shoot = false;
+            rightIsPressed = false;
         }
 
-    }
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            leftIsPressed = false;
+        }
 
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            upIsPressed = false;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            downIsPressed = false;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            spaceIsPressed = false;
+        }
+    }
 }
