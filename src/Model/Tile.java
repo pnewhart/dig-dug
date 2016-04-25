@@ -137,7 +137,7 @@ public class Tile extends Object {
             this.hasBeenUpdated = true;
         } catch (Exception e) {
             System.out.format(
-                    "tried to remove %d dirt than available, right hole %d, left %d, up %d, down %d",
+                    "tried to remove %d dirt than available, right hole %d, left %d, up %d, down %d  going \n",
                     percentToDestroy, rightHole.getPercentRemoved(),
                     leftHole.getPercentRemoved(), upHole.getPercentRemoved(),
                     downHole.getPercentRemoved());
