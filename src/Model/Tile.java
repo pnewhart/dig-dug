@@ -136,8 +136,11 @@ public class Tile extends Object {
             }
             this.hasBeenUpdated = true;
         } catch (Exception e) {
-            System.out.format("tried to remove %d dirt than available, only %d",
-                              percentToDestroy);
+            System.out.format(
+                    "tried to remove %d dirt than available, right hole %d, left %d, up %d, down %d",
+                    percentToDestroy, rightHole.getPercentRemoved(),
+                    leftHole.getPercentRemoved(), upHole.getPercentRemoved(),
+                    downHole.getPercentRemoved());
 
         }
 
