@@ -27,7 +27,6 @@ public class Hole {
      */
     public Hole() {
         percentRemoved = MAX_FILL;
-
     }
 
     /**
