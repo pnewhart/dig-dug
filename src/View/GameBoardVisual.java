@@ -12,9 +12,7 @@
  * **************************************** */
 package View;
 
-import Model.Vector2;
-import ModelNew.ModelMain;
-import ModelNew.Tile;
+import Model.GameManager;
 import java.awt.Graphics;
 
 /**
@@ -22,31 +20,40 @@ import java.awt.Graphics;
  * @author tjf010
  */
 public class GameBoardVisual extends javax.swing.JComponent {
-    private ModelMain theModel;
+    private GameManager theModel;
+//    private Timer timer;
+//    private final int DELAY = 25;
 
     /**
      * Creates new form GameBoardVisualP
      */
     public GameBoardVisual() {
         initComponents();
+        theModel = new GameManager();
+//
+//        timer = new Timer();
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                repaint();
+//            }
+//        }, 0, DELAY);
+    }
 
-        this.theModel = new ModelMain();
+    public GameManager getTheModel() {
+        return theModel;
+    }
+
+    public void setTheModel(GameManager theModel) {
+        this.theModel = theModel;
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        for (Tile[] row : this.theModel.getGameBoard().getBoard()) {
-            for (Tile tile : row) {
-                int pixelsPerTile = (int) (this.getSize().getHeight() / Vector2.NUM_TILE_VERTICAL);
-
-                int pixelLocX = tile.getBoardX() * pixelsPerTile;
-                int pixelLocY = tile.getBoardY() * pixelsPerTile;
-
-                g.drawRect(pixelLocX, pixelLocY,
-                           16 * (pixelsPerTile / Vector2.DIVS_PER_TILE),
-                           16 * (pixelsPerTile / Vector2.DIVS_PER_TILE));
-            }
-        }
+        g.drawImage(theModel.getBackGround(), 0, 0, this);
+        g.drawImage(theModel.getPlayer1().getCurrentImage(),
+                    theModel.getPlayer1().getPixel()[0],
+                    theModel.getPlayer1().getPixel()[1], this);
     }
 
     /**
@@ -57,6 +64,8 @@ public class GameBoardVisual extends javax.swing.JComponent {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        setPreferredSize(new java.awt.Dimension(672, 864));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

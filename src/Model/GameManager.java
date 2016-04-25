@@ -12,10 +12,9 @@
  * **************************************** */
 package Model;
 
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
@@ -25,92 +24,185 @@ import javax.imageio.ImageIO;
  * @author laa024
  */
 public class GameManager {
-
-    private GameBoard gBoard;
-    private ArrayList<BufferedImage> imageList;
+    private GameBoard theBoard;
     private Driller player1;
-    private Object collectable;
-    private ArrayList<Rock> rocks;
-    private HashMap<String, BufferedImage> imageMap;
+    private ArrayList<Enemy> enemies;
+    private Image enemySprite;
+    private Image diggerSprite;
+    private Image backGround;
+    //private Collectable collectables;
+    //private ArrayList<Rock> rocks;
+    private HashMap<String, Image> boardImageMap;
 
     public GameManager() {
-        gBoard = new GameBoard();
-        //loadSprites();
+        loadSprites();
+        initializeFromFile();
 
+        //theBoard = new GameBoard();
+        // player1 = new Driller(theBoard);
+        //enemies.add(new Enemy(theBoard));
     }
 
-    public void createFromFile(File f) {
-        try {
-            gBoard.generateFromFile(f);
-        } catch (Exception E) {
-            System.out.println("input file cannot be read");
-
-        }
+    private void loadSprites() {
+        //loadMapSprites();
+        //assignEnemySprites();
+        //assignPlayerSprites();
+        //assignCollectableSprites();
     }
 
-    public void moveMoveable() {
-        for (int i = 0; i < gBoard.objects.size(); i++) {
-            //TODO:make move
-            //gBoard.objects.get(i).move();
-        }
-    }
-
-    public void updatePNG() {
-
-    }
-
-    private void loadImages() {
-        loadMapSprites();
-        loadCharSprites();
-    }
-
-    public void loadMapSprites() {
-        String[] biomes = {"Grass", "Snow"};
-
+    private void loadMapSprites() {
+        String[] directions = {"North", "South", "East", "West"};
         String imageName;
+        Image sprite;
 
-        for (String biome : biomes) {
-            for (int layer = 0; layer <= 4; layer++) {
-                imageName = "base" + biome + layer;
+        for (String dir : directions) {
+            for (int i = 1; i < 20; i++) {
+                imageName = "dig" + dir + i;
 
-                try {
-                    System.out.println("./src/PNGImages/" + imageName + ".png");
-                    InputStream in = getClass().getResourceAsStream(
-                            "./src/PNGImages/" + imageName + ".png");
+                sprite = loadAndResizeSprite(imageName, 48, 48);
 
-                    BufferedImage image = ImageIO.read(in);
-
-                    imageMap.put(imageName, image);
-                } catch (IOException ex) {
-                    System.out.println(
-                            "ERROR: \'./src/PNGImages/" + imageName + ".png\' could not be read.");
-                }
+                boardImageMap.put(imageName, sprite);
             }
         }
+
     }
 
-    public void loadCharSprites() {
-        String imageName = "Digger_Left_1";
+    public Image getBackGround() {
+        return backGround;
+    }
 
+    private void assignEnemySprites() {
+        this.diggerSprite = loadAndResizeSprite("Digger_Left_1", 48, 48);
+    }
+
+    private void assignPlayerSprites() {
+        this.enemySprite = loadAndResizeSprite("Pooka_Left_1", 48, 48);
+    }
+
+    public Image loadAndResizeSprite(String imageName, int pixWidth,
+                                     int pixHeight) {
+
+        Image spriteImage = null;
         try {
-            InputStream in = getClass().getResourceAsStream(
-                    "./src/PNGImages/" + imageName + ".png");
+            System.out.println(imageName);
 
-            BufferedImage image = ImageIO.read(in);
+            File inStream = new File("src/PNGImages/" + imageName);
 
-            imageMap.put(imageName, image);
+            spriteImage = ImageIO.read(inStream);
+
+            spriteImage = spriteImage.getScaledInstance(pixWidth, pixHeight,
+                                                        java.awt.Image.SCALE_SMOOTH);
         } catch (IOException ex) {
-            System.out.println(
-                    "ERROR: \'./src/PNGImages/" + imageName + ".png\' could not be read.");
+            System.out.println(ex.toString() + "   POOP");
         }
+
+        return spriteImage;
     }
 
-    public ArrayList<BufferedImage> getImageList() {
-        return imageList;
+    public void moveObject() {
+        for (Enemy enemy : enemies) {
+            enemy.move();
+        }
+        //move rocks (handles animations
+
+        //ANIMATIONS ARE REPRESENTED AS A NUMBER THAT REPRESENTS THE CURRENT FRAME
+        //THE PNGS WILL BE CHANGED LATER
     }
 
-    public void setImageList(ArrayList<BufferedImage> imageList) {
-        this.imageList = imageList;
+    public void movePlayer(Direction dir) {
+        //System.out.println(this.player1.getDiv());
+        player1.move(dir);
+    }
+
+    public void shoot(boolean shoot) {
+        player1.shoot(shoot);
+        //System.out.println("SHOOT");
+    }
+
+    private void initializeFromFile() {
+        this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672, 864);
+        this.theBoard = new GameBoard();
+        this.player1 = new Driller(theBoard);
+        this.loadPlayerSprites();
+    }
+
+    private void loadPlayerSprites() {
+        String[] diggerFiles = {"Digger_Up_L1.png",
+                                "Digger_Up_L2.png",
+                                "Digger_Up_R1.png",
+                                "Digger_Up_R2.png",
+                                "Digger_Down_L1.png",
+                                "Digger_Down_L2.png",
+                                "Digger_Down_R1.png",
+                                "Digger_Down_R2.png",
+                                "Digger_Left_1.png",
+                                "Digger_Left_2.png",
+                                "Digger_Right_1.png",
+                                "Digger_Right_2.png"};
+
+        for (String file : diggerFiles) {
+            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+        }
+
+        String[] walkerFiles = {"Walker_Up_L1.png",
+                                "Walker_Up_L2.png",
+                                "Walker_Up_R1.png",
+                                "Walker_Up_R2.png",
+                                "Walker_Down_L1.png",
+                                "Walker_Down_L2.png",
+                                "Walker_Down_R1.png",
+                                "Walker_Down_R2.png",
+                                "Walker_Left_1.png",
+                                "Walker_Left_2.png",
+                                "Walker_Right_1.png",
+                                "Walker_Right_2.png"};
+
+        for (String file : walkerFiles) {
+            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+        }
+
+        String[] pumperFiles = {"Pumper_Up_L1.png",
+                                "Pumper_Up_L2.png",
+                                "Pumper_Up_R1.png",
+                                "Pumper_Up_R2.png",
+                                "Pumper_Down_L1.png",
+                                "Pumper_Down_L2.png",
+                                "Pumper_Down_R1.png",
+                                "Pumper_Down_R2.png",
+                                "Pumper_Left_1.png",
+                                "Pumper_Left_2.png",
+                                "Pumper_Right_1.png",
+                                "Pumper_Right_2.png"};
+
+        for (String file : pumperFiles) {
+            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+        }
+
+        //Need to add dead images!!
+    }
+
+    public GameBoard getTheBoard() {
+        return theBoard;
+    }
+
+    public Driller getPlayer1() {
+        return player1;
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public Image getEnemySprite() {
+        return enemySprite;
+    }
+
+    public Image getDiggerSprite() {
+        return diggerSprite;
+    }
+
+    public HashMap<String, Image> getBoardImageMap() {
+        return boardImageMap;
     }
 
 }

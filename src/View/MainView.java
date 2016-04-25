@@ -2,15 +2,18 @@
  * CSCI205 - Software Engineering and Design
  * Spring 2016 *
  * Name: Patrick Newhart, Levi Adair, Sam Greenberg, Tom Ficcadenti
- * Date: Apr 18, 2016
- * Time: 6:16:18 AM *
+ * Date: Apr 24, 2016
+ * Time: 5:26:10 PM *
  * Project: csci205FinalProject
- * Package: MainView
+ * Package: View
  * File: MainView
  * Description:
  *
  * **************************************** */
 package View;
+
+import Controller.Controller;
+import Model.GameManager;
 
 /**
  *
@@ -19,7 +22,7 @@ package View;
 public class MainView extends javax.swing.JFrame {
 
     /**
-     * Creates new form GameBoard
+     * Creates new form MainView
      */
     public MainView() {
         initComponents();
@@ -37,17 +40,16 @@ public class MainView extends javax.swing.JFrame {
         gameBoardVisual1 = new View.GameBoardVisual();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
         javax.swing.GroupLayout gameBoardVisual1Layout = new javax.swing.GroupLayout(gameBoardVisual1);
         gameBoardVisual1.setLayout(gameBoardVisual1Layout);
         gameBoardVisual1Layout.setHorizontalGroup(
             gameBoardVisual1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGap(0, 672, Short.MAX_VALUE)
         );
         gameBoardVisual1Layout.setVerticalGroup(
             gameBoardVisual1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
+            .addGap(0, 768, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -55,16 +57,15 @@ public class MainView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(gameBoardVisual1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(gameBoardVisual1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -100,19 +101,16 @@ public class MainView extends javax.swing.JFrame {
                     java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MainView gb = new MainView();
-                gb.setVisible(true);
+                MainView theView = new MainView();
+
+                GameManager theModel = theView.gameBoardVisual1.getTheModel();
+                Controller cntrl = new Controller(theView, theModel);
+
+                theView.setVisible(true);
             }
         });
     }
@@ -120,4 +118,8 @@ public class MainView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private View.GameBoardVisual gameBoardVisual1;
     // End of variables declaration//GEN-END:variables
+
+    public GameBoardVisual getGameBoardVisual1() {
+        return gameBoardVisual1;
+    }
 }
