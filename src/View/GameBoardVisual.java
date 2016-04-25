@@ -13,9 +13,7 @@
 package View;
 
 import Model.GameManager;
-import Model.Tile;
 import java.awt.Graphics;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -29,6 +27,11 @@ public class GameBoardVisual extends javax.swing.JComponent {
      */
     public GameBoardVisual() {
         initComponents();
+        theModel = new GameManager();
+    }
+
+    public GameManager getTheModel() {
+        return theModel;
     }
 
     public void setTheModel(GameManager theModel) {
@@ -37,16 +40,10 @@ public class GameBoardVisual extends javax.swing.JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
-        for (Tile[] row : theModel.getTheBoard().getBoard()) {
-            for (Tile tile : row) {
-                ImageIcon baseImage = theModel.getBoardImageMap().get(
-                        tile.getBaseImageKey());
-
-                int tileX = (int) tile.getLocation().getX();
-                int tileY = (int) tile.getLocation().getY();
-                g.drawImage(baseImage.getImage(), tileX, tileY, null);
-            }
-        }
+        g.drawImage(theModel.getBackGround(), 0, 0, this);
+        g.drawImage(theModel.getPlayer1().getCurrentImage(),
+                    (int) theModel.getPlayer1().getDiv().getX() * 3,
+                    (int) theModel.getPlayer1().getDiv().getY() * 3, this);
     }
 
     /**
@@ -58,7 +55,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setPreferredSize(new java.awt.Dimension(672, 768));
+        setPreferredSize(new java.awt.Dimension(672, 864));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

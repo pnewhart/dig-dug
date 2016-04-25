@@ -45,21 +45,22 @@ public class ModelMain {
     }
 
     private void loadImages() {
-        loadMapSprites();
+        loadHoleSprites();
         loadCharSprites();
     }
 
-    public void loadMapSprites() {
-        String[] biomes = {"Grass", "Snow"};
+    public void loadHoleSprites() {
+        String[] directions = {"Grass", "Snow"};
 
         String imageName;
 
-        for (String biome : biomes) {
+        for (String biome : directions) {
             for (int layer = 0; layer <= 4; layer++) {
                 imageName = "base" + biome + layer;
 
                 try {
                     System.out.println("./src/PNGImages/" + imageName + ".png");
+
                     InputStream in = getClass().getResourceAsStream(
                             "./src/PNGImages/" + imageName + ".png");
 

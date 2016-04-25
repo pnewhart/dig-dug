@@ -12,6 +12,7 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
 import java.util.Date;
 
 /**
@@ -53,6 +54,10 @@ public class Driller extends Object {
 
     private Date deadTime;
 
+    //TEMPORARY CHANGE LATER//
+    private Image currentImage;
+    //////////////////////////
+
     public Driller(GameBoard board) {
         this.location = new Vector2(
                 (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
@@ -85,6 +90,14 @@ public class Driller extends Object {
         this.isCrushed = false;
         this.isKilled = false;
         this.deadTime = null;
+    }
+
+    public Image getCurrentImage() {
+        return currentImage;
+    }
+
+    public void setCurrentImage(Image currentImage) {
+        this.currentImage = currentImage;
     }
 
     public Vector2 getLocation() {

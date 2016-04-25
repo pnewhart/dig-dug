@@ -12,6 +12,7 @@
  * **************************************** */
 package View;
 
+import Controller.Controller;
 import Model.GameManager;
 
 /**
@@ -25,7 +26,6 @@ public class MainView extends javax.swing.JFrame {
      */
     public MainView() {
         initComponents();
-        gameBoardVisual1.setTheModel(new GameManager());
     }
 
     /**
@@ -57,9 +57,8 @@ public class MainView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(gameBoardVisual1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,7 +105,12 @@ public class MainView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainView().setVisible(true);
+                MainView theView = new MainView();
+
+                GameManager theModel = theView.gameBoardVisual1.getTheModel();
+                Controller cntrl = new Controller(theView, theModel);
+
+                theView.setVisible(true);
             }
         });
     }
@@ -114,4 +118,8 @@ public class MainView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private View.GameBoardVisual gameBoardVisual1;
     // End of variables declaration//GEN-END:variables
+
+    public GameBoardVisual getGameBoardVisual1() {
+        return gameBoardVisual1;
+    }
 }

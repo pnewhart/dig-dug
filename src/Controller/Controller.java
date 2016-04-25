@@ -13,7 +13,7 @@
 package Controller;
 
 import Model.Direction;
-import Model.SimpleGameManager;
+import Model.GameManager;
 import View.MainView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,11 +27,14 @@ import javax.swing.event.ChangeListener;
  * @author spg011
  */
 public class Controller implements ActionListener, ChangeListener, KeyListener {
-    private SimpleGameManager theModel;
+    private GameManager theModel;
     private MainView GUI;
 
-    public Controller() {
-        this.theModel = new SimpleGameManager();
+    public Controller(MainView GUI, GameManager theModel) {
+        this.theModel = theModel;
+        this.GUI = GUI;
+
+        GUI.addKeyListener(this);
         //this.GUI = new MainView();
 
         //this.GUI.addKeyListener(KeyEvent.VK_RIGHT);
@@ -65,6 +68,8 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         } else {
             theModel.shoot(false);
         }
+
+        GUI.repaint();
     }
 
     @Override
@@ -83,6 +88,8 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         } else {
             theModel.shoot(false);
         }
+
+        GUI.repaint();
     }
 
     @Override
