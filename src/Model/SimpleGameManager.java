@@ -30,6 +30,7 @@ public class SimpleGameManager {
         theBoard = new GameBoard();
         File inputFile = new File("input.txt");
         theBoard.generateFromFile(inputFile);
+
         player1 = new Driller(theBoard);
 
     }

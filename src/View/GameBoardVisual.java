@@ -30,8 +30,12 @@ public class GameBoardVisual extends javax.swing.JComponent {
      * Creates new form GameBoardVisualP
      */
     public GameBoardVisual() {
-        initComponents();
-        theModel = new GameManager();
+        try {
+            initComponents();
+            theModel = new GameManager();
+        } catch (Exception e) {
+            System.out.println("error");
+        }
 //
 //        timer = new Timer();
 //        timer.scheduleAtFixedRate(new TimerTask() {

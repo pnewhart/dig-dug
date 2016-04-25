@@ -24,7 +24,7 @@ public class Rock extends Object {
     private final int SPEED = 32; //moves over an entire tile per half second
     private GameBoard gBoard;
     private boolean isFalling;
-    private double ONE_SECOND_NS = Math.pow(10, 9);
+    private final double ONE_SECOND_NS = Math.pow(10, 9);
     protected boolean canCrush = true;
     protected boolean isCrushed = true;
 

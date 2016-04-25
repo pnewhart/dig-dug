@@ -48,7 +48,7 @@ public class Hole {
             return false;
         } else {
             percentRemoved += percentToDestroy;
-            System.out.println("hole dug");
+
             return true;
 
         }
