@@ -48,6 +48,10 @@ public class Hole {
         if (percentToDestroy < 0 || percentRemoved >= 19) {
             throw new Exception(
                     "percent to destroy is larger than whats left, or negative");
+        } else {
+            percentRemoved += percentToDestroy;
+            System.out.println("hole dug");
+
         }
     }
 
