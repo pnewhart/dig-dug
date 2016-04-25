@@ -64,7 +64,7 @@ public class Driller extends Object {
                 (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE);
         this.prevDirection = Direction.DOWN;
         this.direction = Direction.RIGHT;
-        this.speed = 0.5;
+        this.speed = 0.8;
         this.isMoving = false;
         this.isShooting = false;
         this.gun = null;

@@ -29,18 +29,21 @@ import javax.swing.event.ChangeListener;
 public class Controller implements ActionListener, ChangeListener, KeyListener {
     private GameManager theModel;
     private MainView GUI;
+    private Direction moveState;
+    private boolean shoot;
 
     public Controller(MainView GUI, GameManager theModel) {
         this.theModel = theModel;
         this.GUI = GUI;
+        this.moveState = null;
+        this.shoot = false;
 
         GUI.addKeyListener(this);
-        //this.GUI = new MainView();
+    }
 
-        //this.GUI.addKeyListener(KeyEvent.VK_RIGHT);
-        //this.GUI.addKeyListener(KeyEvent.VK_LEFT);
-        //this.GUI.addKeyListener(KeyEvent.VK_UP);
-        //this.GUI.addKeyListener(KeyEvent.VK_DOWN);
+    public void update() {
+        this.theModel.movePlayer(moveState);
+        this.theModel.shoot(shoot);
     }
 
     @Override
@@ -54,46 +57,40 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            theModel.movePlayer(Direction.RIGHT);
+            this.moveState = Direction.RIGHT;
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            theModel.movePlayer(Direction.LEFT);
+            this.moveState = Direction.LEFT;
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            theModel.movePlayer(Direction.UP);
+            this.moveState = Direction.UP;
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            theModel.movePlayer(Direction.DOWN);
+            this.moveState = Direction.DOWN;
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            theModel.shoot(true);
-        } else {
-            theModel.shoot(false);
+            this.shoot = true;
         }
 
-        GUI.repaint();
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyTyped(KeyEvent e) {
 
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            theModel.movePlayer(Direction.RIGHT);
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            theModel.movePlayer(Direction.LEFT);
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            theModel.movePlayer(Direction.UP);
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            theModel.movePlayer(Direction.DOWN);
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            theModel.shoot(true);
-        } else {
-            theModel.shoot(false);
-        }
-
-        GUI.repaint();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            this.moveState = null;
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            this.moveState = null;
+        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+            this.moveState = null;
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            this.moveState = null;
+        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            this.shoot = false;
+        }
 
     }
 
