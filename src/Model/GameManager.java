@@ -13,9 +13,11 @@
 package Model;
 
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -25,74 +27,76 @@ public class GameManager {
     private GameBoard theBoard;
     private Driller player1;
     private ArrayList<Enemy> enemies;
-    private ImageIcon enemySprite;
-    private ImageIcon diggerSprite;
+    private Image enemySprite;
+    private Image diggerSprite;
+    private Image backGround;
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
-    private HashMap<String, ImageIcon> boardImageMap;
+    private HashMap<String, Image> boardImageMap;
 
     public GameManager() {
         loadSprites();
         initializeFromFile();
 
-        theBoard = new GameBoard();
-        player1 = new Driller(theBoard);
-
-        enemies.add(new Enemy(theBoard));
-
+        //theBoard = new GameBoard();
+        // player1 = new Driller(theBoard);
+        //enemies.add(new Enemy(theBoard));
     }
 
     private void loadSprites() {
-        loadMapSprites();
-        assignEnemySprites();
-        assignPlayerSprites();
+        //loadMapSprites();
+        //assignEnemySprites();
+        //assignPlayerSprites();
         //assignCollectableSprites();
     }
 
     private void loadMapSprites() {
         String[] directions = {"North", "South", "East", "West"};
         String imageName;
-        ImageIcon sprite;
+        Image sprite;
 
         for (String dir : directions) {
             for (int i = 1; i < 20; i++) {
                 imageName = "dig" + dir + i;
 
-                sprite = loadAndResizeSprite(imageName);
+                sprite = loadAndResizeSprite(imageName, 48, 48);
 
                 boardImageMap.put(imageName, sprite);
             }
         }
 
-        String[] biomes = {"Grass", "Snow"};
+    }
 
-        for (String biome : biomes) {
-            for (int layer = 1; layer <= 4; layer++) {
-                imageName = "base" + biome + layer;
-
-                sprite = loadAndResizeSprite(imageName);
-
-                boardImageMap.put(imageName, sprite);
-            }
-        }
+    public Image getBackGround() {
+        return backGround;
     }
 
     private void assignEnemySprites() {
-        this.diggerSprite = loadAndResizeSprite("Digger_Left_1");
+        this.diggerSprite = loadAndResizeSprite("Digger_Left_1", 48, 48);
     }
 
     private void assignPlayerSprites() {
-        this.enemySprite = loadAndResizeSprite("Pooka_Left_1");
+        this.enemySprite = loadAndResizeSprite("Pooka_Left_1", 48, 48);
     }
 
-    private ImageIcon loadAndResizeSprite(String imageName) {
-        ImageIcon sprite = new ImageIcon(
-                "src/PNGImages/" + imageName + ".png");
-        Image resizedSprite = sprite.getImage();
-        resizedSprite = resizedSprite.getScaledInstance(48, 48,
+    public Image loadAndResizeSprite(String imageName, int pixWidth,
+                                     int pixHeight) {
+
+        Image spriteImage = null;
+        try {
+            System.out.println(imageName);
+
+            File inStream = new File("src/PNGImages/" + imageName);
+
+            spriteImage = ImageIO.read(inStream);
+
+            spriteImage = spriteImage.getScaledInstance(pixWidth, pixHeight,
                                                         java.awt.Image.SCALE_SMOOTH);
-        sprite = new ImageIcon(resizedSprite);
-        return sprite;
+        } catch (IOException ex) {
+            System.out.println(ex.toString() + "   POOP");
+        }
+
+        return spriteImage;
     }
 
     public void moveObject() {
@@ -106,28 +110,75 @@ public class GameManager {
     }
 
     public void movePlayer(Direction dir) {
+        //System.out.println(this.player1.getDiv());
         player1.move(dir);
     }
 
-    public void initializeFromFile() {
-        int rowNum = 0;
-        int layer;
-        for (Tile[] row : this.theBoard.getBoard()) {
-            if (rowNum >= 0 && rowNum < 2) {
-                layer = 4;
-            } else if (rowNum >= 2 && rowNum < 4) {
-                layer = 1;
-            } else if (rowNum >= 4 && rowNum < 7) {
-                layer = 2;
-            } else if (rowNum >= 7 && rowNum < 10) {
-                layer = 3;
-            } else {
-                layer = 4;
-            }
-            for (Tile tile : row) {
-                tile.setBaseImageKey("baseGrass" + layer);
-            }
+    public void shoot(boolean shoot) {
+        player1.shoot(shoot);
+        //System.out.println("SHOOT");
+    }
+
+    private void initializeFromFile() {
+        this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672, 864);
+        this.theBoard = new GameBoard();
+        this.player1 = new Driller(theBoard);
+        this.loadPlayerSprites();
+    }
+
+    private void loadPlayerSprites() {
+        String[] diggerFiles = {"Digger_Up_L1.png",
+                                "Digger_Up_L2.png",
+                                "Digger_Up_R1.png",
+                                "Digger_Up_R2.png",
+                                "Digger_Down_L1.png",
+                                "Digger_Down_L2.png",
+                                "Digger_Down_R1.png",
+                                "Digger_Down_R2.png",
+                                "Digger_Left_1.png",
+                                "Digger_Left_2.png",
+                                "Digger_Right_1.png",
+                                "Digger_Right_2.png"};
+
+        for (String file : diggerFiles) {
+            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
         }
+
+        String[] walkerFiles = {"Walker_Up_L1.png",
+                                "Walker_Up_L2.png",
+                                "Walker_Up_R1.png",
+                                "Walker_Up_R2.png",
+                                "Walker_Down_L1.png",
+                                "Walker_Down_L2.png",
+                                "Walker_Down_R1.png",
+                                "Walker_Down_R2.png",
+                                "Walker_Left_1.png",
+                                "Walker_Left_2.png",
+                                "Walker_Right_1.png",
+                                "Walker_Right_2.png"};
+
+        for (String file : walkerFiles) {
+            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+        }
+
+        String[] pumperFiles = {"Pumper_Up_L1.png",
+                                "Pumper_Up_L2.png",
+                                "Pumper_Up_R1.png",
+                                "Pumper_Up_R2.png",
+                                "Pumper_Down_L1.png",
+                                "Pumper_Down_L2.png",
+                                "Pumper_Down_R1.png",
+                                "Pumper_Down_R2.png",
+                                "Pumper_Left_1.png",
+                                "Pumper_Left_2.png",
+                                "Pumper_Right_1.png",
+                                "Pumper_Right_2.png"};
+
+        for (String file : pumperFiles) {
+            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+        }
+
+        //Need to add dead images!!
     }
 
     public GameBoard getTheBoard() {
@@ -142,15 +193,15 @@ public class GameManager {
         return enemies;
     }
 
-    public ImageIcon getEnemySprite() {
+    public Image getEnemySprite() {
         return enemySprite;
     }
 
-    public ImageIcon getDiggerSprite() {
+    public Image getDiggerSprite() {
         return diggerSprite;
     }
 
-    public HashMap<String, ImageIcon> getBoardImageMap() {
+    public HashMap<String, Image> getBoardImageMap() {
         return boardImageMap;
     }
 

@@ -19,9 +19,10 @@ package Model;
 public class Vector2 {
 
     public static final int DIVS_PER_TILE = 16;
+    public static final int PIXELS_PER_DIV = 3;
 
     public static final int NUM_TILE_HORIZONTAL = 14;
-    public static final int NUM_TILE_VERTICAL = 16;
+    public static final int NUM_TILE_VERTICAL = 17;
 
     public static final int MAX_X = NUM_TILE_HORIZONTAL - 1; // BoardWidth - 1
     public static final int MAX_Y = NUM_TILE_VERTICAL - 1; //BoardHeight - 1

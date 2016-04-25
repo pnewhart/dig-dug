@@ -25,9 +25,9 @@ import java.util.ArrayList;
  */
 public class GameBoard {
 
-    final static int BOARD_HEIGHT = Vector2.MAX_Y + 1;
-    final static int BOARD_WIDTH = Vector2.MAX_X + 1;
-    public Tile[][] board = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
+    final static int BOARD_HEIGHT = Vector2.NUM_TILE_VERTICAL;
+    final static int BOARD_WIDTH = Vector2.NUM_TILE_HORIZONTAL;
+    public Tile[][] board = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
     protected ArrayList<Object> objects = new ArrayList<Object>();
     final static int DIVS_TO_DIG = 1;
 
@@ -35,9 +35,12 @@ public class GameBoard {
      * creates a new GameBoard of tiles
      */
     public GameBoard() {
-        for (int i = 0; i < BOARD_HEIGHT; i++) {
-            for (int j = 0; j < BOARD_WIDTH; j++) {
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+            for (int j = 0; j < BOARD_HEIGHT; j++) {
                 board[i][j] = new Tile(i, j);
+                if (i == BOARD_WIDTH / 2) {
+                    board[i][j].clearTileVertical();
+                }
             }
         }
 

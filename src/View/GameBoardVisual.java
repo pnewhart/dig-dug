@@ -13,9 +13,7 @@
 package View;
 
 import Model.GameManager;
-import Model.Tile;
 import java.awt.Graphics;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -23,12 +21,27 @@ import javax.swing.ImageIcon;
  */
 public class GameBoardVisual extends javax.swing.JComponent {
     private GameManager theModel;
+//    private Timer timer;
+//    private final int DELAY = 25;
 
     /**
      * Creates new form GameBoardVisualP
      */
     public GameBoardVisual() {
         initComponents();
+        theModel = new GameManager();
+//
+//        timer = new Timer();
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                repaint();
+//            }
+//        }, 0, DELAY);
+    }
+
+    public GameManager getTheModel() {
+        return theModel;
     }
 
     public void setTheModel(GameManager theModel) {
@@ -37,16 +50,10 @@ public class GameBoardVisual extends javax.swing.JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
-        for (Tile[] row : theModel.getTheBoard().getBoard()) {
-            for (Tile tile : row) {
-                ImageIcon baseImage = theModel.getBoardImageMap().get(
-                        tile.getBaseImageKey());
-
-                int tileX = (int) tile.getLocation().getX();
-                int tileY = (int) tile.getLocation().getY();
-                g.drawImage(baseImage.getImage(), tileX, tileY, null);
-            }
-        }
+        g.drawImage(theModel.getBackGround(), 0, 0, this);
+        g.drawImage(theModel.getPlayer1().getCurrentImage(),
+                    theModel.getPlayer1().getPixel()[0],
+                    theModel.getPlayer1().getPixel()[1], this);
     }
 
     /**
@@ -58,7 +65,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setPreferredSize(new java.awt.Dimension(672, 768));
+        setPreferredSize(new java.awt.Dimension(672, 864));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
