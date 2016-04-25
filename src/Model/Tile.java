@@ -12,6 +12,9 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
+import java.util.HashMap;
+
 /**
  *
  * @author laa024
@@ -25,11 +28,13 @@ public class Tile extends Object {
     private String baseImageKey;
     private boolean clearedHorizontal = false;
     private boolean clearedVertical = false;
-    private int xCoord;
     private String biome;
     private int layer;
     private boolean hasBeenUpdated = true;
-    private Vector2 location;
+
+    private Image image;
+
+    public static HashMap<String, Image> TileImages;
 
     public boolean isHasBeenUpdated() {
         return hasBeenUpdated;
@@ -45,11 +50,53 @@ public class Tile extends Object {
      * @param y
      */
     public Tile(int x, int y) {
-        this.location = new Vector2(x, y);
+        this.location = new Vector2(x * Vector2.DIVS_PER_TILE,
+                                    y * Vector2.DIVS_PER_TILE);
+        this.image = GameManager.loadAndResizeSprite("digEast19.png", 48, 48);
     }
 
     public Vector2 getLocation() {
         return location;
+    }
+
+    public static void loadAllImage(String name, Image image) {
+        try {
+            TileImages.put(name, image);
+        } catch (NullPointerException e) {
+            System.out.println(name);
+        }
+    }
+
+    @Override
+    public Image getCurrentImage() {
+//        if (Math.max(this.leftHole.getPercentRemoved(),
+//                     this.downHole.getPercentRemoved()) >= Math.max(
+//                        this.upHole.getPercentRemoved(),
+//                        this.downHole.getPercentRemoved())) {
+//            if (this.leftHole.getPercentRemoved() == 0 && this.rightHole.getPercentRemoved() > 0) {
+//                return TileImages.get(this.getRightHoleImageKey() + ".png");
+//            } else if (this.rightHole.getPercentRemoved() == 0 && this.leftHole.getPercentRemoved() > 0) {
+//                return TileImages.get(this.getLeftHoleImageKey() + ".png");
+//            } else if (this.leftHole.getPercentRemoved() > 0 && this.rightHole.getPercentRemoved() > 0) {
+//                return TileImages.get("digEast19.png");
+//            }
+//        } else if (Math.max(this.leftHole.getPercentRemoved(),
+//                            this.downHole.getPercentRemoved()) < Math.max(
+//                        this.upHole.getPercentRemoved(),
+//                        this.downHole.getPercentRemoved())) {
+//            if (this.upHole.getPercentRemoved() == 0 && this.downHole.getPercentRemoved() > 0) {
+//                return TileImages.get(this.getDownHoleImageKey() + ".png");
+//            } else if (this.downHole.getPercentRemoved() == 0 && this.upHole.getPercentRemoved() > 0) {
+//                return TileImages.get(this.getUpHoleImageKey() + ".png");
+//            } else if (this.downHole.getPercentRemoved() > 0 && this.upHole.getPercentRemoved() > 0) {
+//                return TileImages.get("digNorth19.png");
+//            }
+//        }
+        if (!this.isFull()) {
+            return image;
+        } else {
+            return null;
+        }
     }
 
     public String getBaseImageKey() {

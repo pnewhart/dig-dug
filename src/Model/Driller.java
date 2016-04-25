@@ -48,6 +48,7 @@ public class Driller extends Object {
     private GameBoard board;
 
     private boolean isShooting;
+    private boolean isDigging;
     private Gun gun;
 
     private boolean isCrushed;
@@ -71,6 +72,7 @@ public class Driller extends Object {
         this.speed = 1.0;
         this.isMoving = false;
         this.isShooting = false;
+        this.isDigging = false;
         this.gun = null;
         this.board = board;
 
@@ -154,9 +156,14 @@ public class Driller extends Object {
     }
 
     public boolean isDigging() {
+        return this.isDigging;
+    }
+
+    public void setIsDigging() {
         Vector2 front = Vector2Utility.add(this.getFront(),
-                                           this.direction.getVector());
-        return isMoving && !this.board.isDivEmpty(front);
+                                           Vector2Utility.scale(
+                                                   this.direction.getVector(), 2));
+        this.isDigging = this.isMoving && !this.board.isDivEmpty(front);
     }
 
     public void move(Direction direction) {
@@ -168,12 +175,16 @@ public class Driller extends Object {
             }
             if (direction == Direction.UP) {
                 this.goUp();
+                this.setIsDigging();
             } else if (direction == Direction.DOWN) {
                 this.goDown();
+                this.setIsDigging();
             } else if (direction == Direction.LEFT) {
                 this.goLeft();
+                this.setIsDigging();
             } else if (direction == Direction.RIGHT) {
                 this.goRight();
+                this.setIsDigging();
             } else {
                 this.stop();
             }
