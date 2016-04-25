@@ -114,25 +114,27 @@ public class Tile extends Object {
      * @param dir
      * @param percentToDestroy
      */
-    public void makeHole(Direction dir, int percentToDestroy) {
+    public boolean makeHole(Direction dir, int percentToDestroy) {
         try {
             if (dir == Direction.RIGHT) {
-                rightHole.destroy(percentToDestroy);
+                return rightHole.destroy(percentToDestroy);
             }
             if (dir == Direction.LEFT) {
-                leftHole.destroy(percentToDestroy);
+                return leftHole.destroy(percentToDestroy);
             }
             if (dir == Direction.UP) {
-                upHole.destroy(percentToDestroy);
+                return upHole.destroy(percentToDestroy);
             }
             if (dir == Direction.DOWN) {
-                downHole.destroy(percentToDestroy);
+                return downHole.destroy(percentToDestroy);
             }
             if (rightHole.getPercentRemoved() + leftHole.getPercentRemoved() > 19) {
                 this.clearTileHorizontal();
+                return true;
             }
             if (upHole.getPercentRemoved() + downHole.getPercentRemoved() > 19) {
                 this.clearTileVertical();
+                return true;
             }
             this.hasBeenUpdated = true;
         } catch (Exception e) {
@@ -143,6 +145,7 @@ public class Tile extends Object {
                     downHole.getPercentRemoved());
 
         }
+        return false;
 
     }
 

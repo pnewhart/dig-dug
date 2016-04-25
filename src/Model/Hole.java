@@ -44,17 +44,13 @@ public class Hole {
      * @param percentToDestroy
      * @throws Exception
      */
-    public void destroy(int percentToDestroy) throws Exception {
+    public boolean destroy(int percentToDestroy) throws Exception {
         if (percentRemoved == 19) {
-            percentRemoved = 19;
-
-        }
-        if (percentToDestroy < 0) {
-            throw new Exception(
-                    "percent to destroy is negative");
+            return false;
         } else {
             percentRemoved += percentToDestroy;
             System.out.println("hole dug");
+            return true;
 
         }
     }
