@@ -28,8 +28,8 @@ public class SimpleGameManager {
         //loadSprites();
 
         theBoard = new GameBoard();
-        File inputF = new File("input.txt");
-        theBoard.generateFromFile(inputF);
+        File inputFile = new File("input.txt");
+        theBoard.generateFromFile(inputFile);
         player1 = new Driller(theBoard);
 
     }
