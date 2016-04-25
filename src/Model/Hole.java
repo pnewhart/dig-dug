@@ -18,7 +18,7 @@ package Model;
  */
 public class Hole {
 
-    private int percentFill;
+    private int percentRemoved = 0;
     private final int MAX_FILL = 0;
     private final int MIN_FILL = 19;
 
@@ -26,7 +26,7 @@ public class Hole {
      *
      */
     public Hole() {
-        percentFill = MAX_FILL;
+        percentRemoved = MAX_FILL;
 
     }
 
@@ -34,8 +34,8 @@ public class Hole {
      *
      * @return percent of hole filled
      */
-    public int getPercentFill() {
-        return percentFill;
+    public int getPercentRemoved() {
+        return percentRemoved;
     }
 
     /**
@@ -45,11 +45,12 @@ public class Hole {
      * @throws Exception
      */
     public void destroy(int percentToDestroy) throws Exception {
-        if (percentToDestroy > percentFill || percentToDestroy < 0) {
+        if (percentToDestroy < 0 || percentRemoved >= 19) {
             throw new Exception(
                     "percent to destroy is larger than whats left, or negative");
         } else {
-            percentFill -= percentToDestroy;
+            percentRemoved += percentToDestroy;
+            System.out.println("hole dug");
 
         }
     }
@@ -59,7 +60,7 @@ public class Hole {
      * @return true if hole is full
      */
     public boolean isFull() {
-        if (percentFill == MAX_FILL) {
+        if (percentRemoved == MAX_FILL) {
             return true;
         } else {
             return false;
@@ -72,7 +73,7 @@ public class Hole {
      * @return true if hole if empty
      */
     public boolean isEmpty() {
-        if (percentFill == MIN_FILL) {
+        if (percentRemoved == MIN_FILL) {
             return true;
         } else {
             return false;
@@ -81,6 +82,6 @@ public class Hole {
     }
 
     public void clearHole() {
-        percentFill = MIN_FILL;
+        percentRemoved = MIN_FILL;
     }
 }

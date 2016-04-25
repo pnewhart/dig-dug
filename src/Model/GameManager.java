@@ -84,8 +84,6 @@ public class GameManager {
 
         Image spriteImage = null;
         try {
-            System.out.println(imageName);
-
             File inStream = new File("src/PNGImages/" + imageName);
 
             spriteImage = ImageIO.read(inStream);
