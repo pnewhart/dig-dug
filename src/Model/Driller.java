@@ -12,13 +12,40 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  *
  * @author spg011
  */
-public class Driller extends Character {
+public class Driller extends Object {
+
+    /**
+     * Direction in the Dig Dug board (LEFT, RIGHT, UP, DOWN)
+     */
+    private Direction direction;
+
+    /**
+     * Direction in the Dig Dug board (LEFT, RIGHT, UP, DOWN)
+     */
+    private Direction prevDirection;
+
+    /**
+     * Speed the character can move on the Dig Dug board
+     */
+    private double speed;
+
+    /**
+     * Is the character moving
+     */
+    private boolean isMoving;
+
+    /**
+     * The board that the character is within
+     */
+    private GameBoard board;
 
     private boolean isShooting;
     private Gun gun;
@@ -28,13 +55,19 @@ public class Driller extends Character {
 
     private Date deadTime;
 
+    private int prevWalkState;
+
+    //TEMPORARY CHANGE LATER//
+    private Image currentImage;
+    //////////////////////////
+
     public Driller(GameBoard board) {
         this.location = new Vector2(
                 (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
                 (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE);
         this.prevDirection = Direction.DOWN;
         this.direction = Direction.RIGHT;
-        this.speed = 0.5;
+        this.speed = 1.0;
         this.isMoving = false;
         this.isShooting = false;
         this.gun = null;
@@ -43,19 +76,61 @@ public class Driller extends Character {
         this.isCrushed = false;
         this.isKilled = false;
         this.deadTime = null;
+
+        this.Images = new HashMap();
+        this.currentImage = null;
+
+        this.prevWalkState = 1;
     }
 
-    // REMOVE THIS ONCE YOU GET THE CORRECT GAMEBOARD!!!!!!!!!!!
-    public Driller() {
-        this.location = new Vector2(
-                (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
-                (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE);
-        this.direction = Direction.RIGHT;
-        this.speed = 0.5;
-        this.isMoving = false;
-        this.isShooting = false;
-        this.gun = null;
-        board = null;
+    @Override
+    public Image getCurrentImage() {
+        String s1 = "";
+        String s2 = "";
+        String s3 = "";
+
+        if (isDigging()) {
+            s1 = "Digger";
+        } else if (this.gun != null && this.gun.isPumping()) {
+            s1 = "Pumper";
+        } else {
+            s1 = "Walker";
+        }
+
+        if (direction == Direction.LEFT) {
+            s2 = "Left_";
+        } else if (direction == Direction.RIGHT) {
+            s2 = "Right_";
+        } else if (direction == Direction.UP) {
+            if (this.prevDirection == Direction.RIGHT) {
+                s2 = "Up_L";
+            } else {
+                s2 = "Up_R";
+            }
+        } else if (direction == Direction.DOWN) {
+            if (this.prevDirection == Direction.LEFT) {
+                s2 = "Down_L";
+            } else {
+                s2 = "Down_R";
+            }
+        }
+
+        if (isMoving()) {
+            prevWalkState += 1;
+            if (prevWalkState == 9) {
+                prevWalkState = 0;
+            }
+        }
+        if (prevWalkState <= 4) {
+            s3 = "1";
+        } else {
+            s3 = "2";
+        }
+
+        String string = String.format("%s_%s%s.png", s1, s2, s3);
+
+        System.out.println(string);
+        return Images.get(string);
     }
 
     public Vector2 getLocation() {
@@ -88,6 +163,9 @@ public class Driller extends Character {
         if (this.isShooting && !this.gun.isPumping()) {
             this.stop();
         } else {
+            if (this.isShooting && this.gun != null) {
+                this.gun.destroy();
+            }
             if (direction == Direction.UP) {
                 this.goUp();
             } else if (direction == Direction.DOWN) {
@@ -101,7 +179,6 @@ public class Driller extends Character {
             }
         }
         this.board.makeHole(this.getFront(), direction);
-        this.gun.destroy();
     }
 
     /**
@@ -118,27 +195,25 @@ public class Driller extends Character {
      * driller is not aligned with any column it will move in its current
      * direction to the next column.
      */
-    @Override
     public void goUp() {
         //this.location.setX(Math.round(this.location.getX()));
-
-        if (this.direction == Direction.LEFT && !Vector2Utility.isNearTile(
-                this.location)) {
-            this.location.setX(this.location.getX() - speed);
-        } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
-                this.location)) {
-            this.location.setX(this.location.getX() + speed);
-        } else {
-            location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
-            if (this.board.isRockAt(this.getFront())) {
+        if (location.getY() > Vector2Utility.EPSILON) {
+            if (this.direction == Direction.LEFT && !Vector2Utility.isNearTile(
+                    this.location)) {
+                this.location.setX(this.location.getX() - speed);
+            } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
+                    this.location)) {
+                this.location.setX(this.location.getX() + speed);
+            } else {
+                location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
                 location.setY(location.getY() - speed);
+                if (direction != Direction.UP) {
+                    this.prevDirection = direction;
+                    this.direction = Direction.UP;
+                }
             }
-            if (location.getY() != 0.0) {
-                this.prevDirection = direction;
-                this.direction = Direction.UP;
-            }
+            this.isMoving = true;
         }
-        this.isMoving = true;
     }
 
     /**
@@ -147,25 +222,25 @@ public class Driller extends Character {
      * driller is not aligned with any column it will move in its current
      * direction to the next column.
      */
-    @Override
     public void goDown() {
         //this.location.setX(Math.round(this.location.getX()));
-
-        if (this.direction == Direction.LEFT && !Vector2Utility.isNearTile(
-                this.location)) {
-            this.location.setX(this.location.getX() - speed);
-        } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
-                this.location)) {
-            this.location.setX(this.location.getX() + speed);
-        } else {
-            location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
-            location.setY(location.getY() + speed);
-            if (location.getY() != 0.0) {
-                this.prevDirection = direction;
-                this.direction = Direction.DOWN;
+        if (location.getY() < Vector2.MAX_Y * Vector2.DIVS_PER_TILE - Vector2Utility.EPSILON) {
+            if (this.direction == Direction.LEFT && !Vector2Utility.isNearTile(
+                    this.location)) {
+                this.location.setX(this.location.getX() - speed);
+            } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
+                    this.location)) {
+                this.location.setX(this.location.getX() + speed);
+            } else {
+                location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
+                location.setY(location.getY() + speed);
+                if (direction != Direction.DOWN) {
+                    this.prevDirection = direction;
+                    this.direction = Direction.DOWN;
+                }
             }
+            this.isMoving = true;
         }
-        this.isMoving = true;
     }
 
     /**
@@ -174,7 +249,6 @@ public class Driller extends Character {
      * driller is not aligned with any row it will move in its current direction
      * to the next row.
      */
-    @Override
     public void goLeft() {
         //this.location.setX(Math.round(this.location.getX()));
 
@@ -190,8 +264,10 @@ public class Driller extends Character {
             if (this.location.getX() < 0) {
                 this.location.setX(0);
             }
-            this.prevDirection = direction;
-            this.direction = Direction.LEFT;
+            if (direction != Direction.LEFT) {
+                this.prevDirection = direction;
+                this.direction = Direction.LEFT;
+            }
         }
         this.isMoving = true;
     }
@@ -202,7 +278,6 @@ public class Driller extends Character {
      * driller is not aligned with any row it will move in its current direction
      * to the next row.
      */
-    @Override
     public void goRight() {
         //this.location.setX(Math.round(this.location.getX()));
 
@@ -218,13 +293,14 @@ public class Driller extends Character {
             if (this.location.getX() < 0) {
                 this.location.setX(0);
             }
-            this.prevDirection = direction;
-            this.direction = Direction.RIGHT;
+            if (direction != Direction.RIGHT) {
+                this.prevDirection = direction;
+                this.direction = Direction.RIGHT;
+            }
         }
         this.isMoving = true;
     }
 
-    @Override
     public void stop() {
         this.isMoving = false;
     }
@@ -233,7 +309,7 @@ public class Driller extends Character {
         if (!isShooting && pump) {
             isShooting = true;
             this.gun = new Gun(location, direction, board);
-        } else {
+        } else if (isShooting) {
             this.gun.shoot(pump);
         }
     }

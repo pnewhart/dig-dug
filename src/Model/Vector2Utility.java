@@ -18,7 +18,7 @@ package Model;
  */
 public class Vector2Utility {
 
-    public static final double EPSILON = 1.0;
+    public static final double EPSILON = 0.75;
 
     public static Vector2 add(Vector2 vec1, Vector2 vec2) {
         return new Vector2(vec1.getX() + vec2.getX(), vec1.getY() + vec2.getY());
@@ -42,8 +42,11 @@ public class Vector2Utility {
     }
 
     public static boolean isNearTile(Vector2 vec) {
-        return (vec.getX() - Math.round(vec.getX() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON) && (vec.getY() - Math.round(
-                                                                                                                   vec.getY() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON);
+        boolean nearX = (Math.abs(vec.getX() - (Math.round(
+                                                vec.getX() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE)) < EPSILON);
+        boolean nearY = (Math.abs(vec.getY() - (Math.round(
+                                                vec.getY() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE)) < EPSILON);
+        return nearX && nearY;
     }
 
 }

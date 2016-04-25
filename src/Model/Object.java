@@ -12,6 +12,9 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
+import java.util.HashMap;
+
 /**
  *
  * @author laa024
@@ -22,6 +25,16 @@ public abstract class Object {
     protected boolean isPumpable = false;
     protected boolean canCrush = false;
     protected boolean isCrushed = false;
+    protected HashMap<String, Image> Images;
+    protected String currentImage;
+
+    public void loadImage(String name, Image image) {
+        Images.put(name, image);
+    }
+
+    public Image getCurrentImage() {
+        return Images.get(this.currentImage);
+    }
 
     public boolean isPumpable() {
         return isPumpable;
@@ -37,6 +50,11 @@ public abstract class Object {
 
     public Vector2 getDiv() {
         return new Vector2(this.location.getX(), this.location.getY());
+    }
+
+    public int[] getPixel() {
+        int[] loc = {(int) location.getX() * Vector2.PIXELS_PER_DIV, (int) location.getY() * Vector2.PIXELS_PER_DIV + Vector2.PIXELS_PER_DIV * Vector2.DIVS_PER_TILE};
+        return loc;
     }
 
     public boolean containsDiv(int x, int y) {

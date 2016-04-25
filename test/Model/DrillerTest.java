@@ -215,6 +215,6 @@ public class DrillerTest {
     public void testDirectionInitial() {
         System.out.println("testDirectionInitial");
         Driller driller = new Driller();
-        assertEquals(driller.direction, Direction.RIGHT);
+        assertEquals(driller.getDirection(), Direction.RIGHT);
     }
 }
