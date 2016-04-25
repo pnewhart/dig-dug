@@ -44,6 +44,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     public void update() {
         this.theModel.movePlayer(moveState);
         this.theModel.shoot(shoot);
+        this.GUI.repaint();
     }
 
     @Override
@@ -70,11 +71,13 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             this.shoot = true;
         }
 
+        update();
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
 
+        update();
     }
 
     @Override
@@ -92,6 +95,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             this.shoot = false;
         }
 
+        update();
     }
 
 }

@@ -42,8 +42,8 @@ public class GameBoardVisual extends javax.swing.JComponent {
     public void paintComponent(Graphics g) {
         g.drawImage(theModel.getBackGround(), 0, 0, this);
         g.drawImage(theModel.getPlayer1().getCurrentImage(),
-                    (int) theModel.getPlayer1().getDiv().getX() * 3,
-                    (int) theModel.getPlayer1().getDiv().getY() * 3, this);
+                    theModel.getPlayer1().getPixel()[0],
+                    theModel.getPlayer1().getPixel()[1], this);
     }
 
     /**

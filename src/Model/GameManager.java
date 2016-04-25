@@ -110,21 +110,75 @@ public class GameManager {
     }
 
     public void movePlayer(Direction dir) {
-        System.out.println(this.player1.getDiv());
+        //System.out.println(this.player1.getDiv());
         player1.move(dir);
     }
 
     public void shoot(boolean shoot) {
         player1.shoot(shoot);
-        System.out.println("SHOOT");
+        //System.out.println("SHOOT");
     }
 
     private void initializeFromFile() {
         this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672, 864);
         this.theBoard = new GameBoard();
         this.player1 = new Driller(theBoard);
-        this.player1.setCurrentImage(this.loadAndResizeSprite(
-                "Digger_Right_1.png", 48, 48));
+        this.loadPlayerSprites();
+    }
+
+    private void loadPlayerSprites() {
+        String[] diggerFiles = {"Digger_Up_L1.png",
+                                "Digger_Up_L2.png",
+                                "Digger_Up_R1.png",
+                                "Digger_Up_R2.png",
+                                "Digger_Down_L1.png",
+                                "Digger_Down_L2.png",
+                                "Digger_Down_R1.png",
+                                "Digger_Down_R2.png",
+                                "Digger_Left_1.png",
+                                "Digger_Left_2.png",
+                                "Digger_Right_1.png",
+                                "Digger_Right_2.png"};
+
+        for (String file : diggerFiles) {
+            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+        }
+
+        String[] walkerFiles = {"Walker_Up_L1.png",
+                                "Walker_Up_L2.png",
+                                "Walker_Up_R1.png",
+                                "Walker_Up_R2.png",
+                                "Walker_Down_L1.png",
+                                "Walker_Down_L2.png",
+                                "Walker_Down_R1.png",
+                                "Walker_Down_R2.png",
+                                "Walker_Left_1.png",
+                                "Walker_Left_2.png",
+                                "Walker_Right_1.png",
+                                "Walker_Right_2.png"};
+
+        for (String file : walkerFiles) {
+            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+        }
+
+        String[] pumperFiles = {"Pumper_Up_L1.png",
+                                "Pumper_Up_L2.png",
+                                "Pumper_Up_R1.png",
+                                "Pumper_Up_R2.png",
+                                "Pumper_Down_L1.png",
+                                "Pumper_Down_L2.png",
+                                "Pumper_Down_R1.png",
+                                "Pumper_Down_R2.png",
+                                "Pumper_Left_1.png",
+                                "Pumper_Left_2.png",
+                                "Pumper_Right_1.png",
+                                "Pumper_Right_2.png"};
+
+        for (String file : pumperFiles) {
+            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+        }
+
+        //Need to add dead images!!
     }
 
     public GameBoard getTheBoard() {
