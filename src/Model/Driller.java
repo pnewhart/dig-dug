@@ -129,7 +129,7 @@ public class Driller extends Object {
                 this.stop();
             }
         }
-        this.board.makeHole(this.getFront(), direction);
+        //this.board.makeHole(this.getFront(), direction);
         if (this.isShooting) {
             this.gun.destroy();
         }
@@ -160,9 +160,7 @@ public class Driller extends Object {
             this.location.setX(this.location.getX() + speed);
         } else {
             location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
-            if (this.board.isRockAt(this.getFront())) {
-                location.setY(location.getY() - speed);
-            }
+            location.setY(location.getY() - speed);
             if (location.getY() != 0.0) {
                 this.prevDirection = direction;
                 this.direction = Direction.UP;

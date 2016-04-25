@@ -60,5 +60,6 @@ public class MyKeyListener implements KeyListener {
         } else {
             System.out.println("Key released: " + e.getKeyChar());
         }
+
     }
 }

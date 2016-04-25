@@ -42,8 +42,11 @@ public class Vector2Utility {
     }
 
     public static boolean isNearTile(Vector2 vec) {
-        return (vec.getX() - Math.round(vec.getX() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON) && (vec.getY() - Math.round(
-                                                                                                                   vec.getY() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE < EPSILON);
+        boolean nearX = (Math.abs(vec.getX() - (Math.round(
+                                                vec.getX() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE)) < EPSILON);
+        boolean nearY = (Math.abs(vec.getY() - (Math.round(
+                                                vec.getY() / Vector2.DIVS_PER_TILE) * Vector2.DIVS_PER_TILE)) < EPSILON);
+        return nearX && nearY;
     }
 
 }

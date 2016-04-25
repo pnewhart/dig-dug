@@ -88,19 +88,6 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            theModel.movePlayer(Direction.RIGHT);
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            theModel.movePlayer(Direction.LEFT);
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            theModel.movePlayer(Direction.UP);
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            theModel.movePlayer(Direction.DOWN);
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            theModel.shoot(true);
-        } else {
-            theModel.shoot(false);
-        }
     }
 
 }
