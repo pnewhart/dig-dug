@@ -56,6 +56,7 @@ public class Driller extends Object {
     private Date deadTime;
 
     private int prevWalkState;
+    private final static int NUM_WALK_STATES = 8;
 
     //TEMPORARY CHANGE LATER//
     private Image currentImage;
@@ -80,7 +81,7 @@ public class Driller extends Object {
         this.Images = new HashMap();
         this.currentImage = null;
 
-        this.prevWalkState = 1;
+        this.prevWalkState = 0;
     }
 
     @Override
@@ -117,11 +118,11 @@ public class Driller extends Object {
 
         if (isMoving()) {
             prevWalkState += 1;
-            if (prevWalkState == 9) {
+            if (prevWalkState == NUM_WALK_STATES) {
                 prevWalkState = 0;
             }
         }
-        if (prevWalkState <= 4) {
+        if (prevWalkState < NUM_WALK_STATES / 2) {
             s3 = "1";
         } else {
             s3 = "2";
@@ -129,7 +130,6 @@ public class Driller extends Object {
 
         String string = String.format("%s_%s%s.png", s1, s2, s3);
 
-        System.out.println(string);
         return Images.get(string);
     }
 
@@ -208,7 +208,15 @@ public class Driller extends Object {
                 location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
                 location.setY(location.getY() - speed);
                 if (direction != Direction.UP) {
-                    this.prevDirection = direction;
+                    if (direction != Direction.DOWN) {
+                        this.prevDirection = direction;
+                    } else if (direction != Direction.UP) {
+                        if (prevDirection == Direction.LEFT) {
+                            this.prevDirection = Direction.RIGHT;
+                        } else {
+                            this.prevDirection = Direction.LEFT;
+                        }
+                    }
                     this.direction = Direction.UP;
                 }
             }
@@ -235,7 +243,15 @@ public class Driller extends Object {
                 location.setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
                 location.setY(location.getY() + speed);
                 if (direction != Direction.DOWN) {
-                    this.prevDirection = direction;
+                    if (direction != Direction.UP) {
+                        this.prevDirection = direction;
+                    } else if (direction != Direction.DOWN) {
+                        if (prevDirection == Direction.LEFT) {
+                            this.prevDirection = Direction.RIGHT;
+                        } else {
+                            this.prevDirection = Direction.LEFT;
+                        }
+                    }
                     this.direction = Direction.DOWN;
                 }
             }

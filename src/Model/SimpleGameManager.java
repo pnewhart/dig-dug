@@ -12,6 +12,9 @@
  * **************************************** */
 package Model;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  *
  * @author spg011
@@ -21,11 +24,12 @@ public class SimpleGameManager {
     private GameBoard theBoard;
     private Driller player1;
 
-    public SimpleGameManager() {
+    public SimpleGameManager() throws IOException {
         //loadSprites();
-        //initializeFromFile();
 
         theBoard = new GameBoard();
+        File inputF = new File("input.txt");
+        theBoard.generateFromFile(inputF);
         player1 = new Driller(theBoard);
 
     }

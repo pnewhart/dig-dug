@@ -61,19 +61,19 @@ public class Tile extends Object {
     }
 
     public String getLeftHoleImageKey() {
-        return "digWest" + this.leftHole.getPercentFill();
+        return "digWest" + this.leftHole.getPercentRemoved();
     }
 
     public String getRightHoleImageKey() {
-        return "digEast" + this.rightHole.getPercentFill();
+        return "digEast" + this.rightHole.getPercentRemoved();
     }
 
     public String getUpHoleImageKey() {
-        return "digNorth" + this.upHole.getPercentFill();
+        return "digNorth" + this.upHole.getPercentRemoved();
     }
 
     public String getDownHoleImageKey() {
-        return "digSouth" + this.downHole.getPercentFill();
+        return "digSouth" + this.downHole.getPercentRemoved();
     }
 
     /**
@@ -128,15 +128,16 @@ public class Tile extends Object {
             if (dir == Direction.DOWN) {
                 downHole.destroy(percentToDestroy);
             }
-            if (rightHole.getPercentFill() + leftHole.getPercentFill() > 19) {
+            if (rightHole.getPercentRemoved() + leftHole.getPercentRemoved() > 19) {
                 this.clearTileHorizontal();
             }
-            if (upHole.getPercentFill() + downHole.getPercentFill() > 19) {
+            if (upHole.getPercentRemoved() + downHole.getPercentRemoved() > 19) {
                 this.clearTileVertical();
             }
             this.hasBeenUpdated = true;
         } catch (Exception e) {
-            System.out.println("tried to remove more dirt than available");
+            System.out.format("tried to remove %d dirt than available, only %d",
+                              percentToDestroy);
 
         }
 
@@ -228,17 +229,17 @@ public class Tile extends Object {
      */
     public void printOut() {
         int leastFill = 100;
-        if (leftHole.getPercentFill() < leastFill) {
-            leastFill = leftHole.getPercentFill();
+        if (leftHole.getPercentRemoved() < leastFill) {
+            leastFill = leftHole.getPercentRemoved();
         }
-        if (rightHole.getPercentFill() < leastFill) {
-            leastFill = rightHole.getPercentFill();
+        if (rightHole.getPercentRemoved() < leastFill) {
+            leastFill = rightHole.getPercentRemoved();
         }
-        if (upHole.getPercentFill() < leastFill) {
-            leastFill = upHole.getPercentFill();
+        if (upHole.getPercentRemoved() < leastFill) {
+            leastFill = upHole.getPercentRemoved();
         }
-        if (downHole.getPercentFill() < leastFill) {
-            leastFill = downHole.getPercentFill();
+        if (downHole.getPercentRemoved() < leastFill) {
+            leastFill = downHole.getPercentRemoved();
         }
 
         String returnString = String.format(" |%3d |", leastFill);
