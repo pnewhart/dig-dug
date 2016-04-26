@@ -344,19 +344,18 @@ public class GameBoard {
     /**
      * used to check board
      */
-    public void printString() {
-        for (int i = 0; i < (BOARD_HEIGHT); i++) {
-            for (int j = 0; j < (BOARD_WIDTH); j++) {
-
-                board[i][j].printOut();
-
-            }
-            System.out.print("  \n");
-
-        }
-
-    }
-
+//    public void printString() {
+//        for (int i = 0; i < (BOARD_HEIGHT); i++) {
+//            for (int j = 0; j < (BOARD_WIDTH); j++) {
+//
+//                board[i][j].printOut();
+//
+//            }
+//            System.out.print("  \n");
+//
+//        }
+//
+//    }
     public Tile[][] getBoard() {
         return board;
     }

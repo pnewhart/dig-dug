@@ -46,11 +46,13 @@ public class Hole {
      * @throws Exception
      */
     public boolean destroy(int percentToDestroy) throws Exception {
-        if (percentRemoved == 19) {
+        if (percentRemoved >= MIN_FILL) {
+
             return false;
         } else {
             percentRemoved += percentToDestroy;
-
+            System.out.println(percentRemoved);
+            //System.out.println(this.filePath());
             return true;
 
         }
