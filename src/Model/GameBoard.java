@@ -30,6 +30,7 @@ public class GameBoard {
     public Tile[][] board = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
     protected ArrayList<Object> objects = new ArrayList<Object>();
     final static int DIVS_TO_DIG = 1;
+    protected Driller driller;
 
     /**
      * creates a new GameBoard of tiles
@@ -46,15 +47,24 @@ public class GameBoard {
 
     }
 
+    public void setDriller(Driller d) {
+        this.driller = d;
+    }
+
+    public Vector2 getDrillerLocation() {
+        return this.driller.getLocation();
+
+    }
+
     /**
      *
      * @param location(in terms of divs)
      * @param d
      */
-    public void makeHole(Vector2 location, Direction d) {
+    public boolean makeHole(Vector2 location, Direction d) {
         int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
         int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
-        board[x][y].makeHole(d, DIVS_TO_DIG);
+        return board[x][y].makeHole(d, DIVS_TO_DIG);
 
     }
 
@@ -105,7 +115,7 @@ public class GameBoard {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public void generateFromFile(File inputFile) throws FileNotFoundException, IOException {
+    protected void generateFromFile(File inputFile) throws FileNotFoundException, IOException {
         FileReader fileReader
                    = new FileReader(inputFile);
 
@@ -141,6 +151,63 @@ public class GameBoard {
                         Direction.RIGHT);
 
             }
+            if (character == 'g') {
+                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
+                        Direction.RIGHT);
+                //add dragon
+
+            }
+            if (character == 'p') {
+                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
+                        Direction.RIGHT);
+                //add puff
+            }
+
+            if (character == ' ' | character == '\n') {
+
+                j--;
+            }
+
+            j++;
+        }
+        buf.close();
+        this.generateEnemyFromFile(inputFile);
+    }
+
+    /**
+     * @see
+     * <https://www.caveofprogramming.com/java/java-file-reading-and-writing-files-in-java.html>
+     * @param inputFile
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    private void generateEnemyFromFile(File inputFile) throws FileNotFoundException, IOException {
+        FileReader fileReader
+                   = new FileReader(inputFile);
+
+        BufferedReader buf
+                       = new BufferedReader(fileReader);
+        int num;
+        int i = 0;
+        int j = 0;
+        while ((num = buf.read()) != -1) {
+
+            char character = (char) num;
+
+            if (j == BOARD_WIDTH) {
+                j = 0;
+                i++;
+            }
+            if (character == 'g') {
+                Dragon d = new Dragon(this);
+                System.out.println("dragon mades");
+
+            }
+            if (character == 'p') {
+                Puff p = new Puff(this);
+                System.out.println("puff mades");
+            }
+
             if (character == ' ' | character == '\n') {
 
                 j--;
@@ -150,8 +217,8 @@ public class GameBoard {
         }
         buf.close();
     }
-//TODO: May need to use this in future
 
+//TODO: May need to use this in future
     /**
      *
      * @param coord in div not tile

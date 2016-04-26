@@ -24,7 +24,7 @@ import javax.imageio.ImageIO;
  * @author laa024
  */
 public class GameManager {
-    private GameBoard theBoard;
+    protected GameBoard theBoard;
     private Driller player1;
     private ArrayList<Enemy> enemies;
     private Image enemySprite;
@@ -32,9 +32,9 @@ public class GameManager {
     private Image backGround;
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
-    private HashMap<String, Image> boardImageMap;
+    public HashMap<String, Image> boardImageMap;
 
-    public GameManager() {
+    public GameManager() throws IOException {
         loadSprites();
         initializeFromFile();
 
@@ -57,11 +57,14 @@ public class GameManager {
 
         for (String dir : directions) {
             for (int i = 1; i < 20; i++) {
-                imageName = "dig" + dir + i;
+                imageName = "dig" + dir + i + ".png";
 
                 sprite = loadAndResizeSprite(imageName, 48, 48);
-
-                boardImageMap.put(imageName, sprite);
+                try {
+                    Object.Images.put(imageName, sprite);
+                } catch (Exception ex) {
+                    System.out.println(imageName + " - " + ex.getMessage());
+                }
             }
         }
 
@@ -79,8 +82,8 @@ public class GameManager {
         this.enemySprite = loadAndResizeSprite("Pooka_Left_1", 48, 48);
     }
 
-    public Image loadAndResizeSprite(String imageName, int pixWidth,
-                                     int pixHeight) {
+    public static Image loadAndResizeSprite(String imageName, int pixWidth,
+                                            int pixHeight) {
 
         Image spriteImage = null;
         try {
@@ -91,7 +94,7 @@ public class GameManager {
             spriteImage = spriteImage.getScaledInstance(pixWidth, pixHeight,
                                                         java.awt.Image.SCALE_SMOOTH);
         } catch (IOException ex) {
-            System.out.println(ex.toString() + "   POOP");
+            System.out.println(ex.toString());
         }
 
         return spriteImage;
@@ -122,6 +125,12 @@ public class GameManager {
         this.theBoard = new GameBoard();
         this.player1 = new Driller(theBoard);
         this.loadPlayerSprites();
+        this.loadMapSprites();
+    }
+
+    protected void addDragon() {
+        Dragon d = new Dragon(this.theBoard);
+
     }
 
     private void loadPlayerSprites() {
@@ -139,7 +148,7 @@ public class GameManager {
                                 "Digger_Right_2.png"};
 
         for (String file : diggerFiles) {
-            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+            this.player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
 
         String[] walkerFiles = {"Walker_Up_L1.png",
@@ -173,10 +182,50 @@ public class GameManager {
                                 "Pumper_Right_2.png"};
 
         for (String file : pumperFiles) {
-            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+            this.player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
 
         //Need to add dead images!!
+    }
+
+    public void loadTileSprites() {
+        String[] tileRightSprites = {"digEast1.png", "digEast2.png", "digEast3.png", "digEast4.png",
+                                     "digEast5.png", "digEast6.png", "digEast7.png", "digEast8.png",
+                                     "digEast9.png", "digEast10.png", "digEast11.png", "digEast12.png",
+                                     "digEast13.png", "digEast14.png", "digEast15.png", "digEast16.png",
+                                     "digEast17.png", "digEast18.png", "digEast19.png"};
+        String[] tileLeftSprites = {"digWest1.png", "digWest2.png", "digWest3.png", "digWest4.png",
+                                    "digWest5.png", "digWest6.png", "digWest7.png", "digWest8.png",
+                                    "digWest9.png", "digWest10.png", "digWest11.png", "digWest12.png",
+                                    "digWest13.png", "digWest14.png", "digWest15.png", "digWest16.png",
+                                    "digWest17.png", "digWest18.png", "digWest19.png"};
+        String[] tileUpSprites = {"digNorth1.png", "digNorth2.png", "digNorth3.png", "digNorth4.png",
+                                  "digNorth5.png", "digNorth6.png", "digNorth7.png", "digNorth8.png",
+                                  "digNorth9.png", "digNorth10.png", "digNorth11.png", "digNorth12.png",
+                                  "digNorth13.png", "digNorth14.png", "digNorth15.png", "digNorth16.png",
+                                  "digNorth17.png", "digNorth18.png", "digNorth19.png"};
+        String[] tileDownSprites = {"digSouth1.png", "digSouth2.png", "digSouth3.png", "digSouth4.png",
+                                    "digSouth5.png", "digSouth6.png", "digSouth7.png", "digSouth8.png",
+                                    "digSouth9.png", "digSouth10.png", "digSouth11.png", "digSouth12.png",
+                                    "digSouth13.png", "digSouth14.png", "digSouth15.png", "digSouth16.png",
+                                    "digSouth17.png", "digSouth18.png", "digSouth19.png"};
+
+        for (Tile[] col : theBoard.board) {
+            for (Tile tile : col) {
+                for (String sprite : tileRightSprites) {
+                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                }
+                for (String sprite : tileLeftSprites) {
+                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                }
+                for (String sprite : tileUpSprites) {
+                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                }
+                for (String sprite : tileDownSprites) {
+                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                }
+            }
+        }
     }
 
     public GameBoard getTheBoard() {

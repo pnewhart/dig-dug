@@ -14,7 +14,6 @@ package Model;
 
 import java.awt.Image;
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  *
@@ -48,6 +47,7 @@ public class Driller extends Object {
     private GameBoard board;
 
     private boolean isShooting;
+    private boolean isDigging;
     private Gun gun;
 
     private boolean isCrushed;
@@ -71,14 +71,13 @@ public class Driller extends Object {
         this.speed = 1.0;
         this.isMoving = false;
         this.isShooting = false;
+        this.isDigging = false;
         this.gun = null;
         this.board = board;
 
         this.isCrushed = false;
         this.isKilled = false;
         this.deadTime = null;
-
-        this.Images = new HashMap();
         this.currentImage = null;
 
         this.prevWalkState = 0;
@@ -98,21 +97,30 @@ public class Driller extends Object {
             s1 = "Walker";
         }
 
-        if (direction == Direction.LEFT) {
-            s2 = "Left_";
-        } else if (direction == Direction.RIGHT) {
-            s2 = "Right_";
-        } else if (direction == Direction.UP) {
-            if (this.prevDirection == Direction.RIGHT) {
-                s2 = "Up_L";
-            } else {
-                s2 = "Up_R";
-            }
-        } else if (direction == Direction.DOWN) {
-            if (this.prevDirection == Direction.LEFT) {
-                s2 = "Down_L";
-            } else {
-                s2 = "Down_R";
+        if (null != direction) {
+            switch (direction) {
+                case LEFT:
+                    s2 = "Left_";
+                    break;
+                case RIGHT:
+                    s2 = "Right_";
+                    break;
+                case UP:
+                    if (this.prevDirection == Direction.RIGHT) {
+                        s2 = "Up_L";
+                    } else {
+                        s2 = "Up_R";
+                    }
+                    break;
+                case DOWN:
+                    if (this.prevDirection == Direction.LEFT) {
+                        s2 = "Down_L";
+                    } else {
+                        s2 = "Down_R";
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -154,9 +162,7 @@ public class Driller extends Object {
     }
 
     public boolean isDigging() {
-        Vector2 front = Vector2Utility.add(this.getFront(),
-                                           this.direction.getVector());
-        return isMoving && !this.board.isDivEmpty(front);
+        return this.isDigging;
     }
 
     public void move(Direction direction) {
@@ -178,7 +184,7 @@ public class Driller extends Object {
                 this.stop();
             }
         }
-        this.board.makeHole(this.getFront(), direction);
+        this.isDigging = this.board.makeHole(this.getFront(), direction);
     }
 
     /**

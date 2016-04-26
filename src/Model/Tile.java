@@ -12,24 +12,26 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
+
 /**
  *
  * @author laa024
  */
 public class Tile extends Object {
 
-    private Hole leftHole = new Hole();
-    private Hole rightHole = new Hole();
-    private Hole upHole = new Hole();
-    private Hole downHole = new Hole();
+    private Hole leftHole = new Hole(Direction.LEFT);
+    private Hole rightHole = new Hole(Direction.RIGHT);
+    private Hole upHole = new Hole(Direction.UP);
+    private Hole downHole = new Hole(Direction.DOWN);
     private String baseImageKey;
     private boolean clearedHorizontal = false;
     private boolean clearedVertical = false;
-    private int xCoord;
     private String biome;
     private int layer;
     private boolean hasBeenUpdated = true;
-    private Vector2 location;
+
+    private Image image;
 
     public boolean isHasBeenUpdated() {
         return hasBeenUpdated;
@@ -45,11 +47,37 @@ public class Tile extends Object {
      * @param y
      */
     public Tile(int x, int y) {
-        this.location = new Vector2(x, y);
+        this.location = new Vector2(x * Vector2.DIVS_PER_TILE,
+                                    y * Vector2.DIVS_PER_TILE);
+        this.image = GameManager.loadAndResizeSprite("digEast19.png", 48, 48);
     }
 
     public Vector2 getLocation() {
         return location;
+    }
+
+//
+//    public void loadRightImage(String name, Image image) {
+//        TileRightImages.put(name, image);
+//    }
+//
+//    public void loadLeftImage(String name, Image image) {
+//        TileLeftImages.put(name, image);
+//    }
+//
+//    public void loadUpImage(String name, Image image) {
+//        TileUpImages.put(name, image);
+//    }
+//
+//    public void loadDownImage(String name, Image image) {
+//        TileDownImages.put(name, image);
+//    }
+    public Image[] getCurrentImages() {
+        Image[] images = {Images.get(getRightHoleImageKey()), Images.get(
+                          getLeftHoleImageKey()),
+                          Images.get(getUpHoleImageKey()), Images.get(
+                          getDownHoleImageKey())};
+        return images;
     }
 
     public String getBaseImageKey() {
@@ -61,19 +89,31 @@ public class Tile extends Object {
     }
 
     public String getLeftHoleImageKey() {
-        return "digWest" + this.leftHole.getPercentRemoved();
+        if (this.leftHole.getPercentRemoved() > 0) {
+            return "digWest" + this.leftHole.getPercentRemoved() + ".png";
+        }
+        return null;
     }
 
     public String getRightHoleImageKey() {
-        return "digEast" + this.rightHole.getPercentRemoved();
+        if (this.rightHole.getPercentRemoved() > 0) {
+            return "digEast" + this.rightHole.getPercentRemoved() + ".png";
+        }
+        return null;
     }
 
     public String getUpHoleImageKey() {
-        return "digNorth" + this.upHole.getPercentRemoved();
+        if (this.upHole.getPercentRemoved() > 0) {
+            return "digNorth" + this.upHole.getPercentRemoved() + ".png";
+        }
+        return null;
     }
 
     public String getDownHoleImageKey() {
-        return "digSouth" + this.downHole.getPercentRemoved();
+        if (this.downHole.getPercentRemoved() > 0) {
+            return "digSouth" + this.downHole.getPercentRemoved() + ".png";
+        }
+        return null;
     }
 
     /**
@@ -114,35 +154,38 @@ public class Tile extends Object {
      * @param dir
      * @param percentToDestroy
      */
-    public void makeHole(Direction dir, int percentToDestroy) {
+    public boolean makeHole(Direction dir, int percentToDestroy) {
         try {
             if (dir == Direction.RIGHT) {
-                rightHole.destroy(percentToDestroy);
+                return rightHole.destroy(percentToDestroy);
             }
             if (dir == Direction.LEFT) {
-                leftHole.destroy(percentToDestroy);
+                return leftHole.destroy(percentToDestroy);
             }
             if (dir == Direction.UP) {
-                upHole.destroy(percentToDestroy);
+                return upHole.destroy(percentToDestroy);
             }
             if (dir == Direction.DOWN) {
-                downHole.destroy(percentToDestroy);
+                return downHole.destroy(percentToDestroy);
             }
             if (rightHole.getPercentRemoved() + leftHole.getPercentRemoved() > 19) {
                 this.clearTileHorizontal();
+                return true;
             }
             if (upHole.getPercentRemoved() + downHole.getPercentRemoved() > 19) {
                 this.clearTileVertical();
+                return true;
             }
             this.hasBeenUpdated = true;
         } catch (Exception e) {
             System.out.format(
-                    "tried to remove %d dirt than available, right hole %d, left %d, up %d, down %d",
+                    "tried to remove %d dirt than available, right hole %d, left %d, up %d, down %d  going \n",
                     percentToDestroy, rightHole.getPercentRemoved(),
                     leftHole.getPercentRemoved(), upHole.getPercentRemoved(),
                     downHole.getPercentRemoved());
 
         }
+        return false;
 
     }
 
@@ -163,7 +206,11 @@ public class Tile extends Object {
      * @return true if tile is empty
      */
     public boolean isEmpty() {
-        if (leftHole.isEmpty() && rightHole.isEmpty() && upHole.isEmpty() && downHole.isEmpty()) {
+        if ((leftHole.isEmpty() || rightHole.isEmpty()) && (upHole.isEmpty() || downHole.isEmpty())) {
+            rightHole.clearHole();
+            leftHole.clearHole();
+            upHole.clearHole();
+            downHole.clearHole();
             return true;
         } else {
             return false;

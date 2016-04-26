@@ -13,7 +13,9 @@
 package View;
 
 import Model.GameManager;
+import Model.Tile;
 import java.awt.Graphics;
+import java.awt.Image;
 
 /**
  *
@@ -28,8 +30,12 @@ public class GameBoardVisual extends javax.swing.JComponent {
      * Creates new form GameBoardVisualP
      */
     public GameBoardVisual() {
-        initComponents();
-        theModel = new GameManager();
+        try {
+            initComponents();
+            theModel = new GameManager();
+        } catch (Exception e) {
+            System.out.println("error");
+        }
 //
 //        timer = new Timer();
 //        timer.scheduleAtFixedRate(new TimerTask() {
@@ -51,6 +57,15 @@ public class GameBoardVisual extends javax.swing.JComponent {
     @Override
     public void paintComponent(Graphics g) {
         g.drawImage(theModel.getBackGround(), 0, 0, this);
+        for (Tile[] column : theModel.getTheBoard().board) {
+            for (Tile tile : column) {
+                Image[] tempImages = tile.getCurrentImages();
+                for (int i = 0; i < 4; i++) {
+                    g.drawImage(tempImages[i], tile.getPixel()[0],
+                                tile.getPixel()[1], this);
+                }
+            }
+        }
         g.drawImage(theModel.getPlayer1().getCurrentImage(),
                     theModel.getPlayer1().getPixel()[0],
                     theModel.getPlayer1().getPixel()[1], this);
