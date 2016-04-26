@@ -55,9 +55,9 @@ public class GameBoardVisual extends javax.swing.JComponent {
         g.drawImage(theModel.getBackGround(), 0, 0, this);
         for (Tile[] column : theModel.getTheBoard().board) {
             for (Tile tile : column) {
-                Image tempImage = tile.getCurrentImage();
-                if (tempImage != null) {
-                    g.drawImage(tempImage, tile.getPixel()[0],
+                Image[] tempImages = tile.getCurrentImages();
+                for (int i = 0; i < 4; i++) {
+                    g.drawImage(tempImages[i], tile.getPixel()[0],
                                 tile.getPixel()[1], this);
                 }
             }

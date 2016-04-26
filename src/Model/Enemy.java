@@ -91,7 +91,7 @@ public class Enemy extends Object {
     /**
      * makes enemy float to driller location that is given
      *
-     * @param Vector2 coord
+     * @param coord (Vector2)
      */
     public void floatToDriller(Vector2 coord) {
         Vector2 drillerLocation = coord;
@@ -114,15 +114,13 @@ public class Enemy extends Object {
                                                 (enemyY - (.1 * verticalMove))); // vert is positive horiz is negative
                 }
 
-            } else {
-                if (verticalMove < 0) {
-                    this.location = new Vector2((enemyX - (.1 * horizontalMove)),
-                                                (enemyY + (.1 * verticalMove))); // vert is neg and horiz is positive
+            } else if (verticalMove < 0) {
+                this.location = new Vector2((enemyX - (.1 * horizontalMove)),
+                                            (enemyY + (.1 * verticalMove))); // vert is neg and horiz is positive
 
-                } else {
-                    this.location = new Vector2((enemyX - (.1 * horizontalMove)),
-                                                (enemyY - (.1 * verticalMove))); // vert and horiz are positive
-                }
+            } else {
+                this.location = new Vector2((enemyX - (.1 * horizontalMove)),
+                                            (enemyY - (.1 * verticalMove))); // vert and horiz are positive
             }
             i++;
         }

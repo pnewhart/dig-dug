@@ -13,7 +13,6 @@
 package Model;
 
 import java.awt.Image;
-import java.util.HashMap;
 
 /**
  *
@@ -33,8 +32,6 @@ public class Tile extends Object {
     private boolean hasBeenUpdated = true;
 
     private Image image;
-
-    public static HashMap<String, Image> TileImages;
 
     public boolean isHasBeenUpdated() {
         return hasBeenUpdated;
@@ -59,44 +56,28 @@ public class Tile extends Object {
         return location;
     }
 
-    public static void loadAllImage(String name, Image image) {
-        try {
-            TileImages.put(name, image);
-        } catch (NullPointerException e) {
-            System.out.println(name);
-        }
-    }
-
-    @Override
-    public Image getCurrentImage() {
-//        if (Math.max(this.leftHole.getPercentRemoved(),
-//                     this.downHole.getPercentRemoved()) >= Math.max(
-//                        this.upHole.getPercentRemoved(),
-//                        this.downHole.getPercentRemoved())) {
-//            if (this.leftHole.getPercentRemoved() == 0 && this.rightHole.getPercentRemoved() > 0) {
-//                return TileImages.get(this.getRightHoleImageKey() + ".png");
-//            } else if (this.rightHole.getPercentRemoved() == 0 && this.leftHole.getPercentRemoved() > 0) {
-//                return TileImages.get(this.getLeftHoleImageKey() + ".png");
-//            } else if (this.leftHole.getPercentRemoved() > 0 && this.rightHole.getPercentRemoved() > 0) {
-//                return TileImages.get("digEast19.png");
-//            }
-//        } else if (Math.max(this.leftHole.getPercentRemoved(),
-//                            this.downHole.getPercentRemoved()) < Math.max(
-//                        this.upHole.getPercentRemoved(),
-//                        this.downHole.getPercentRemoved())) {
-//            if (this.upHole.getPercentRemoved() == 0 && this.downHole.getPercentRemoved() > 0) {
-//                return TileImages.get(this.getDownHoleImageKey() + ".png");
-//            } else if (this.downHole.getPercentRemoved() == 0 && this.upHole.getPercentRemoved() > 0) {
-//                return TileImages.get(this.getUpHoleImageKey() + ".png");
-//            } else if (this.downHole.getPercentRemoved() > 0 && this.upHole.getPercentRemoved() > 0) {
-//                return TileImages.get("digNorth19.png");
-//            }
-//        }
-        if (!this.isFull()) {
-            return image;
-        } else {
-            return null;
-        }
+//
+//    public void loadRightImage(String name, Image image) {
+//        TileRightImages.put(name, image);
+//    }
+//
+//    public void loadLeftImage(String name, Image image) {
+//        TileLeftImages.put(name, image);
+//    }
+//
+//    public void loadUpImage(String name, Image image) {
+//        TileUpImages.put(name, image);
+//    }
+//
+//    public void loadDownImage(String name, Image image) {
+//        TileDownImages.put(name, image);
+//    }
+    public Image[] getCurrentImages() {
+        Image[] images = {Images.get(getRightHoleImageKey()), Images.get(
+                          getLeftHoleImageKey()),
+                          Images.get(getUpHoleImageKey()), Images.get(
+                          getDownHoleImageKey())};
+        return images;
     }
 
     public String getBaseImageKey() {
@@ -108,19 +89,31 @@ public class Tile extends Object {
     }
 
     public String getLeftHoleImageKey() {
-        return "digWest" + this.leftHole.getPercentRemoved();
+        if (this.leftHole.getPercentRemoved() > 0) {
+            return "digWest" + this.leftHole.getPercentRemoved() + ".png";
+        }
+        return null;
     }
 
     public String getRightHoleImageKey() {
-        return "digEast" + this.rightHole.getPercentRemoved();
+        if (this.rightHole.getPercentRemoved() > 0) {
+            return "digEast" + this.rightHole.getPercentRemoved() + ".png";
+        }
+        return null;
     }
 
     public String getUpHoleImageKey() {
-        return "digNorth" + this.upHole.getPercentRemoved();
+        if (this.upHole.getPercentRemoved() > 0) {
+            return "digNorth" + this.upHole.getPercentRemoved() + ".png";
+        }
+        return null;
     }
 
     public String getDownHoleImageKey() {
-        return "digSouth" + this.downHole.getPercentRemoved();
+        if (this.downHole.getPercentRemoved() > 0) {
+            return "digSouth" + this.downHole.getPercentRemoved() + ".png";
+        }
+        return null;
     }
 
     /**
