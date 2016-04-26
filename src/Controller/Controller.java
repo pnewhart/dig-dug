@@ -14,7 +14,7 @@ package Controller;
 
 import Model.Direction;
 import Model.GameManager;
-import View.MainView;
+import DigDugMain.MainView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
