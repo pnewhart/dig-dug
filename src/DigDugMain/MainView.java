@@ -14,7 +14,6 @@ package DigDugMain;
 
 import Controller.Controller;
 import Model.GameManager;
-import Model.audio.ManageSound;
 import View.GameBoardVisual;
 
 /**
@@ -113,10 +112,6 @@ public class MainView extends javax.swing.JFrame {
                 Controller cntrl = new Controller(theView, theModel);
 
                 theView.setVisible(true);
-
-                ManageSound mySound;
-                mySound = new ManageSound("InGameMusic.wav");
-                mySound.loop();
             }
         });
     }
