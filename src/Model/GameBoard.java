@@ -29,6 +29,8 @@ public class GameBoard {
     final static int BOARD_WIDTH = Vector2.NUM_TILE_HORIZONTAL;
     public Tile[][] board = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
     protected ArrayList<Object> objects = new ArrayList<Object>();
+    protected ArrayList<Dragon> DragonList = new ArrayList<Dragon>();
+    protected ArrayList<Puff> PuffList = new ArrayList<Puff>();
     final static int DIVS_TO_DIG = 1;
     protected Driller driller;
 
@@ -39,9 +41,7 @@ public class GameBoard {
         for (int i = 0; i < BOARD_WIDTH; i++) {
             for (int j = 0; j < BOARD_HEIGHT; j++) {
                 board[i][j] = new Tile(i, j);
-                if (i == BOARD_WIDTH / 2) {
-                    board[i][j].clearTileVertical();
-                }
+
             }
         }
 
@@ -199,12 +199,14 @@ public class GameBoard {
                 i++;
             }
             if (character == 'g') {
-                Dragon d = new Dragon(this);
+
+                DragonList.add(new Dragon(this));
                 System.out.println("dragon mades");
 
             }
             if (character == 'p') {
-                Puff p = new Puff(this);
+
+                PuffList.add(new Puff(this));
                 System.out.println("puff mades");
             }
 

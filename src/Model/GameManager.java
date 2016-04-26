@@ -121,15 +121,19 @@ public class GameManager {
     }
 
     private void initializeFromFile() {
-        this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672, 864);
-        this.theBoard = new GameBoard();
-        this.player1 = new Driller(theBoard);
-        this.loadPlayerSprites();
-        this.loadMapSprites();
-    }
 
-    protected void addDragon() {
-        Dragon d = new Dragon(this.theBoard);
+        try {
+            this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
+                                                       864);
+            this.theBoard = new GameBoard();
+            File f = new File("input.txt");
+            this.theBoard.generateFromFile(f);
+            this.player1 = new Driller(theBoard);
+            this.loadPlayerSprites();
+            this.loadMapSprites();
+        } catch (Exception e) {
+            System.out.println("kjasdf");
+        }
 
     }
 
@@ -224,6 +228,26 @@ public class GameManager {
                 for (String sprite : tileDownSprites) {
                     tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
                 }
+            }
+        }
+    }
+
+    public void loadDragonSprites() {
+        String[] DragonSprites = {"Frygar_Left_1.png", "Frygar_Left_2.png", "Frygar_Right_1.png", "Frygar_Right_2.png", "Frygar_Float_1", "Frygar_Float_2", "Frygar_Inflate_1", "Frygar_Inflate_2", "Frygar_Inflate_3", "Frygar_Inflate_4", "Fygar_Rock_Left", "Fygar_Rock_Right"};
+        for (Dragon d : theBoard.DragonList) {
+            for (String sprite : DragonSprites) {
+                d.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+
+            }
+        }
+
+    }
+
+    public void loadPuffSprites() {
+        String[] PuffSprites = {"Pooka_Left_1.png", "Pooka_Left_2.png", "Pooka_Right_1.png", "Pooka_Right_2.png", "Pooka_Float_1", "Pooka_Float_2", "Pooka_Inflate_1", "Pooka_Inflate_2", "Pooka_Inflate_3", "Pooka_Inflate_4", "Pooka_Rock_Left", "Pooka_Rock_Right"};
+        for (Puff p : theBoard.PuffList) {
+            for (String sprite : PuffSprites) {
+                p.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
             }
         }
     }
