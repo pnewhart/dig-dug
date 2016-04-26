@@ -14,7 +14,6 @@ package Model;
 
 import java.awt.Image;
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  *
@@ -79,8 +78,6 @@ public class Driller extends Object {
         this.isCrushed = false;
         this.isKilled = false;
         this.deadTime = null;
-
-        this.Images = new HashMap();
         this.currentImage = null;
 
         this.prevWalkState = 0;
@@ -100,21 +97,30 @@ public class Driller extends Object {
             s1 = "Walker";
         }
 
-        if (direction == Direction.LEFT) {
-            s2 = "Left_";
-        } else if (direction == Direction.RIGHT) {
-            s2 = "Right_";
-        } else if (direction == Direction.UP) {
-            if (this.prevDirection == Direction.RIGHT) {
-                s2 = "Up_L";
-            } else {
-                s2 = "Up_R";
-            }
-        } else if (direction == Direction.DOWN) {
-            if (this.prevDirection == Direction.LEFT) {
-                s2 = "Down_L";
-            } else {
-                s2 = "Down_R";
+        if (null != direction) {
+            switch (direction) {
+                case LEFT:
+                    s2 = "Left_";
+                    break;
+                case RIGHT:
+                    s2 = "Right_";
+                    break;
+                case UP:
+                    if (this.prevDirection == Direction.RIGHT) {
+                        s2 = "Up_L";
+                    } else {
+                        s2 = "Up_R";
+                    }
+                    break;
+                case DOWN:
+                    if (this.prevDirection == Direction.LEFT) {
+                        s2 = "Down_L";
+                    } else {
+                        s2 = "Down_R";
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -159,13 +165,6 @@ public class Driller extends Object {
         return this.isDigging;
     }
 
-    public void setIsDigging() {
-        Vector2 front = Vector2Utility.add(this.getFront(),
-                                           Vector2Utility.scale(
-                                                   this.direction.getVector(), 2));
-        this.isDigging = this.isMoving && !this.board.isDivEmpty(front);
-    }
-
     public void move(Direction direction) {
         if (this.isShooting && !this.gun.isPumping()) {
             this.stop();
@@ -175,21 +174,17 @@ public class Driller extends Object {
             }
             if (direction == Direction.UP) {
                 this.goUp();
-                this.setIsDigging();
             } else if (direction == Direction.DOWN) {
                 this.goDown();
-                this.setIsDigging();
             } else if (direction == Direction.LEFT) {
                 this.goLeft();
-                this.setIsDigging();
             } else if (direction == Direction.RIGHT) {
                 this.goRight();
-                this.setIsDigging();
             } else {
                 this.stop();
             }
         }
-        this.board.makeHole(this.getFront(), direction);
+        this.isDigging = this.board.makeHole(this.getFront(), direction);
     }
 
     /**
