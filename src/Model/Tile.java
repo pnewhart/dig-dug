@@ -154,19 +154,71 @@ public class Tile extends Object {
      * @param dir
      * @param percentToDestroy
      */
-    public boolean makeHole(Direction dir, int percentToDestroy) {
+    public boolean makeHole(Direction dir, Vector2 loc,
+                            int percentToDestroy) {
         try {
             if (dir == Direction.RIGHT) {
-                return rightHole.destroy(percentToDestroy);
+                if (rightHole.isFull()) {
+                    return rightHole.destroy(percentToDestroy);
+
+                } else {
+
+                    if (loc.getX() >= (this.location.getX() + rightHole.getPercentRemoved())) {
+                        return rightHole.destroy(percentToDestroy);
+
+                    } else {
+                        return rightHole.destroy(0);
+                    }
+
+                }
             }
             if (dir == Direction.LEFT) {
-                return leftHole.destroy(percentToDestroy);
+                if (leftHole.isFull()) {
+                    return leftHole.destroy(percentToDestroy);
+
+                } else {
+                    System.out.println(loc.getX());
+                    System.out.println("DIGGER ^ hole -");
+                    System.out.println(
+                            this.location.getX() - leftHole.getPercentRemoved());
+                    if (loc.getX() >= (this.location.getX() + leftHole.getPercentRemoved())) {
+                        return leftHole.destroy(percentToDestroy);
+
+                    } else {
+                        return leftHole.destroy(0);
+                    }
+
+                }
             }
             if (dir == Direction.UP) {
-                return upHole.destroy(percentToDestroy);
+                if (upHole.isFull()) {
+                    return upHole.destroy(percentToDestroy);
+
+                } else {
+
+                    if (loc.getY() <= (this.location.getY() + upHole.getPercentRemoved())) {
+                        return upHole.destroy(percentToDestroy);
+
+                    } else {
+                        return upHole.destroy(0);
+                    }
+
+                }
             }
             if (dir == Direction.DOWN) {
-                return downHole.destroy(percentToDestroy);
+                if (downHole.isFull()) {
+                    return downHole.destroy(percentToDestroy);
+
+                } else {
+
+                    if (loc.getY() >= (this.location.getY() - downHole.getPercentRemoved())) {
+                        return downHole.destroy(percentToDestroy);
+
+                    } else {
+                        return downHole.destroy(0);
+                    }
+
+                }
             }
             if (rightHole.getPercentRemoved() + leftHole.getPercentRemoved() > 19) {
                 this.clearTileHorizontal();
@@ -187,6 +239,10 @@ public class Tile extends Object {
         }
         return false;
 
+    }
+
+    public void checkForCorner() {
+        //TODO check if there is a corner 
     }
 
     /**
@@ -223,7 +279,7 @@ public class Tile extends Object {
      * @param dir
      */
     protected void clearTile(Direction dir) {
-        this.makeHole(dir, 19);
+        this.makeHole(dir, this.location, 19);
 
     }
 

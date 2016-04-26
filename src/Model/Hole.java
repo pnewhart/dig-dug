@@ -50,7 +50,7 @@ public class Hole {
             percentRemoved = MIN_FILL;
             return false;
         } else {
-            if (percentRemoved < 3) {
+            if (percentRemoved < 6) {
                 percentRemoved += 1;
             }
             percentRemoved += percentToDestroy;
