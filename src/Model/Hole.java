@@ -21,11 +21,13 @@ public class Hole {
     private int percentRemoved = 0;
     private final int MAX_FILL = 0;
     private final int MIN_FILL = 19;
+    protected Direction dir;
 
     /**
      *
      */
-    public Hole() {
+    public Hole(Direction d) {
+        this.dir = d;
         percentRemoved = MAX_FILL;
     }
 
@@ -82,5 +84,25 @@ public class Hole {
 
     public void clearHole() {
         percentRemoved = MIN_FILL;
+    }
+
+    public String filePath() {
+        String pathString = "";
+        if (this.dir == Direction.UP) {
+            pathString = "digNorth";
+        }
+        if (this.dir == Direction.DOWN) {
+            pathString = "digSouth";
+        }
+
+        if (this.dir == Direction.LEFT) {
+            pathString = "digEast";
+        }
+
+        if (this.dir == Direction.RIGHT) {
+            pathString = "digWest";
+        }
+        pathString += String.format("%d", percentRemoved);
+        return pathString;
     }
 }

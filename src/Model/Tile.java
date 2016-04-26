@@ -21,10 +21,10 @@ import java.util.HashMap;
  */
 public class Tile extends Object {
 
-    private Hole leftHole = new Hole();
-    private Hole rightHole = new Hole();
-    private Hole upHole = new Hole();
-    private Hole downHole = new Hole();
+    private Hole leftHole = new Hole(Direction.LEFT);
+    private Hole rightHole = new Hole(Direction.RIGHT);
+    private Hole upHole = new Hole(Direction.UP);
+    private Hole downHole = new Hole(Direction.DOWN);
     private String baseImageKey;
     private boolean clearedHorizontal = false;
     private boolean clearedVertical = false;
@@ -213,7 +213,11 @@ public class Tile extends Object {
      * @return true if tile is empty
      */
     public boolean isEmpty() {
-        if (leftHole.isEmpty() && rightHole.isEmpty() && upHole.isEmpty() && downHole.isEmpty()) {
+        if ((leftHole.isEmpty() || rightHole.isEmpty()) && (upHole.isEmpty() || downHole.isEmpty())) {
+            rightHole.clearHole();
+            leftHole.clearHole();
+            upHole.clearHole();
+            downHole.clearHole();
             return true;
         } else {
             return false;
