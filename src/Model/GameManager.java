@@ -24,7 +24,7 @@ import javax.imageio.ImageIO;
  * @author laa024
  */
 public class GameManager {
-    private GameBoard theBoard;
+    protected GameBoard theBoard;
     private Driller player1;
     private ArrayList<Enemy> enemies;
     private Image enemySprite;
@@ -34,7 +34,7 @@ public class GameManager {
     //private ArrayList<Rock> rocks;
     public HashMap<String, Image> boardImageMap;
 
-    public GameManager() {
+    public GameManager() throws IOException {
         loadSprites();
         initializeFromFile();
 
@@ -126,6 +126,11 @@ public class GameManager {
         this.player1 = new Driller(theBoard);
         this.loadPlayerSprites();
         this.loadMapSprites();
+    }
+
+    protected void addDragon() {
+        Dragon d = new Dragon(this.theBoard);
+
     }
 
     private void loadPlayerSprites() {

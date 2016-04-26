@@ -20,13 +20,13 @@ import java.util.Random;
  *
  * @author laa024
  */
-public class Enemy extends Object {
+public abstract class Enemy extends Object {
 
     private final double INITIAL_SPEED = 0.5;
 
-    private Direction direction;
-    private GameBoard gBoard;
-    private double speed;
+    protected Direction direction;
+    protected GameBoard gBoard;
+    protected double speed;
 
     private static final double DEFLATE_TIME = 0.8;
     private static final double PUMP_TIME = 0.5;
