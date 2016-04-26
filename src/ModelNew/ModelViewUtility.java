@@ -12,7 +12,7 @@
  * **************************************** */
 package ModelNew;
 
-import View.MainView;
+import DigDugMain.MainView;
 
 /**
  *
