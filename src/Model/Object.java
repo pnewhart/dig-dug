@@ -25,7 +25,7 @@ public abstract class Object {
     protected boolean isPumpable = false;
     protected boolean canCrush = false;
     protected boolean isCrushed = false;
-    protected HashMap<String, Image> Images;
+    protected static HashMap<String, Image> Images = new HashMap<String, Image>();
     protected String currentImage;
 
     public void loadImage(String name, Image image) {
