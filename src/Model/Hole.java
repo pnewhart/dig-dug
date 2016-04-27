@@ -50,12 +50,10 @@ public class Hole {
             percentRemoved = MIN_FILL;
             return false;
         } else {
-            if (percentRemoved < 6) {
+            if (percentRemoved < 3) {
                 percentRemoved += 1;
             }
             percentRemoved += percentToDestroy;
-
-            System.out.println(percentRemoved);
 
             return true;
 

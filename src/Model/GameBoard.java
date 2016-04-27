@@ -191,7 +191,7 @@ public class GameBoard {
         int i = 0;
         int j = 0;
         while ((num = buf.read()) != -1) {
-
+            Vector2 location = new Vector2(i, j);
             char character = (char) num;
 
             if (j == BOARD_WIDTH) {
@@ -200,14 +200,14 @@ public class GameBoard {
             }
             if (character == 'g') {
 
-                DragonList.add(new Dragon(this));
-                System.out.println("dragon mades");
+                DragonList.add(new Dragon(this, location));
+                System.out.println("dragon made");
 
             }
             if (character == 'p') {
 
                 PuffList.add(new Puff(this));
-                System.out.println("puff mades");
+                System.out.println("puff made");
             }
 
             if (character == ' ' | character == '\n') {
@@ -360,6 +360,10 @@ public class GameBoard {
 //    }
     public Tile[][] getBoard() {
         return board;
+    }
+
+    public ArrayList<Dragon> getDragonList() {
+        return DragonList;
     }
 
 }

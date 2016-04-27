@@ -41,6 +41,38 @@ public class Tile extends Object {
         this.hasBeenUpdated = hasBeenUpdated;
     }
 
+    public Hole getLeftHole() {
+        return leftHole;
+    }
+
+    public void setLeftHole(Hole leftHole) {
+        this.leftHole = leftHole;
+    }
+
+    public Hole getRightHole() {
+        return rightHole;
+    }
+
+    public void setRightHole(Hole rightHole) {
+        this.rightHole = rightHole;
+    }
+
+    public Hole getUpHole() {
+        return upHole;
+    }
+
+    public void setUpHole(Hole upHole) {
+        this.upHole = upHole;
+    }
+
+    public Hole getDownHole() {
+        return downHole;
+    }
+
+    public void setDownHole(Hole downHole) {
+        this.downHole = downHole;
+    }
+
     /**
      *
      * @param x
@@ -156,93 +188,95 @@ public class Tile extends Object {
      */
     public boolean makeHole(Direction dir, Vector2 loc,
                             int percentToDestroy) {
-        try {
-            if (dir == Direction.RIGHT) {
-                if (rightHole.isFull()) {
-                    return rightHole.destroy(percentToDestroy);
-
-                } else {
-
-                    if (loc.getX() >= (this.location.getX() + rightHole.getPercentRemoved())) {
+        if (loc.getY() > 19) {
+            try {
+                if (dir == Direction.RIGHT) {
+                    if (rightHole.isFull()) {
                         return rightHole.destroy(percentToDestroy);
 
                     } else {
-                        return rightHole.destroy(0);
+
+                        if (loc.getX() >= (this.location.getX() + rightHole.getPercentRemoved())) {
+                            return rightHole.destroy(percentToDestroy);
+
+                        } else {
+                            return rightHole.destroy(0);
+                        }
+
                     }
-
                 }
-            }
-            if (dir == Direction.LEFT) {
-                if (leftHole.isFull()) {
-                    return leftHole.destroy(percentToDestroy);
-
-                } else {
-                    System.out.println(loc.getX());
-                    System.out.println("DIGGER ^ hole -");
-                    System.out.println(
-                            this.location.getX() - leftHole.getPercentRemoved());
-                    if (loc.getX() >= (this.location.getX() + leftHole.getPercentRemoved())) {
+                if (dir == Direction.LEFT) {
+                    if (leftHole.isFull()) {
                         return leftHole.destroy(percentToDestroy);
 
                     } else {
-                        return leftHole.destroy(0);
+
+                        if (loc.getX() >= (this.location.getX() + (Vector2.DIVS_PER_TILE - leftHole.getPercentRemoved()))) {
+                            return leftHole.destroy(percentToDestroy);
+
+                        } else {
+                            return leftHole.destroy(0);
+                        }
+
                     }
-
                 }
-            }
-            if (dir == Direction.UP) {
-                if (upHole.isFull()) {
-                    return upHole.destroy(percentToDestroy);
-
-                } else {
-
-                    if (loc.getY() <= (this.location.getY() + upHole.getPercentRemoved())) {
+                if (dir == Direction.UP) {
+                    if (upHole.isFull()) {
                         return upHole.destroy(percentToDestroy);
 
                     } else {
-                        return upHole.destroy(0);
+
+                        if (loc.getY() >= (this.location.getY() + (Vector2.DIVS_PER_TILE - upHole.getPercentRemoved()))) {
+                            return upHole.destroy(percentToDestroy);
+
+                        } else {
+                            return upHole.destroy(0);
+                        }
+
                     }
-
                 }
-            }
-            if (dir == Direction.DOWN) {
-                if (downHole.isFull()) {
-                    return downHole.destroy(percentToDestroy);
-
-                } else {
-
-                    if (loc.getY() >= (this.location.getY() - downHole.getPercentRemoved())) {
+                if (dir == Direction.DOWN) {
+                    if (downHole.isFull()) {
                         return downHole.destroy(percentToDestroy);
 
                     } else {
-                        return downHole.destroy(0);
+
+                        if (loc.getY() >= (this.location.getY() - downHole.getPercentRemoved())) {
+                            return downHole.destroy(percentToDestroy);
+
+                        } else {
+                            return downHole.destroy(0);
+                        }
+
                     }
-
                 }
-            }
-            if (rightHole.getPercentRemoved() + leftHole.getPercentRemoved() > 19) {
-                this.clearTileHorizontal();
-                return true;
-            }
-            if (upHole.getPercentRemoved() + downHole.getPercentRemoved() > 19) {
-                this.clearTileVertical();
-                return true;
-            }
-            this.hasBeenUpdated = true;
-        } catch (Exception e) {
-            System.out.format(
-                    "tried to remove %d dirt than available, right hole %d, left %d, up %d, down %d  going \n",
-                    percentToDestroy, rightHole.getPercentRemoved(),
-                    leftHole.getPercentRemoved(), upHole.getPercentRemoved(),
-                    downHole.getPercentRemoved());
+                if (rightHole.getPercentRemoved() + leftHole.getPercentRemoved() > 19) {
+                    this.clearTileHorizontal();
+                    return true;
+                }
+                if (upHole.getPercentRemoved() + downHole.getPercentRemoved() > 19) {
+                    this.clearTileVertical();
+                    return true;
+                }
+                this.hasBeenUpdated = true;
+            } catch (Exception e) {
+                System.out.format(
+                        "tried to remove %d dirt than available, right hole %d, left %d, up %d, down %d  going \n",
+                        percentToDestroy, rightHole.getPercentRemoved(),
+                        leftHole.getPercentRemoved(), upHole.getPercentRemoved(),
+                        downHole.getPercentRemoved());
 
+            }
+
+            return false;
+        } else {
+            return false;
         }
-        return false;
 
     }
 
     public void checkForCorner() {
-        //TODO check if there is a corner 
+        //TODO check if there is a corner
     }
 
     /**

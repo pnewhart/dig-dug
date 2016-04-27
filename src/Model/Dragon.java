@@ -12,6 +12,7 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,8 +22,11 @@ import java.util.Random;
  */
 public class Dragon extends Enemy {
 
-    public Dragon(GameBoard gBoard) {
+    private Image testImage;
+
+    public Dragon(GameBoard gBoard, Vector2 location) {
         super(gBoard);
+        this.setDiv(location);
     }
 
     protected boolean isFire = false;
@@ -91,6 +95,14 @@ public class Dragon extends Enemy {
         }
         this.setIsFire(false);
 
+    }
+
+    public Image getTestImage() {
+        return Images.get("Fygar_Left_1.png");
+    }
+
+    public void setTestImage(Image testImage) {
+        this.testImage = testImage;
     }
 
 }
