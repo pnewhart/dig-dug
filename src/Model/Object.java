@@ -21,6 +21,8 @@ import java.util.HashMap;
  */
 public abstract class Object {
 
+    protected static GameBoard board;
+
     protected Vector2 location = null;
     protected boolean isPumpable = false;
     protected boolean canCrush = false;
@@ -28,7 +30,11 @@ public abstract class Object {
     protected static HashMap<String, Image> Images = new HashMap<String, Image>();
     protected String currentImage;
 
-    public void loadImage(String name, Image image) {
+    public static void loadBoard(GameBoard board) {
+        Object.board = board;
+    }
+
+    public static void loadImage(String name, Image image) {
         Images.put(name, image);
     }
 

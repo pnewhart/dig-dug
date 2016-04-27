@@ -24,6 +24,7 @@ public abstract class Enemy extends Object {
 
     private final double INITIAL_SPEED = 0.5;
 
+    protected Direction prevDirection;
     protected Direction direction;
     protected GameBoard gBoard;
     protected double speed;

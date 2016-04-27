@@ -126,15 +126,45 @@ public class GameManager {
             this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
                                                        864);
             this.theBoard = new GameBoard();
+            Object.loadBoard(theBoard);
             //File f = new File("input.txt");
             //this.theBoard.generateFromFile(f);
-            this.player1 = new Driller(theBoard);
+            this.player1 = new Driller();
             this.loadPlayerSprites();
             this.loadMapSprites();
+            this.loadEnemySprites();
         } catch (Exception e) {
             System.out.println("kjasdf");
         }
 
+    }
+
+    private void loadEnemySprites() {
+        String[] fygarSprites = {"Fygar_Float_1.png", "Fygar_Float_2.png",
+                                 "Fygar_Inflate_L1.png", "Fygar_Inflate_L2.png",
+                                 "Fygar_Inflate_L3.png", "Fygar_Inflate_L4.png",
+                                 "Fygar_Inflate_R1.png", "Fygar_Inflate_R2.png",
+                                 "Fygar_Inflate_R3.png", "Fygar_Inflate_R4.png",
+                                 "Fygar_Left_1.png", "Fygar_Left_2.png",
+                                 "Fygar_Right_1.png", "Fygar_Right_2.png",
+                                 "Fygar_Rock_Left.png", "Fygar_Rock_Right.png"};
+
+        for (String fygar : fygarSprites) {
+            Object.loadImage(fygar, loadAndResizeSprite(fygar, 48, 48));
+        }
+
+        String[] pookaSprites = {"Pooka_Float_1.png", "Pooka_Float_1.png",
+                                 "Pooka_Inflate_L1.png", "Pooka_Inflate_L2.png",
+                                 "Pooka_Inflate_L3.png", "Pooka_Inflate_L4.png",
+                                 "Pooka_Inflate_R1.png", "Pooka_Inflate_R2.png",
+                                 "Pooka_Inflate_R3.png", "Pooka_Inflate_R4.png",
+                                 "Pooka_Left_1.png", "Pooka_Left_2.png",
+                                 "Pooka_Right_1.png", "Pooka_Right_2.png",
+                                 "Pooka_Rock_Left.png", "Pooka_Rock_Right.png"};
+
+        for (String pooka : pookaSprites) {
+            Object.loadImage(pooka, loadAndResizeSprite(pooka, 48, 48));
+        }
     }
 
     private void loadPlayerSprites() {
@@ -152,7 +182,7 @@ public class GameManager {
                                 "Digger_Right_2.png"};
 
         for (String file : diggerFiles) {
-            this.player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
+            Object.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
 
         String[] walkerFiles = {"Walker_Up_L1.png",
@@ -169,7 +199,7 @@ public class GameManager {
                                 "Walker_Right_2.png"};
 
         for (String file : walkerFiles) {
-            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+            Object.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
         }
 
         String[] pumperFiles = {"Pumper_Up_L1.png",
@@ -186,7 +216,7 @@ public class GameManager {
                                 "Pumper_Right_2.png"};
 
         for (String file : pumperFiles) {
-            this.player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
+            Object.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
 
         //Need to add dead images!!
@@ -217,41 +247,40 @@ public class GameManager {
         for (Tile[] col : theBoard.board) {
             for (Tile tile : col) {
                 for (String sprite : tileRightSprites) {
-                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    Object.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
                 }
                 for (String sprite : tileLeftSprites) {
-                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    Object.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
                 }
                 for (String sprite : tileUpSprites) {
-                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    Object.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
                 }
                 for (String sprite : tileDownSprites) {
-                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    Object.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
                 }
             }
         }
     }
 
-    public void loadDragonSprites() {
-        String[] DragonSprites = {"Frygar_Left_1.png", "Frygar_Left_2.png", "Frygar_Right_1.png", "Frygar_Right_2.png", "Frygar_Float_1", "Frygar_Float_2", "Frygar_Inflate_1", "Frygar_Inflate_2", "Frygar_Inflate_3", "Frygar_Inflate_4", "Fygar_Rock_Left", "Fygar_Rock_Right"};
-        for (Dragon d : theBoard.DragonList) {
-            for (String sprite : DragonSprites) {
-                d.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
-
-            }
-        }
-
-    }
-
-    public void loadPuffSprites() {
-        String[] PuffSprites = {"Pooka_Left_1.png", "Pooka_Left_2.png", "Pooka_Right_1.png", "Pooka_Right_2.png", "Pooka_Float_1", "Pooka_Float_2", "Pooka_Inflate_1", "Pooka_Inflate_2", "Pooka_Inflate_3", "Pooka_Inflate_4", "Pooka_Rock_Left", "Pooka_Rock_Right"};
-        for (Puff p : theBoard.PuffList) {
-            for (String sprite : PuffSprites) {
-                p.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
-            }
-        }
-    }
-
+//    public void loadDragonSprites() {
+//        String[] DragonSprites = {"Frygar_Left_1.png", "Frygar_Left_2.png", "Frygar_Right_1.png", "Frygar_Right_2.png", "Frygar_Float_1", "Frygar_Float_2", "Frygar_Inflate_1", "Frygar_Inflate_2", "Frygar_Inflate_3", "Frygar_Inflate_4", "Fygar_Rock_Left", "Fygar_Rock_Right"};
+//        for (Dragon d : theBoard.DragonList) {
+//            for (String sprite : DragonSprites) {
+//                d.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+//
+//            }
+//        }
+//
+//    }
+//
+//    public void loadPuffSprites() {
+//        String[] PuffSprites = {"Pooka_Left_1.png", "Pooka_Left_2.png", "Pooka_Right_1.png", "Pooka_Right_2.png", "Pooka_Float_1", "Pooka_Float_2", "Pooka_Inflate_1", "Pooka_Inflate_2", "Pooka_Inflate_3", "Pooka_Inflate_4", "Pooka_Rock_Left", "Pooka_Rock_Right"};
+//        for (Puff p : theBoard.PuffList) {
+//            for (String sprite : PuffSprites) {
+//                p.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+//            }
+//        }
+//    }
     public GameBoard getTheBoard() {
         return theBoard;
     }

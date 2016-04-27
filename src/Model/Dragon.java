@@ -22,15 +22,16 @@ import java.util.Random;
  */
 public class Dragon extends Enemy {
 
-    private Image testImage;
+    //private Image testImage;
+    protected boolean isFire = false;
+    private final double HALF_SECOND_NS = Math.pow(5, 9);
 
     public Dragon(GameBoard gBoard, Vector2 location) {
         super(gBoard);
         this.setDiv(location);
+        this.direction = Direction.RIGHT;
+        this.prevDirection = Direction.RIGHT;
     }
-
-    protected boolean isFire = false;
-    private final double HALF_SECOND_NS = Math.pow(5, 9);
 
     @Override
     public void move() {
@@ -75,7 +76,10 @@ public class Dragon extends Enemy {
                 this.floatToDriller(gBoard.getDrillerLocation());
 
             }
-            this.direction = directions.get(i);
+            if (direction == Direction.LEFT || direction == Direction.RIGHT) {
+                this.prevDirection = direction;
+            }
+            direction = directions.get(i);
             this.location = locations.get(i);
         }
     }
@@ -97,12 +101,16 @@ public class Dragon extends Enemy {
 
     }
 
-    public Image getTestImage() {
-        return Images.get("Fygar_Left_1.png");
-    }
+    @Override
+    public Image getCurrentImage() {
+        String dir = null;
+        if (prevDirection == Direction.LEFT) {
+            dir = "Left";
+        } else {
+            dir = "Right";
+        }
 
-    public void setTestImage(Image testImage) {
-        this.testImage = testImage;
+        return Images.get("Fygar_" + dir + "_1.png");
     }
 
 }
