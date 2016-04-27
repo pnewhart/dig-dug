@@ -29,17 +29,8 @@ public class Tile extends Object {
     private boolean clearedVertical = false;
     private String biome;
     private int layer;
-    private boolean hasBeenUpdated = true;
 
     private Image image;
-
-    public boolean isHasBeenUpdated() {
-        return hasBeenUpdated;
-    }
-
-    public void setHasBeenUpdated(boolean hasBeenUpdated) {
-        this.hasBeenUpdated = hasBeenUpdated;
-    }
 
     public Hole getLeftHole() {
         return leftHole;
@@ -188,7 +179,7 @@ public class Tile extends Object {
      */
     public boolean makeHole(Direction dir, Vector2 loc,
                             int percentToDestroy) {
-        if (loc.getY() > 19) {
+        if (loc.getY() > 14) {
             try {
                 if (dir == Direction.RIGHT) {
                     if (rightHole.isFull()) {
@@ -200,7 +191,7 @@ public class Tile extends Object {
                             return rightHole.destroy(percentToDestroy);
 
                         } else {
-                            return rightHole.destroy(0);
+                            return false;
                         }
 
                     }
@@ -215,7 +206,7 @@ public class Tile extends Object {
                             return leftHole.destroy(percentToDestroy);
 
                         } else {
-                            return leftHole.destroy(0);
+                            return false;
                         }
 
                     }
@@ -230,7 +221,7 @@ public class Tile extends Object {
                             return upHole.destroy(percentToDestroy);
 
                         } else {
-                            return upHole.destroy(0);
+                            return false;
                         }
 
                     }
@@ -245,20 +236,20 @@ public class Tile extends Object {
                             return downHole.destroy(percentToDestroy);
 
                         } else {
-                            return downHole.destroy(0);
+                            return false;
                         }
 
                     }
                 }
                 if (rightHole.getPercentRemoved() + leftHole.getPercentRemoved() > 19) {
                     this.clearTileHorizontal();
-                    return true;
+                    return false;
                 }
                 if (upHole.getPercentRemoved() + downHole.getPercentRemoved() > 19) {
                     this.clearTileVertical();
-                    return true;
+                    return false;
                 }
-                this.hasBeenUpdated = true;
+
             } catch (Exception e) {
                 System.out.format(
                         "tried to remove %d dirt than available, right hole %d, left %d, up %d, down %d  going \n",
