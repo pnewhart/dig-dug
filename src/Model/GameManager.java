@@ -141,8 +141,10 @@ public class GameManager {
 
     private void loadEnemySprites() {
         String[] fygarSprites = {"Fygar_Float_1.png", "Fygar_Float_2.png",
-                                 "Fygar_Inflate_1.png", "Fygar_Inflate_2.png",
-                                 "Fygar_Inflate_3.png", "Fygar_Inflate_4.png",
+                                 "Fygar_Inflate_L1.png", "Fygar_Inflate_L2.png",
+                                 "Fygar_Inflate_L3.png", "Fygar_Inflate_L4.png",
+                                 "Fygar_Inflate_R1.png", "Fygar_Inflate_R2.png",
+                                 "Fygar_Inflate_R3.png", "Fygar_Inflate_R4.png",
                                  "Fygar_Left_1.png", "Fygar_Left_2.png",
                                  "Fygar_Right_1.png", "Fygar_Right_2.png",
                                  "Fygar_Rock_Left.png", "Fygar_Rock_Right.png"};
@@ -152,8 +154,10 @@ public class GameManager {
         }
 
         String[] pookaSprites = {"Pooka_Float_1.png", "Pooka_Float_1.png",
-                                 "Pooka_Inflate_1.png", "Pooka_Inflate_2.png",
-                                 "Pooka_Inflate_3.png", "Pooka_Inflate_4.png",
+                                 "Pooka_Inflate_L1.png", "Pooka_Inflate_L2.png",
+                                 "Pooka_Inflate_L3.png", "Pooka_Inflate_L4.png",
+                                 "Pooka_Inflate_R1.png", "Pooka_Inflate_R2.png",
+                                 "Pooka_Inflate_R3.png", "Pooka_Inflate_R4.png",
                                  "Pooka_Left_1.png", "Pooka_Left_2.png",
                                  "Pooka_Right_1.png", "Pooka_Right_2.png",
                                  "Pooka_Rock_Left.png", "Pooka_Rock_Right.png"};

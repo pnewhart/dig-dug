@@ -29,6 +29,8 @@ public class Dragon extends Enemy {
     public Dragon(GameBoard gBoard, Vector2 location) {
         super(gBoard);
         this.setDiv(location);
+        this.direction = Direction.RIGHT;
+        this.prevDirection = Direction.RIGHT;
     }
 
     @Override
@@ -74,7 +76,10 @@ public class Dragon extends Enemy {
                 this.floatToDriller(gBoard.getDrillerLocation());
 
             }
-            this.direction = directions.get(i);
+            if (direction == Direction.LEFT || direction == Direction.RIGHT) {
+                this.prevDirection = direction;
+            }
+            direction = directions.get(i);
             this.location = locations.get(i);
         }
     }
@@ -98,7 +103,14 @@ public class Dragon extends Enemy {
 
     @Override
     public Image getCurrentImage() {
-        return Images.get("Fyger_Right_1.png");
+        String dir = null;
+        if (prevDirection == Direction.LEFT) {
+            dir = "Left";
+        } else {
+            dir = "Right";
+        }
+
+        return Images.get("Fygar_" + dir + "_1.png");
     }
 
 }

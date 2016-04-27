@@ -82,7 +82,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
                     theModel.getPlayer1().getPixel()[1], this);
 
         for (Dragon dragon : theModel.getTheBoard().getDragonList()) {
-            g.drawImage(dragon.getTestImage(), (int) dragon.getDiv().getX(),
+            g.drawImage(dragon.getCurrentImage(), (int) dragon.getDiv().getX(),
                         (int) dragon.getDiv().getY(), this);
         }
 
