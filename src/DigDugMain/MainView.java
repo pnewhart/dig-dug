@@ -22,7 +22,7 @@ import View.GameBoardVisual;
  */
 public class MainView extends javax.swing.JFrame {
 
-    public GameBoardVisual gameBoardVisual1;
+    public GameBoardVisual gameBoardVisual1 = new GameBoardVisual();
 
     /**
      * Creates new form MainView
