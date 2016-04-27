@@ -97,6 +97,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setToolTipText("");
         setPreferredSize(new java.awt.Dimension(672, 864));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -109,6 +110,8 @@ public class GameBoardVisual extends javax.swing.JComponent {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
+
+        getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

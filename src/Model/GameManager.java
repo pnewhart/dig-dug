@@ -126,9 +126,9 @@ public class GameManager {
             this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
                                                        864);
             this.theBoard = new GameBoard();
-            File f = new File("input.txt");
+            //File f = new File("input.txt");
             //this.theBoard.generateFromFile(f);
-            //this.player1 = new Driller(theBoard);
+            this.player1 = new Driller(theBoard);
             this.loadPlayerSprites();
             this.loadMapSprites();
         } catch (Exception e) {
