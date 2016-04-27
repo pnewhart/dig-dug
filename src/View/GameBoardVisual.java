@@ -34,6 +34,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
         try {
             initComponents();
             theModel = new GameManager();
+
         } catch (Exception e) {
             System.out.println("error");
         }
