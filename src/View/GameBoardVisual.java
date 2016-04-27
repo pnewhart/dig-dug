@@ -12,6 +12,7 @@
  * **************************************** */
 package View;
 
+import Model.Dragon;
 import Model.GameManager;
 import Model.Tile;
 import java.awt.Graphics;
@@ -63,12 +64,28 @@ public class GameBoardVisual extends javax.swing.JComponent {
                 for (int i = 0; i < 4; i++) {
                     g.drawImage(tempImages[i], tile.getPixel()[0],
                                 tile.getPixel()[1], this);
+
+//                g.drawImage(tile.getImage(tile.getUpHole().toString()),
+//                            tile.getPixel()[0], tile.getPixel()[1], this);
+//                g.drawImage(tile.getImage(tile.getDownHole().toString()),
+//                            tile.getPixel()[0], tile.getPixel()[1], this);
+//                g.drawImage(tile.getImage(tile.getLeftHole().toString()),
+//                            tile.getPixel()[0], tile.getPixel()[1], this);
+//                g.drawImage(tile.getImage(tile.getRightHole().toString()),
+//                            tile.getPixel()[0], tile.getPixel()[1], this);
                 }
             }
         }
+
         g.drawImage(theModel.getPlayer1().getCurrentImage(),
                     theModel.getPlayer1().getPixel()[0],
                     theModel.getPlayer1().getPixel()[1], this);
+
+        for (Dragon dragon : theModel.getTheBoard().getDragonList()) {
+            g.drawImage(dragon.getTestImage(), (int) dragon.getDiv().getX(),
+                        (int) dragon.getDiv().getY(), this);
+        }
+
     }
 
     /**
