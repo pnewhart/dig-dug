@@ -20,14 +20,14 @@ import View.GameBoardVisual;
  *
  * @author tjf010
  */
-public class MainView extends javax.swing.JFrame {
+public class DigDug extends javax.swing.JFrame {
 
     public GameBoardVisual gameBoardVisual1;
 
     /**
      * Creates new form MainView
      */
-    public MainView() {
+    public DigDug() {
         initComponents();
     }
 
@@ -41,6 +41,17 @@ public class MainView extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout gameBoardVisual1Layout = new javax.swing.GroupLayout(gameBoardVisual1);
+        gameBoardVisual1.setLayout(gameBoardVisual1Layout);
+        gameBoardVisual1Layout.setHorizontalGroup(
+            gameBoardVisual1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 672, Short.MAX_VALUE)
+        );
+        gameBoardVisual1Layout.setVerticalGroup(
+            gameBoardVisual1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 864, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,24 +84,25 @@ public class MainView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainView.class.getName()).log(
+            java.util.logging.Logger.getLogger(DigDug.class.getName()).log(
                     java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainView.class.getName()).log(
+            java.util.logging.Logger.getLogger(DigDug.class.getName()).log(
                     java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainView.class.getName()).log(
+            java.util.logging.Logger.getLogger(DigDug.class.getName()).log(
                     java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainView.class.getName()).log(
+            java.util.logging.Logger.getLogger(DigDug.class.getName()).log(
                     java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MainView theView = new MainView();
+                DigDug theView = new DigDug();
 
                 GameManager theModel = theView.gameBoardVisual1.getTheModel();
                 Controller cntrl = new Controller(theView, theModel);

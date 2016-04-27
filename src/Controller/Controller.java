@@ -14,7 +14,7 @@ package Controller;
 
 import Model.Direction;
 import Model.GameManager;
-import DigDugMain.MainView;
+import DigDugMain.DigDug;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -30,7 +30,7 @@ import javax.swing.event.ChangeListener;
  */
 public class Controller implements ActionListener, ChangeListener, KeyListener {
     private GameManager theModel;
-    private MainView GUI;
+    private DigDug GUI;
     private Direction moveState;
     private boolean shoot;
     private Timer timer;
@@ -43,7 +43,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
     private final int DELAY = 25;
 
-    public Controller(MainView GUI, GameManager theModel) {
+    public Controller(DigDug GUI, GameManager theModel) {
         this.theModel = theModel;
         this.GUI = GUI;
         this.moveState = null;
