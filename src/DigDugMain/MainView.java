@@ -28,6 +28,7 @@ public class MainView extends javax.swing.JFrame {
      * Creates new form MainView
      */
     public MainView() {
+        gameBoardVisual1 = new GameBoardVisual();
         initComponents();
     }
 
@@ -106,7 +107,8 @@ public class MainView extends javax.swing.JFrame {
             public void run() {
                 MainView theView = new MainView();
 
-                GameManager theModel = theView.gameBoardVisual1.getTheModel();
+                GameManager theModel = new GameManager();
+                theView.gameBoardVisual1.setTheModel(theModel);
                 Controller cntrl = new Controller(theView, theModel);
 
                 theView.setVisible(true);

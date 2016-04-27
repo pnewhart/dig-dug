@@ -27,27 +27,22 @@ public class GameManager {
     protected GameBoard theBoard;
     private Driller player1;
     private ArrayList<Enemy> enemies;
-    private Image enemySprite;
-    private Image diggerSprite;
     private Image backGround;
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
     public HashMap<String, Image> boardImageMap;
 
-    public GameManager() throws IOException {
+    public GameManager() {
+        theBoard = new GameBoard();
+        Object.loadBoard(theBoard);
         loadSprites();
         initializeFromFile();
-
-        //theBoard = new GameBoard();
-        // player1 = new Driller(theBoard);
-        //enemies.add(new Enemy(theBoard));
     }
 
     private void loadSprites() {
-        //loadMapSprites();
-        //assignEnemySprites();
-        //assignPlayerSprites();
-        //assignCollectableSprites();
+        this.loadPlayerSprites();
+        this.loadMapSprites();
+        this.loadEnemySprites();
     }
 
     private void loadMapSprites() {
@@ -72,14 +67,6 @@ public class GameManager {
 
     public Image getBackGround() {
         return backGround;
-    }
-
-    private void assignEnemySprites() {
-        this.diggerSprite = loadAndResizeSprite("Digger_Left_1", 48, 48);
-    }
-
-    private void assignPlayerSprites() {
-        this.enemySprite = loadAndResizeSprite("Pooka_Left_1", 48, 48);
     }
 
     public static Image loadAndResizeSprite(String imageName, int pixWidth,
@@ -130,9 +117,6 @@ public class GameManager {
             //File f = new File("input.txt");
             //this.theBoard.generateFromFile(f);
             this.player1 = new Driller();
-            this.loadPlayerSprites();
-            this.loadMapSprites();
-            this.loadEnemySprites();
         } catch (Exception e) {
             System.out.println("kjasdf");
         }
@@ -291,14 +275,6 @@ public class GameManager {
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
-    }
-
-    public Image getEnemySprite() {
-        return enemySprite;
-    }
-
-    public Image getDiggerSprite() {
-        return diggerSprite;
     }
 
     public HashMap<String, Image> getBoardImageMap() {

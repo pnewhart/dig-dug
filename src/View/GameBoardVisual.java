@@ -31,12 +31,8 @@ public class GameBoardVisual extends javax.swing.JComponent {
      * Creates new form GameBoardVisualP
      */
     public GameBoardVisual() {
-        try {
-            initComponents();
-            theModel = new GameManager();
-        } catch (Exception e) {
-            System.out.println("error");
-        }
+        initComponents();
+        theModel = new GameManager();
 //
 //        timer = new Timer();
 //        timer.scheduleAtFixedRate(new TimerTask() {
@@ -64,15 +60,6 @@ public class GameBoardVisual extends javax.swing.JComponent {
                 for (int i = 0; i < 4; i++) {
                     g.drawImage(tempImages[i], tile.getPixel()[0],
                                 tile.getPixel()[1], this);
-
-//                g.drawImage(tile.getImage(tile.getUpHole().toString()),
-//                            tile.getPixel()[0], tile.getPixel()[1], this);
-//                g.drawImage(tile.getImage(tile.getDownHole().toString()),
-//                            tile.getPixel()[0], tile.getPixel()[1], this);
-//                g.drawImage(tile.getImage(tile.getLeftHole().toString()),
-//                            tile.getPixel()[0], tile.getPixel()[1], this);
-//                g.drawImage(tile.getImage(tile.getRightHole().toString()),
-//                            tile.getPixel()[0], tile.getPixel()[1], this);
                 }
             }
         }
