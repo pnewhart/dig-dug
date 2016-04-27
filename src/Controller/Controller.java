@@ -12,9 +12,9 @@
  * **************************************** */
 package Controller;
 
+import DigDugMain.MainView;
 import Model.Direction;
 import Model.GameManager;
-import DigDugMain.MainView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
