@@ -44,8 +44,6 @@ public class Driller extends Object {
     /**
      * The board that the character is within
      */
-    private GameBoard board;
-
     private boolean isShooting;
     private boolean isDigging;
     private Gun gun;
@@ -62,7 +60,7 @@ public class Driller extends Object {
     private Image currentImage;
     //////////////////////////
 
-    public Driller(GameBoard board) {
+    public Driller() {
         this.location = new Vector2(
                 (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
                 (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE);
@@ -73,7 +71,6 @@ public class Driller extends Object {
         this.isShooting = false;
         this.isDigging = false;
         this.gun = null;
-        this.board = board;
 
         this.isCrushed = false;
         this.isKilled = false;

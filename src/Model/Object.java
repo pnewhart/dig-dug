@@ -32,10 +32,6 @@ public abstract class Object {
         Images.put(name, image);
     }
 
-    public Image getImage(String name) {
-        return Images.get(name);
-    }
-
     public Image getCurrentImage() {
         return Images.get(this.currentImage);
     }
