@@ -200,7 +200,7 @@ public class Tile extends Object {
                             return rightHole.destroy(percentToDestroy);
 
                         } else {
-                            return rightHole.destroy(0);
+                            return false;
                         }
 
                     }
@@ -211,11 +211,11 @@ public class Tile extends Object {
 
                     } else {
 
-                        if (loc.getX() >= (this.location.getX() + (Vector2.DIVS_PER_TILE - leftHole.getPercentRemoved()))) {
+                        if (loc.getX() <= (this.location.getX() + (Vector2.DIVS_PER_TILE - leftHole.getPercentRemoved()))) {
                             return leftHole.destroy(percentToDestroy);
 
                         } else {
-                            return leftHole.destroy(0);
+                            return false;
                         }
 
                     }
@@ -230,7 +230,7 @@ public class Tile extends Object {
                             return upHole.destroy(percentToDestroy);
 
                         } else {
-                            return upHole.destroy(0);
+                            return false;
                         }
 
                     }
@@ -245,18 +245,18 @@ public class Tile extends Object {
                             return downHole.destroy(percentToDestroy);
 
                         } else {
-                            return downHole.destroy(0);
+                            return false;
                         }
 
                     }
                 }
                 if (rightHole.getPercentRemoved() + leftHole.getPercentRemoved() > 19) {
                     this.clearTileHorizontal();
-                    return true;
+                    return false;
                 }
                 if (upHole.getPercentRemoved() + downHole.getPercentRemoved() > 19) {
                     this.clearTileVertical();
-                    return true;
+                    return false;
                 }
                 this.hasBeenUpdated = true;
             } catch (Exception e) {
