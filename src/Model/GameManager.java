@@ -81,7 +81,7 @@ public class GameManager {
             spriteImage = spriteImage.getScaledInstance(pixWidth, pixHeight,
                                                         java.awt.Image.SCALE_SMOOTH);
         } catch (IOException ex) {
-            System.out.println(ex.toString());
+            System.out.println(ex.toString() + imageName);
         }
 
         return spriteImage;
@@ -110,8 +110,8 @@ public class GameManager {
     private void initializeFromFile() {
 
         try {
-            this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
-                                                       864);
+            this.backGround = loadAndResizeSprite("GrassLevel.png", 672,
+                                                  864);
             this.theBoard = new GameBoard();
             Object.loadBoard(theBoard);
             //File f = new File("input.txt");
@@ -125,10 +125,10 @@ public class GameManager {
 
     private void loadEnemySprites() {
         String[] fygarSprites = {"Fygar_Float_1.png", "Fygar_Float_2.png",
-                                 "Fygar_Inflate_L1.png", "Fygar_Inflate_L2.png",
-                                 "Fygar_Inflate_L3.png", "Fygar_Inflate_L4.png",
-                                 "Fygar_Inflate_R1.png", "Fygar_Inflate_R2.png",
-                                 "Fygar_Inflate_R3.png", "Fygar_Inflate_R4.png",
+                                 "Fygar_Left_Inflate_1.png", "Fygar_Left_Inflate_2.png",
+                                 "Fygar_Left_Inflate_3.png", "Fygar_Left_Inflate_4.png",
+                                 "Fygar_Right_Inflate_1.png", "Fygar_Right_Inflate_2.png",
+                                 "Fygar_Right_Inflate_3.png", "Fygar_Right_Inflate_4.png",
                                  "Fygar_Left_1.png", "Fygar_Left_2.png",
                                  "Fygar_Right_1.png", "Fygar_Right_2.png",
                                  "Fygar_Rock_Left.png", "Fygar_Rock_Right.png"};
@@ -138,10 +138,10 @@ public class GameManager {
         }
 
         String[] pookaSprites = {"Pooka_Float_1.png", "Pooka_Float_1.png",
-                                 "Pooka_Inflate_L1.png", "Pooka_Inflate_L2.png",
-                                 "Pooka_Inflate_L3.png", "Pooka_Inflate_L4.png",
-                                 "Pooka_Inflate_R1.png", "Pooka_Inflate_R2.png",
-                                 "Pooka_Inflate_R3.png", "Pooka_Inflate_R4.png",
+                                 "Pooka_Left_Inflate_1.png", "Pooka_Left_Inflate_2.png",
+                                 "Pooka_Left_Inflate_3.png", "Pooka_Left_Inflate_4.png",
+                                 "Pooka_Right_Inflate_1.png", "Pooka_Right_Inflate_2.png",
+                                 "Pooka_Right_Inflate_3.png", "Pooka_Right_Inflate_4.png",
                                  "Pooka_Left_1.png", "Pooka_Left_2.png",
                                  "Pooka_Right_1.png", "Pooka_Right_2.png",
                                  "Pooka_Rock_Left.png", "Pooka_Rock_Right.png"};

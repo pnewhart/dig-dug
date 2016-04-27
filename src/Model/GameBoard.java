@@ -41,10 +41,8 @@ public class GameBoard {
         for (int i = 0; i < BOARD_WIDTH; i++) {
             for (int j = 0; j < BOARD_HEIGHT; j++) {
                 board[i][j] = new Tile(i, j);
-
             }
         }
-
     }
 
     public void setDriller(Driller d) {
@@ -60,6 +58,7 @@ public class GameBoard {
      *
      * @param location(in terms of divs)
      * @param d
+     * @return
      */
     public boolean makeHole(Vector2 location, Direction d) {
         int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
@@ -266,7 +265,6 @@ public class GameBoard {
                                            (int) coord.getY())) {
                 returnList.add(objects.get(i));
             }
-
         }
         return returnList;
 
