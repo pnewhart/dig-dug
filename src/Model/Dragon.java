@@ -22,15 +22,14 @@ import java.util.Random;
  */
 public class Dragon extends Enemy {
 
-    private Image testImage;
+    //private Image testImage;
+    protected boolean isFire = false;
+    private final double HALF_SECOND_NS = Math.pow(5, 9);
 
     public Dragon(GameBoard gBoard, Vector2 location) {
         super(gBoard);
         this.setDiv(location);
     }
-
-    protected boolean isFire = false;
-    private final double HALF_SECOND_NS = Math.pow(5, 9);
 
     @Override
     public void move() {
@@ -97,12 +96,9 @@ public class Dragon extends Enemy {
 
     }
 
-    public Image getTestImage() {
-        return Images.get("Fygar_Left_1.png");
-    }
-
-    public void setTestImage(Image testImage) {
-        this.testImage = testImage;
+    @Override
+    public Image getCurrentImage() {
+        return Images.get("Fyger_Right_1.png");
     }
 
 }
