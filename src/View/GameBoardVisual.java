@@ -32,7 +32,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
     public GameBoardVisual() {
         try {
             initComponents();
-            theModel = new GameManager();
+            this.theModel = null;
 
         } catch (Exception e) {
             System.out.println("error");

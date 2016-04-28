@@ -22,13 +22,10 @@ import View.GameBoardVisual;
  */
 public class MainView extends javax.swing.JFrame {
 
-    public GameBoardVisual gameBoardVisual1 = new GameBoardVisual();
-
     /**
      * Creates new form MainView
      */
     public MainView() {
-        gameBoardVisual1 = new GameBoardVisual();
         initComponents();
     }
 
@@ -40,6 +37,8 @@ public class MainView extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        gameBoardVisual1 = new View.GameBoardVisual();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,11 +57,11 @@ public class MainView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 674, Short.MAX_VALUE)
+            .addComponent(gameBoardVisual1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 890, Short.MAX_VALUE)
+            .addComponent(gameBoardVisual1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -111,6 +110,7 @@ public class MainView extends javax.swing.JFrame {
 
                 GameManager theModel = new GameManager();
                 theView.gameBoardVisual1.setTheModel(theModel);
+
                 Controller cntrl = new Controller(theView, theModel);
 
                 theView.setVisible(true);
@@ -119,7 +119,9 @@ public class MainView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private View.GameBoardVisual gameBoardVisual1;
     // End of variables declaration//GEN-END:variables
+
     public GameBoardVisual getGameBoardVisual1() {
         return gameBoardVisual1;
     }

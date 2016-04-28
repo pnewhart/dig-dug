@@ -82,7 +82,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             moveState = null;
         }
         this.theModel.movePlayer(moveState);
-        GUI.gameBoardVisual1.repaint();
+        GUI.repaint();
     }
 
     @Override

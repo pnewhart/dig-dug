@@ -94,7 +94,7 @@ public class Driller extends Object {
             s1 = "Walker";
         }
 
-        if (null != direction) {
+        if (direction != null) {
             switch (direction) {
                 case LEFT:
                     s2 = "Left_";
@@ -132,7 +132,6 @@ public class Driller extends Object {
         } else {
             s3 = "2";
         }
-        s2 = "Right_";
 
         String string = String.format("%s_%s%s.png", s1, s2, s3);
 

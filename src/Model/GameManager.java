@@ -121,20 +121,14 @@ public class GameManager {
                                                        864);
             System.out.println("worked");
             this.theBoard = new GameBoard();
-            System.out.println("1");
             player1.setBoard(theBoard);
             System.out.println("2");
             // File f = new File("input.txt");
             //this.theBoard.generateFromFile(f);
-            System.out.println("2");
             this.player1 = new Driller();
-            System.out.println("3");
             this.loadPlayerSprites();
-            System.out.println("4");
             this.loadMapSprites();
-            System.out.println("5");
             this.loadEnemySprites();
-            System.out.println("6");
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -170,7 +164,6 @@ public class GameManager {
     }
 
     private void loadPlayerSprites() {
-        System.out.println("in load player sprites");
         String[] diggerFiles = {"Digger_Up_L1.png",
                                 "Digger_Up_L2.png",
                                 "Digger_Up_R1.png",
@@ -188,7 +181,6 @@ public class GameManager {
 
             player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
-        System.out.println("here1");
 
         String[] walkerFiles = {"Walker_Up_L1.png",
                                 "Walker_Up_L2.png",
@@ -206,7 +198,7 @@ public class GameManager {
         for (String file : walkerFiles) {
             player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
         }
-        System.out.println("here2");
+
         String[] pumperFiles = {"Pumper_Up_L1.png",
                                 "Pumper_Up_L2.png",
                                 "Pumper_Up_R1.png",
@@ -223,7 +215,6 @@ public class GameManager {
         for (String file : pumperFiles) {
             player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
-        System.out.println("everything done");
 
         //Need to add dead images!!
     }
