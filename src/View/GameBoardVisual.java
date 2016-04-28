@@ -12,7 +12,6 @@
  * **************************************** */
 package View;
 
-import Model.Dragon;
 import Model.GameManager;
 import Model.Tile;
 import java.awt.Graphics;
@@ -31,8 +30,13 @@ public class GameBoardVisual extends javax.swing.JComponent {
      * Creates new form GameBoardVisualP
      */
     public GameBoardVisual() {
-        theModel = new GameManager();
-        initComponents();
+        try {
+            initComponents();
+            theModel = new GameManager();
+
+        } catch (Exception e) {
+            System.out.println("error");
+        }
 //
 //        timer = new Timer();
 //        timer.scheduleAtFixedRate(new TimerTask() {
@@ -53,6 +57,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
+        System.out.println("painting component");
         g.drawImage(theModel.getBackGround(), 0, 0, this);
         for (Tile[] column : theModel.getTheBoard().board) {
             for (Tile tile : column) {
@@ -63,16 +68,9 @@ public class GameBoardVisual extends javax.swing.JComponent {
                 }
             }
         }
-
         g.drawImage(theModel.getPlayer1().getCurrentImage(),
                     theModel.getPlayer1().getPixel()[0],
                     theModel.getPlayer1().getPixel()[1], this);
-
-        for (Dragon dragon : theModel.getTheBoard().getDragonList()) {
-            g.drawImage(dragon.getCurrentImage(), (int) dragon.getDiv().getX(),
-                        (int) dragon.getDiv().getY(), this);
-        }
-
     }
 
     /**
@@ -84,7 +82,6 @@ public class GameBoardVisual extends javax.swing.JComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setToolTipText("");
         setPreferredSize(new java.awt.Dimension(672, 864));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -97,8 +94,6 @@ public class GameBoardVisual extends javax.swing.JComponent {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
-
-        getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

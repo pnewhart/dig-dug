@@ -138,6 +138,11 @@ public class GameBoard {
             if (character == 'd') {
                 board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
                         Direction.DOWN);
+                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(Direction.UP);
+                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
+                        Direction.RIGHT);
+                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
+                        Direction.LEFT);
 
             }
             if (character == 'l') {

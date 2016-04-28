@@ -25,9 +25,11 @@ import javax.imageio.ImageIO;
  */
 public class GameManager {
     protected GameBoard theBoard;
-    private Driller player1;
+    private Driller player1 = new Driller();
     private ArrayList<Enemy> enemies;
     private Image backGround;
+    private Object newObject;
+    private Enemy en;
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
     public HashMap<String, Image> boardImageMap;
@@ -56,7 +58,7 @@ public class GameManager {
 
                 sprite = loadAndResizeSprite(imageName, 48, 48);
                 try {
-                    Object.Images.put(imageName, sprite);
+                    newObject.Images.put(imageName, sprite);
                 } catch (Exception ex) {
                     System.out.println(imageName + " - " + ex.getMessage());
                 }
@@ -99,6 +101,7 @@ public class GameManager {
 
     public void movePlayer(Direction dir) {
         //System.out.println(this.player1.getDiv());
+
         player1.move(dir);
     }
 
@@ -107,18 +110,29 @@ public class GameManager {
         //System.out.println("SHOOT");
     }
 
-    private void initializeFromFile() {
+    private void initializeFromFile() throws IOException {
 
         try {
-            this.backGround = loadAndResizeSprite("GrassLevel.png", 672,
-                                                  864);
+            this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
+                                                       864);
+            System.out.println("worked");
             this.theBoard = new GameBoard();
-            Object.loadBoard(theBoard);
-            //File f = new File("input.txt");
+            System.out.println("1");
+            player1.setBoard(theBoard);
+            System.out.println("2");
+            // File f = new File("input.txt");
             //this.theBoard.generateFromFile(f);
+            System.out.println("2");
             this.player1 = new Driller();
+            System.out.println("3");
+            this.loadPlayerSprites();
+            System.out.println("4");
+            this.loadMapSprites();
+            System.out.println("5");
+            this.loadEnemySprites();
+            System.out.println("6");
         } catch (Exception e) {
-            System.out.println("kjasdf");
+            System.out.println(e);
         }
 
     }
@@ -134,10 +148,10 @@ public class GameManager {
                                  "Fygar_Rock_Left.png", "Fygar_Rock_Right.png"};
 
         for (String fygar : fygarSprites) {
-            Object.loadImage(fygar, loadAndResizeSprite(fygar, 48, 48));
+            player1.loadImage(fygar, loadAndResizeSprite(fygar, 48, 48));
         }
 
-        String[] pookaSprites = {"Pooka_Float_1.png", "Pooka_Float_1.png",
+        String[] pookaSprites = {"Pooka_Float_1.png", "Pooka_Float_2.png",
                                  "Pooka_Left_Inflate_1.png", "Pooka_Left_Inflate_2.png",
                                  "Pooka_Left_Inflate_3.png", "Pooka_Left_Inflate_4.png",
                                  "Pooka_Right_Inflate_1.png", "Pooka_Right_Inflate_2.png",
@@ -147,11 +161,12 @@ public class GameManager {
                                  "Pooka_Rock_Left.png", "Pooka_Rock_Right.png"};
 
         for (String pooka : pookaSprites) {
-            Object.loadImage(pooka, loadAndResizeSprite(pooka, 48, 48));
+            player1.loadImage(pooka, loadAndResizeSprite(pooka, 48, 48));
         }
     }
 
     private void loadPlayerSprites() {
+        System.out.println("in load player sprites");
         String[] diggerFiles = {"Digger_Up_L1.png",
                                 "Digger_Up_L2.png",
                                 "Digger_Up_R1.png",
@@ -166,8 +181,10 @@ public class GameManager {
                                 "Digger_Right_2.png"};
 
         for (String file : diggerFiles) {
-            Object.loadImage(file, loadAndResizeSprite(file, 48, 48));
+
+            player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
+        System.out.println("here1");
 
         String[] walkerFiles = {"Walker_Up_L1.png",
                                 "Walker_Up_L2.png",
@@ -183,9 +200,9 @@ public class GameManager {
                                 "Walker_Right_2.png"};
 
         for (String file : walkerFiles) {
-            Object.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+            player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
         }
-
+        System.out.println("here2");
         String[] pumperFiles = {"Pumper_Up_L1.png",
                                 "Pumper_Up_L2.png",
                                 "Pumper_Up_R1.png",
@@ -200,8 +217,9 @@ public class GameManager {
                                 "Pumper_Right_2.png"};
 
         for (String file : pumperFiles) {
-            Object.loadImage(file, loadAndResizeSprite(file, 48, 48));
+            player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
+        System.out.println("everything done");
 
         //Need to add dead images!!
     }
@@ -231,16 +249,20 @@ public class GameManager {
         for (Tile[] col : theBoard.board) {
             for (Tile tile : col) {
                 for (String sprite : tileRightSprites) {
-                    Object.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    newObject.loadImage(sprite, loadAndResizeSprite(sprite, 48,
+                                                                    48));
                 }
                 for (String sprite : tileLeftSprites) {
-                    Object.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    newObject.loadImage(sprite, loadAndResizeSprite(sprite, 48,
+                                                                    48));
                 }
                 for (String sprite : tileUpSprites) {
-                    Object.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    newObject.loadImage(sprite, loadAndResizeSprite(sprite, 48,
+                                                                    48));
                 }
                 for (String sprite : tileDownSprites) {
-                    Object.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    newObject.loadImage(sprite, loadAndResizeSprite(sprite, 48,
+                                                                    48));
                 }
             }
         }
