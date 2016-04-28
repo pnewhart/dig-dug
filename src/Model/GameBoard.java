@@ -29,8 +29,7 @@ public class GameBoard {
     final static int BOARD_WIDTH = Vector2.NUM_TILE_HORIZONTAL;
     public Tile[][] board = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
     protected ArrayList<Object> objects = new ArrayList<Object>();
-    protected ArrayList<Dragon> DragonList = new ArrayList<Dragon>();
-    protected ArrayList<Puff> PuffList = new ArrayList<Puff>();
+    protected ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
     final static int DIVS_TO_DIG = 1;
     protected Driller driller;
 
@@ -48,7 +47,7 @@ public class GameBoard {
         board[4][5].clearTileHorizontal();
         board[3][5].clearTileHorizontal();
         Dragon d = new Dragon(new Vector2(4, 5));
-        DragonList.add(d);
+        enemyList.add(d);
     }
 
     public void setDriller(Driller d) {
@@ -108,9 +107,9 @@ public class GameBoard {
      */
     public boolean isEmpty(int x, int y) {
         if (board[x][y].isEmpty()) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -227,7 +226,7 @@ public class GameBoard {
             }
             if (character == 'p') {
 
-                PuffList.add(new Puff(this));
+                enemyList.add(new Puff(this));
                 System.out.println("puff made");
             }
 
@@ -348,8 +347,10 @@ public class GameBoard {
      * @param t
      * @return boolean
      */
-    public boolean isClearedVertical(Tile t) {
-        return t.isClearedVertical();
+    public boolean isClearedVertical(Vector2 location) {
+        int x = (int) location.getX() % Vector2.DIVS_PER_TILE;
+        int y = (int) location.getY() % Vector2.DIVS_PER_TILE;
+        return board[x][y].isClearedVertical();
 
     }
 
@@ -359,8 +360,11 @@ public class GameBoard {
      * @param t
      * @return boolean
      */
-    public boolean isClearedHorizontal(Tile t) {
-        return t.isClearedHorizontal();
+    public boolean isClearedHorizontal(Vector2 location) {
+        int x = (int) location.getX() % Vector2.DIVS_PER_TILE;
+        int y = (int) location.getY() % Vector2.DIVS_PER_TILE;
+        return board[x][y].isClearedHorizontal();
+
     }
 
     /**
@@ -382,8 +386,8 @@ public class GameBoard {
         return board;
     }
 
-    public ArrayList<Dragon> getDragonList() {
-        return DragonList;
+    public ArrayList<Enemy> getEnemyList() {
+        return enemyList;
     }
 
 }

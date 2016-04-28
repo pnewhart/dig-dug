@@ -22,7 +22,7 @@ import java.util.Random;
 public class Puff extends Enemy {
 
     public Puff(GameBoard b) {
-        super(b);
+        super();
     }
 
     @Override
