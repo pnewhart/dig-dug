@@ -31,6 +31,7 @@ public class GameManager {
     private Image diggerSprite;
     private Image backGround;
     private Object newObject;
+    private Enemy en;
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
     public HashMap<String, Image> boardImageMap;
@@ -160,7 +161,7 @@ public class GameManager {
                                  "Fygar_Rock_Left.png", "Fygar_Rock_Right.png"};
 
         for (String fygar : fygarSprites) {
-            newObject.loadImage(fygar, loadAndResizeSprite(fygar, 48, 48));
+            player1.loadImage(fygar, loadAndResizeSprite(fygar, 48, 48));
         }
 
         String[] pookaSprites = {"Pooka_Float_1.png", "Pooka_Float_1.png",
@@ -173,7 +174,7 @@ public class GameManager {
                                  "Pooka_Rock_Left.png", "Pooka_Rock_Right.png"};
 
         for (String pooka : pookaSprites) {
-            newObject.loadImage(pooka, loadAndResizeSprite(pooka, 48, 48));
+            player1.loadImage(pooka, loadAndResizeSprite(pooka, 48, 48));
         }
     }
 
@@ -194,7 +195,7 @@ public class GameManager {
 
         for (String file : diggerFiles) {
 
-            newObject.loadImage(file, loadAndResizeSprite(file, 48, 48));
+            player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
         System.out.println("here1");
 
@@ -212,7 +213,7 @@ public class GameManager {
                                 "Walker_Right_2.png"};
 
         for (String file : walkerFiles) {
-            newObject.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+            player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
         }
         System.out.println("here2");
         String[] pumperFiles = {"Pumper_Up_L1.png",
@@ -229,7 +230,7 @@ public class GameManager {
                                 "Pumper_Right_2.png"};
 
         for (String file : pumperFiles) {
-            newObject.loadImage(file, loadAndResizeSprite(file, 48, 48));
+            player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
         System.out.println("everything done");
 

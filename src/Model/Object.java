@@ -30,6 +30,7 @@ public abstract class Object {
     private static GameBoard gBoard;
 
     public void loadImage(String name, Image image) {
+        System.out.println("loading images");
         Images.put(name, image);
     }
 
