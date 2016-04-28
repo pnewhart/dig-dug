@@ -22,11 +22,10 @@ import java.util.Random;
  */
 public abstract class Enemy extends Object {
 
-    private final double INITIAL_SPEED = 0.5;
+    private final double INITIAL_SPEED = 1;
 
     protected Direction prevDirection;
     protected Direction direction;
-    protected GameBoard gBoard;
     protected double speed;
 
     private static final double DEFLATE_TIME = 0.8;
@@ -50,7 +49,7 @@ public abstract class Enemy extends Object {
 
     @Override
     public void move() {
-        if (gBoard.isDivEmpty(this.getFront())) {
+        if (getBoard().isDivEmpty(this.getFront())) {
             this.location = Vector2Utility.add(location, Vector2Utility.scale(
                                                this.direction.getVector(), speed));
         } else {
@@ -62,19 +61,19 @@ public abstract class Enemy extends Object {
             Vector2 left = this.getDirection(Direction.LEFT);
             Vector2 right = this.getDirection(Direction.RIGHT);
 
-            if (gBoard.isDivEmpty(up)) {
+            if (getBoard().isDivEmpty(up)) {
                 locations.add(up);
                 directions.add(Direction.UP);
             }
-            if (gBoard.isDivEmpty(down)) {
+            if (getBoard().isDivEmpty(down)) {
                 locations.add(down);
                 directions.add(Direction.DOWN);
             }
-            if (gBoard.isDivEmpty(left)) {
+            if (getBoard().isDivEmpty(left)) {
                 locations.add(left);
                 directions.add(Direction.LEFT);
             }
-            if (gBoard.isDivEmpty(right)) {
+            if (getBoard().isDivEmpty(right)) {
                 locations.add(right);
                 directions.add(Direction.RIGHT);
             }

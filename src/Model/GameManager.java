@@ -26,7 +26,6 @@ import javax.imageio.ImageIO;
 public class GameManager {
     protected GameBoard theBoard;
     private Driller player1 = new Driller();
-    private ArrayList<Enemy> enemies;
     private Image backGround;
     private Object newObject;
     private Enemy en;
@@ -94,7 +93,7 @@ public class GameManager {
     }
 
     public void moveObject() {
-        for (Enemy enemy : enemies) {
+        for (Enemy enemy : getEnemies()) {
             enemy.move();
         }
         //move rocks (handles animations
@@ -272,6 +271,10 @@ public class GameManager {
     }
 
     public ArrayList<Enemy> getEnemies() {
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+        for (Dragon d : theBoard.getDragonList()) {
+            enemies.add(d);
+        }
         return enemies;
     }
 

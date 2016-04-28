@@ -31,6 +31,7 @@ public abstract class Object {
     protected boolean isCrushed = false;
     protected static HashMap<String, Image> Images = new HashMap<String, Image>();
     protected String currentImage;
+
     private static GameBoard gBoard;
 
     public void loadImage(String name, Image image) {

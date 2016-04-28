@@ -60,8 +60,8 @@ public class GameBoardVisual extends javax.swing.JComponent {
     public void paintComponent(Graphics g) {
         drawBackGround(g);
         drawHoles(g);
-        drawDriller(g);
         drawEnemies(g);
+        drawDriller(g);
     }
 
     /**
