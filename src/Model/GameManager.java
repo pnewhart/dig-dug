@@ -36,9 +36,13 @@ public class GameManager {
 
     public GameManager() {
         theBoard = new GameBoard();
-        Object.loadBoard(theBoard);
+        Object.setBoard(theBoard);
         loadSprites();
-        initializeFromFile();
+        try {
+            initializeFromFile();
+        } catch (Exception ex) {
+            System.out.println("ERRONEOUS FILE INTITIALIZATION!");
+        }
     }
 
     private void loadSprites() {
@@ -268,25 +272,6 @@ public class GameManager {
         }
     }
 
-//    public void loadDragonSprites() {
-//        String[] DragonSprites = {"Frygar_Left_1.png", "Frygar_Left_2.png", "Frygar_Right_1.png", "Frygar_Right_2.png", "Frygar_Float_1", "Frygar_Float_2", "Frygar_Inflate_1", "Frygar_Inflate_2", "Frygar_Inflate_3", "Frygar_Inflate_4", "Fygar_Rock_Left", "Fygar_Rock_Right"};
-//        for (Dragon d : theBoard.DragonList) {
-//            for (String sprite : DragonSprites) {
-//                d.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
-//
-//            }
-//        }
-//
-//    }
-//
-//    public void loadPuffSprites() {
-//        String[] PuffSprites = {"Pooka_Left_1.png", "Pooka_Left_2.png", "Pooka_Right_1.png", "Pooka_Right_2.png", "Pooka_Float_1", "Pooka_Float_2", "Pooka_Inflate_1", "Pooka_Inflate_2", "Pooka_Inflate_3", "Pooka_Inflate_4", "Pooka_Rock_Left", "Pooka_Rock_Right"};
-//        for (Puff p : theBoard.PuffList) {
-//            for (String sprite : PuffSprites) {
-//                p.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
-//            }
-//        }
-//    }
     public GameBoard getTheBoard() {
         return theBoard;
     }

@@ -81,10 +81,8 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (!rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = null;
         }
-
         this.theModel.movePlayer(moveState);
-        //this.theModel.shoot(shoot);
-        GUI.repaint();
+        GUI.gameBoardVisual1.repaint();
     }
 
     @Override

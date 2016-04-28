@@ -58,7 +58,38 @@ public class GameBoardVisual extends javax.swing.JComponent {
     @Override
     public void paintComponent(Graphics g) {
         System.out.println("painting component");
+        drawBackGround(g);
+        drawHoles(g);
+        drawDriller(g);
+    }
+
+    /**
+     * Draws the BackGround
+     *
+     * @param g
+     */
+    private void drawBackGround(Graphics g) {
         g.drawImage(theModel.getBackGround(), 0, 0, this);
+    }
+
+    /**
+     * Draws Mr.Driller getting his current image based on his state
+     *
+     * @param g
+     */
+    private void drawDriller(Graphics g) {
+        g.drawImage(theModel.getPlayer1().getCurrentImage(),
+                    theModel.getPlayer1().getPixel()[0],
+                    theModel.getPlayer1().getPixel()[1], this);
+    }
+
+    /**
+     * Draws the holes onto the board by getting 4 directional holes from the
+     * tile class
+     *
+     * @param g
+     */
+    private void drawHoles(Graphics g) {
         for (Tile[] column : theModel.getTheBoard().board) {
             for (Tile tile : column) {
                 Image[] tempImages = tile.getCurrentImages();
@@ -68,9 +99,6 @@ public class GameBoardVisual extends javax.swing.JComponent {
                 }
             }
         }
-        g.drawImage(theModel.getPlayer1().getCurrentImage(),
-                    theModel.getPlayer1().getPixel()[0],
-                    theModel.getPlayer1().getPixel()[1], this);
     }
 
     /**

@@ -21,6 +21,10 @@ import java.util.HashMap;
  */
 public abstract class Object {
 
+    static void loadBoard(GameBoard theBoard) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     protected Vector2 location = null;
     protected boolean isPumpable = false;
     protected boolean canCrush = false;
@@ -34,8 +38,8 @@ public abstract class Object {
         Images.put(name, image);
     }
 
-    public void setBoard(GameBoard b) {
-        this.gBoard = b;
+    public static void setBoard(GameBoard b) {
+        gBoard = b;
     }
 
     public static GameBoard getBoard() {
