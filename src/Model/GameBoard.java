@@ -348,8 +348,8 @@ public class GameBoard {
      * @return boolean
      */
     public boolean isClearedVertical(Vector2 location) {
-        int x = (int) location.getX() % Vector2.DIVS_PER_TILE;
-        int y = (int) location.getY() % Vector2.DIVS_PER_TILE;
+        int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
         return board[x][y].isClearedVertical();
 
     }
@@ -361,8 +361,8 @@ public class GameBoard {
      * @return boolean
      */
     public boolean isClearedHorizontal(Vector2 location) {
-        int x = (int) location.getX() % Vector2.DIVS_PER_TILE;
-        int y = (int) location.getY() % Vector2.DIVS_PER_TILE;
+        int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
         return board[x][y].isClearedHorizontal();
 
     }
