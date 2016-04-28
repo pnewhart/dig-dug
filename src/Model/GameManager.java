@@ -123,7 +123,7 @@ public class GameManager {
             this.theBoard = new GameBoard();
             player1.setBoard(theBoard);
             System.out.println("2");
-            // File f = new File("input.txt");
+            //File f = new File("input.txt");
             //this.theBoard.generateFromFile(f);
             this.player1 = new Driller();
             this.loadPlayerSprites();

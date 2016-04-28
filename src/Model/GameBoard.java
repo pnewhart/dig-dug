@@ -41,8 +41,14 @@ public class GameBoard {
         for (int i = 0; i < BOARD_WIDTH; i++) {
             for (int j = 0; j < BOARD_HEIGHT; j++) {
                 board[i][j] = new Tile(i, j);
+
             }
         }
+        board[5][5].clearTileHorizontal();
+        board[4][5].clearTileHorizontal();
+        board[3][5].clearTileHorizontal();
+        Dragon d = new Dragon(new Vector2(4, 5));
+        DragonList.add(d);
     }
 
     public void setDriller(Driller d) {
@@ -216,7 +222,6 @@ public class GameBoard {
             }
             if (character == 'g') {
 
-                DragonList.add(new Dragon(this, location));
                 System.out.println("dragon made");
 
             }

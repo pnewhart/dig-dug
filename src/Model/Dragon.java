@@ -26,8 +26,8 @@ public class Dragon extends Enemy {
     protected boolean isFire = false;
     private final double HALF_SECOND_NS = Math.pow(5, 9);
 
-    public Dragon(GameBoard gBoard, Vector2 location) {
-        super(gBoard);
+    public Dragon(Vector2 location) {
+        super();
         this.setDiv(location);
         this.direction = Direction.RIGHT;
         this.prevDirection = Direction.RIGHT;
