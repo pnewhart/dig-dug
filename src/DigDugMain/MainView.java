@@ -103,7 +103,9 @@ public class MainView extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
+                System.out.println("running in mainview");
                 MainView theView = new MainView();
 
                 GameManager theModel = theView.gameBoardVisual1.getTheModel();
