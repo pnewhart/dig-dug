@@ -57,6 +57,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
+        System.out.println("painting component");
         g.drawImage(theModel.getBackGround(), 0, 0, this);
         for (Tile[] column : theModel.getTheBoard().board) {
             for (Tile tile : column) {
