@@ -135,7 +135,7 @@ public class Driller extends Object {
 
         String string = String.format("%s_%s%s.png", s1, s2, s3);
 
-        return Images.get(string);
+        return this.Images.get(string);
     }
 
     public Vector2 getLocation() {

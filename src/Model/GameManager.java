@@ -25,7 +25,7 @@ import javax.imageio.ImageIO;
  */
 public class GameManager {
     protected GameBoard theBoard;
-    private Driller player1;
+    private Driller player1 = new Driller();
     private ArrayList<Enemy> enemies;
     private Image enemySprite;
     private Image diggerSprite;
@@ -113,6 +113,7 @@ public class GameManager {
 
     public void movePlayer(Direction dir) {
         //System.out.println(this.player1.getDiv());
+
         player1.move(dir);
     }
 
@@ -129,7 +130,7 @@ public class GameManager {
             System.out.println("worked");
             this.theBoard = new GameBoard();
             System.out.println("1");
-            newObject.setBoard(theBoard);
+            player1.setBoard(theBoard);
             System.out.println("2");
             File f = new File("input.txt");
             this.theBoard.generateFromFile(f);
@@ -177,6 +178,7 @@ public class GameManager {
     }
 
     private void loadPlayerSprites() {
+        System.out.println("in load player sprites");
         String[] diggerFiles = {"Digger_Up_L1.png",
                                 "Digger_Up_L2.png",
                                 "Digger_Up_R1.png",
@@ -191,8 +193,10 @@ public class GameManager {
                                 "Digger_Right_2.png"};
 
         for (String file : diggerFiles) {
+
             newObject.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
+        System.out.println("here1");
 
         String[] walkerFiles = {"Walker_Up_L1.png",
                                 "Walker_Up_L2.png",
@@ -210,7 +214,7 @@ public class GameManager {
         for (String file : walkerFiles) {
             newObject.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
         }
-
+        System.out.println("here2");
         String[] pumperFiles = {"Pumper_Up_L1.png",
                                 "Pumper_Up_L2.png",
                                 "Pumper_Up_R1.png",
@@ -227,6 +231,7 @@ public class GameManager {
         for (String file : pumperFiles) {
             newObject.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
+        System.out.println("everything done");
 
         //Need to add dead images!!
     }
