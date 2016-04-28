@@ -12,6 +12,7 @@
  * **************************************** */
 package View;
 
+import Model.Enemy;
 import Model.GameManager;
 import Model.Tile;
 import java.awt.Graphics;
@@ -60,6 +61,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
         drawBackGround(g);
         drawHoles(g);
         drawDriller(g);
+        drawEnemies(g);
     }
 
     /**
@@ -80,6 +82,13 @@ public class GameBoardVisual extends javax.swing.JComponent {
         g.drawImage(theModel.getPlayer1().getCurrentImage(),
                     theModel.getPlayer1().getPixel()[0],
                     theModel.getPlayer1().getPixel()[1], this);
+    }
+
+    private void drawEnemies(Graphics g) {
+        for (Enemy enemy : theModel.getEnemies()) {
+            g.drawImage(enemy.getCurrentImage(), enemy.getPixel()[0],
+                        enemy.getPixel()[1], this);
+        }
     }
 
     /**
