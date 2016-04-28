@@ -181,7 +181,7 @@ public class Driller extends Object {
                 this.stop();
             }
         }
-        this.isDigging = this.board.makeHole(this.getFront(), direction);
+        this.isDigging = this.getBoard().makeHole(this.getFront(), direction);
     }
 
     /**
@@ -327,7 +327,7 @@ public class Driller extends Object {
     public void shoot(boolean pump) {
         if (!isShooting && pump) {
             isShooting = true;
-            this.gun = new Gun(location, direction, board);
+            this.gun = new Gun(location, direction, this.getBoard());
         } else if (isShooting) {
             this.gun.shoot(pump);
         }
