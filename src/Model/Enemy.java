@@ -49,7 +49,8 @@ public abstract class Enemy extends Object {
 
     @Override
     public void move() {
-        if (getBoard().isDivEmpty(this.getFront())) {
+        if ((getBoard().isClearedHorizontal(this.getFront()) && (direction == Direction.RIGHT || direction == Direction.RIGHT)) || (getBoard().isClearedVertical(
+                                                                                                                                    this.getFront()) && (direction == Direction.UP || direction == Direction.DOWN))) {
             this.location = Vector2Utility.add(location, Vector2Utility.scale(
                                                this.direction.getVector(), speed));
         } else {
@@ -60,23 +61,24 @@ public abstract class Enemy extends Object {
             Vector2 down = this.getDirection(Direction.DOWN);
             Vector2 left = this.getDirection(Direction.LEFT);
             Vector2 right = this.getDirection(Direction.RIGHT);
-
-            if (getBoard().isDivEmpty(up)) {
+            System.out.println(up + " " + down + " " + left + " " + right);
+            if (getBoard().isClearedVertical(up)) {
                 locations.add(up);
                 directions.add(Direction.UP);
             }
-            if (getBoard().isDivEmpty(down)) {
+            if (getBoard().isClearedVertical(down)) {
                 locations.add(down);
                 directions.add(Direction.DOWN);
             }
-            if (getBoard().isDivEmpty(left)) {
+            if (getBoard().isClearedHorizontal(left)) {
                 locations.add(left);
                 directions.add(Direction.LEFT);
             }
-            if (getBoard().isDivEmpty(right)) {
+            if (getBoard().isClearedHorizontal(right)) {
                 locations.add(right);
                 directions.add(Direction.RIGHT);
             }
+            System.out.println(locations.size());
 
             Random r = new Random();
 

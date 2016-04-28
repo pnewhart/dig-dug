@@ -271,11 +271,7 @@ public class GameManager {
     }
 
     public ArrayList<Enemy> getEnemies() {
-        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-        for (Dragon d : theBoard.getDragonList()) {
-            enemies.add(d);
-        }
-        return enemies;
+        return theBoard.getEnemyList();
     }
 
     public HashMap<String, Image> getBoardImageMap() {
