@@ -43,8 +43,7 @@ public abstract class Enemy extends Object {
     protected boolean canCrush = true;
     protected boolean isCrushed = false;
 
-    public Enemy(GameBoard b) {
-        gBoard = b;
+    public Enemy() {
         this.speed = INITIAL_SPEED;
         this.direction = Direction.RIGHT;
     }
