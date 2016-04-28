@@ -21,25 +21,25 @@ import java.util.HashMap;
  */
 public abstract class Object {
 
-    protected static GameBoard board;
-
     protected Vector2 location = null;
     protected boolean isPumpable = false;
     protected boolean canCrush = false;
     protected boolean isCrushed = false;
     protected static HashMap<String, Image> Images = new HashMap<String, Image>();
     protected String currentImage;
+    private static GameBoard gBoard;
 
-    public static void loadBoard(GameBoard board) {
-        Object.board = board;
-    }
+    public void loadImage(String name, Image image) {
 
-    public static void loadImage(String name, Image image) {
         Images.put(name, image);
     }
 
-    public Image getImage(String name) {
-        return Images.get(name);
+    public void setBoard(GameBoard b) {
+        this.gBoard = b;
+    }
+
+    public static GameBoard getBoard() {
+        return gBoard;
     }
 
     public Image getCurrentImage() {

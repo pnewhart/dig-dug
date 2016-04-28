@@ -12,7 +12,6 @@
  * **************************************** */
 package View;
 
-import Model.Dragon;
 import Model.GameManager;
 import Model.Tile;
 import java.awt.Graphics;
@@ -34,6 +33,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
         try {
             initComponents();
             theModel = new GameManager();
+
         } catch (Exception e) {
             System.out.println("error");
         }
@@ -57,6 +57,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
+        System.out.println("painting component");
         g.drawImage(theModel.getBackGround(), 0, 0, this);
         for (Tile[] column : theModel.getTheBoard().board) {
             for (Tile tile : column) {
@@ -64,28 +65,12 @@ public class GameBoardVisual extends javax.swing.JComponent {
                 for (int i = 0; i < 4; i++) {
                     g.drawImage(tempImages[i], tile.getPixel()[0],
                                 tile.getPixel()[1], this);
-
-//                g.drawImage(tile.getImage(tile.getUpHole().toString()),
-//                            tile.getPixel()[0], tile.getPixel()[1], this);
-//                g.drawImage(tile.getImage(tile.getDownHole().toString()),
-//                            tile.getPixel()[0], tile.getPixel()[1], this);
-//                g.drawImage(tile.getImage(tile.getLeftHole().toString()),
-//                            tile.getPixel()[0], tile.getPixel()[1], this);
-//                g.drawImage(tile.getImage(tile.getRightHole().toString()),
-//                            tile.getPixel()[0], tile.getPixel()[1], this);
                 }
             }
         }
-
         g.drawImage(theModel.getPlayer1().getCurrentImage(),
                     theModel.getPlayer1().getPixel()[0],
                     theModel.getPlayer1().getPixel()[1], this);
-
-        for (Dragon dragon : theModel.getTheBoard().getDragonList()) {
-            g.drawImage(dragon.getCurrentImage(), (int) dragon.getDiv().getX(),
-                        (int) dragon.getDiv().getY(), this);
-        }
-
     }
 
     /**
@@ -97,7 +82,6 @@ public class GameBoardVisual extends javax.swing.JComponent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setToolTipText("");
         setPreferredSize(new java.awt.Dimension(672, 864));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -110,8 +94,6 @@ public class GameBoardVisual extends javax.swing.JComponent {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
-
-        getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

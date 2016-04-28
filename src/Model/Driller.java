@@ -132,10 +132,11 @@ public class Driller extends Object {
         } else {
             s3 = "2";
         }
+        s2 = "Right_";
 
         String string = String.format("%s_%s%s.png", s1, s2, s3);
 
-        return Images.get(string);
+        return this.Images.get(string);
     }
 
     public Vector2 getLocation() {
@@ -181,7 +182,7 @@ public class Driller extends Object {
                 this.stop();
             }
         }
-        this.isDigging = this.board.makeHole(this.getFront(), direction);
+        this.isDigging = this.getBoard().makeHole(this.getFront(), direction);
     }
 
     /**
@@ -327,7 +328,7 @@ public class Driller extends Object {
     public void shoot(boolean pump) {
         if (!isShooting && pump) {
             isShooting = true;
-            this.gun = new Gun(location, direction, board);
+            this.gun = new Gun(location, direction, this.getBoard());
         } else if (isShooting) {
             this.gun.shoot(pump);
         }

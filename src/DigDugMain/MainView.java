@@ -22,7 +22,7 @@ import View.GameBoardVisual;
  */
 public class MainView extends javax.swing.JFrame {
 
-    public GameBoardVisual gameBoardVisual1;
+    public GameBoardVisual gameBoardVisual1 = new GameBoardVisual();
 
     /**
      * Creates new form MainView
@@ -103,7 +103,9 @@ public class MainView extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
+                System.out.println("running in mainview");
                 MainView theView = new MainView();
 
                 GameManager theModel = theView.gameBoardVisual1.getTheModel();
