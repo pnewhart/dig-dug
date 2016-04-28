@@ -201,7 +201,6 @@ public class Tile extends Object {
                         return leftHole.destroy(percentToDestroy);
 
                     } else {
-
                         if (loc.getX() >= (this.location.getX() + (Vector2.DIVS_PER_TILE - leftHole.getPercentRemoved()))) {
                             return leftHole.destroy(percentToDestroy);
 

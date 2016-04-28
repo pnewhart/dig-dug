@@ -63,6 +63,7 @@ public class GameBoard {
     public boolean makeHole(Vector2 location, Direction d) {
         int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
         int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
+
         return board[x][y].makeHole(d, location, DIVS_TO_DIG);
 
     }

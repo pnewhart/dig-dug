@@ -18,7 +18,7 @@ package Model;
  */
 public class Hole {
 
-    private int percentRemoved = 0;
+    private int percentRemoved = 1;
     private final int MAX_FILL = 0;
     private final int MIN_FILL = 19;
     protected Direction dir;
@@ -47,10 +47,10 @@ public class Hole {
      */
     public boolean destroy(int percentToDestroy) throws Exception {
         if (percentRemoved >= MIN_FILL) {
-            percentRemoved = MIN_FILL;
+
             return false;
         } else {
-            if (percentRemoved < 3) {
+            if (percentRemoved < 4) {
                 percentRemoved += 1;
             }
             percentRemoved += percentToDestroy;

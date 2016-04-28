@@ -181,7 +181,8 @@ public class Driller extends Object {
                 this.stop();
             }
         }
-        this.isDigging = this.getBoard().makeHole(this.getFront(), direction);
+        this.isDigging = this.getBoard().makeHole(this.getFront(),
+                                                  direction);
     }
 
     /**

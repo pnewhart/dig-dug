@@ -57,7 +57,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
-        System.out.println("painting component");
+
         drawBackGround(g);
         drawHoles(g);
         drawDriller(g);
