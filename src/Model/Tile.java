@@ -30,8 +30,6 @@ public class Tile extends Object {
     private String biome;
     private int layer;
 
-    private Image image;
-
     public Hole getLeftHole() {
         return leftHole;
     }
@@ -72,7 +70,6 @@ public class Tile extends Object {
     public Tile(int x, int y) {
         this.location = new Vector2(x * Vector2.DIVS_PER_TILE,
                                     y * Vector2.DIVS_PER_TILE);
-        this.image = GameManager.loadAndResizeSprite("digEast19.png", 48, 48);
     }
 
     public Vector2 getLocation() {
