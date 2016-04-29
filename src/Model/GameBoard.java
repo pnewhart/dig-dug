@@ -75,32 +75,34 @@ public class GameBoard {
 
         for (Enemy e : enemyList) {
 
-            if (((e.getDiv().getX() + Vector2.DIVS_PER_TILE) > driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
-
-                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-                    isCollision = true;
-                    System.out.println("1");
-                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-                    isCollision = true;
-                    System.out.println("3");
-
-                }
-            } else if (e.getDiv().getX() > driller.getDiv().getX() + Vector2.DIVS_PER_TILE && (e.getDiv().getX() < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
-
-                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-                    isCollision = true;
-                    System.out.println("2");
-                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-                    isCollision = true;
-                    System.out.println("4");
-                }
-
+            isCollision = e.isCollidedWith(this.driller);
+            if (isCollision) {
+                driller.kill();
+                break;
             }
+//            if (((e.getDiv().getX() + Vector2.DIVS_PER_TILE) > driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
+//
+//                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("1");
+//                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("3");
+//
+//                }
+//            } else if (e.getDiv().getX() > driller.getDiv().getX() + Vector2.DIVS_PER_TILE && (e.getDiv().getX() < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
+//
+//                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("2");
+//                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("4");
+//                }
+//
+//            }
 
             //System.out.println("collision");
-        }
-        if (isCollision) {
-            driller.kill();
         }
 
         return isCollision;

@@ -132,10 +132,10 @@ public class Driller extends Object {
             if (prevWalkState == NUM_WALK_STATES) {
                 prevWalkState = 0;
             }
-        } else if (isDead()) {
-            s3 = String.valueOf(deadCount / 8);
         }
-        if (prevWalkState < NUM_WALK_STATES / 2) {
+        if (isDead()) {
+            s3 = String.valueOf(deadCount / 12);
+        } else if (prevWalkState < NUM_WALK_STATES / 2) {
             s3 = "1";
         } else {
             s3 = "2";
