@@ -31,7 +31,7 @@ public class MainMenuManager {
 
     private void initialize() throws IOException {
 
-        this.background = this.loadAndResizeSprite("Background.png", 672, 864);
+        this.background = this.loadAndResizeSprite("MainMenu.png", 672, 864);
     }
 
     public static Image loadAndResizeSprite(String imageName, int pixWidth,
