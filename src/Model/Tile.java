@@ -177,8 +177,10 @@ public class Tile extends Object {
     public boolean makeHole(Direction dir, Vector2 loc,
                             int percentToDestroy) {
         if (loc.getY() > 14) {
+
             try {
                 if (dir == Direction.RIGHT) {
+
                     if (rightHole.isFull()) {
                         return rightHole.destroy(percentToDestroy);
 
@@ -194,6 +196,7 @@ public class Tile extends Object {
                     }
                 }
                 if (dir == Direction.LEFT) {
+
                     if (leftHole.isFull()) {
                         return leftHole.destroy(percentToDestroy);
 
@@ -254,9 +257,10 @@ public class Tile extends Object {
                         downHole.getPercentRemoved());
 
             }
-
+            System.out.println(this.isClearedHorizontal());
             return false;
         } else {
+            System.out.println(this.isClearedHorizontal());
             return false;
         }
 
@@ -329,8 +333,8 @@ public class Tile extends Object {
      *
      * @return boolean
      */
-    public boolean isClearedHorizontal() {
-        if (upHole.isEmpty() && downHole.isEmpty()) {
+    public boolean isClearedVertical() {
+        if (upHole.getPercentRemoved() == 19 || downHole.getPercentRemoved() == 19 || (downHole.getPercentRemoved() + upHole.getPercentRemoved()) == 19) {
             return true;
         } else {
             return false;
@@ -342,8 +346,10 @@ public class Tile extends Object {
      *
      * @return boolean
      */
-    public boolean isClearedVertical() {
-        if (leftHole.isEmpty() && rightHole.isEmpty()) {
+    public boolean isClearedHorizontal() {
+
+        if (leftHole.getPercentRemoved() == 19 || rightHole.getPercentRemoved() == 19 || (leftHole.getPercentRemoved() + rightHole.getPercentRemoved()) == 19) {
+            this.clearTileHorizontal();
             return true;
         } else {
             return false;
