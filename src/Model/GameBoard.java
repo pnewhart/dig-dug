@@ -70,29 +70,18 @@ public class GameBoard {
 
     }
 
-    /**
-     *
-     * @param location(in terms of divs)
-     * @param d
-     * @return
-     */
-    public boolean makeHole(Vector2 location, Direction d) {
+    public boolean isCollision() {
+        boolean isCollision = false;
+        for (Enemy e : enemyList) {
 
-        int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
-        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
+            if ((e.getDiv().getX() >= driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) <= driller.getDiv().getX()) || (e.getDiv().getY() >= driller.getDiv().getY() && e.getDiv().getY() <= (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+                isCollision = true;
+                driller.kill();
+                System.out.println("collision");
+            }
 
-        if (d == Direction.RIGHT) {
-            board[x - 1][y].makeHole(d, location, DIVS_TO_DIG);
-        } else if (d == Direction.LEFT) {
-            board[x + 1][y].makeHole(d, location, DIVS_TO_DIG);
-        } else if (d == Direction.UP) {
-            board[x][y + 1].makeHole(d, location, DIVS_TO_DIG);
-        } else if (d == Direction.UP) {
-            board[x][y - 1].makeHole(d, location, DIVS_TO_DIG);
         }
-
-        return board[x][y].makeHole(d, location, DIVS_TO_DIG);
-
+        return isCollision;
     }
 
     /**
@@ -115,10 +104,16 @@ public class GameBoard {
                 dig1 = board[x - 1][y].digHole(d,
                                                Math.abs(
                                                        (int) loc.getX() - (x - 1) * DIVS_PER_TILE));
+
             }
             dig2 = board[x][y].digHole(d,
                                        Math.abs(
                                                (int) loc.getX() - x * DIVS_PER_TILE));
+            if (board[x - 1][y].isClearedVertical()) {
+                board[x - 1][y].clearTile();
+
+            }
+
         } else if (d == Direction.LEFT) {
             if (x <= Vector2.MAX_X) {
                 dig1 = board[x + 1][y].digHole(d, 31
@@ -182,20 +177,6 @@ public class GameBoard {
                 return false;
             }
         }
-    }
-
-    /**
-     * clears the dirt from a tile
-     *
-     * @param num (in divs)
-     * @param dir
-     */
-    public void clearTile(Vector2 loc, Direction dir) {
-        int x = (int) loc.getX();
-        int y = (int) loc.getY();
-
-        board[x][y].clearTile(dir);
-
     }
 
     /**

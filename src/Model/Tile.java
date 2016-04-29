@@ -25,8 +25,6 @@ public class Tile extends Object {
     private Hole upHole = new Hole(Direction.UP);
     private Hole downHole = new Hole(Direction.DOWN);
     private String baseImageKey;
-    private boolean clearedHorizontal = false;
-    private boolean clearedVertical = false;
     private String biome;
     private int layer;
 
@@ -162,13 +160,24 @@ public class Tile extends Object {
     public boolean digHole(Direction dir, int amount) {
         boolean dig = false;
         if (dir == Direction.RIGHT) {
+
             dig = this.rightHole.dig(amount);
+
         } else if (dir == Direction.LEFT) {
+
             dig = this.leftHole.dig(amount);
+
         } else if (dir == Direction.UP) {
+            if (this.isClearedHorizontal()) {
+                System.out.println("lakjsdhfhasd");
+                this.clearTile(dir);
+            }
             dig = this.upHole.dig(amount);
+
         } else if (dir == Direction.DOWN) {
+
             dig = this.downHole.dig(amount);
+
         } else {
             return false;
         }
@@ -197,6 +206,12 @@ public class Tile extends Object {
         } else {
             return false;
         }
+    }
+
+    public void clearTile() {
+        this.clearTileHorizontal();
+        this.clearTileVertical();
+
     }
 
     /**
@@ -346,7 +361,6 @@ public class Tile extends Object {
 
         rightHole.clearHole();
         leftHole.clearHole();
-        clearedHorizontal = true;
         leftHole.hasBeenDug = true;
         rightHole.hasBeenDug = true;
     }
@@ -358,7 +372,7 @@ public class Tile extends Object {
 
         upHole.clearHole();
         downHole.clearHole();
-        clearedVertical = true;
+
     }
 
     /**
@@ -367,7 +381,7 @@ public class Tile extends Object {
      * @return boolean
      */
     public boolean isClearedVertical() {
-        if ((downHole.getPercentRemoved() + upHole.getPercentRemoved()) > 16) {
+        if ((downHole.getPercentRemoved() + upHole.getPercentRemoved()) >= 16) {
             this.clearTileVertical();
             return true;
         } else {
@@ -382,7 +396,7 @@ public class Tile extends Object {
      */
     public boolean isClearedHorizontal() {
 
-        if ((leftHole.getPercentRemoved() + rightHole.getPercentRemoved()) > 16) {
+        if ((leftHole.getPercentRemoved() + rightHole.getPercentRemoved()) >= 16) {
             this.clearTileHorizontal();
             return true;
         } else {
