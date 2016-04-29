@@ -46,11 +46,18 @@ public class GameBoard {
         board[5][5].clearTileHorizontal();
         board[4][5].clearTileHorizontal();
         board[3][5].clearTileHorizontal();
-        board[2][5].clearTileHorizontal();
+
+        board[9][11].clearTileHorizontal();
+        board[8][11].clearTileHorizontal();
+        board[10][11].clearTileHorizontal();
+
         Dragon d = new Dragon(Vector2Utility.scale(new Vector2(4, 5),
                                                    Vector2.DIVS_PER_TILE));
+        Puff p = new Puff(Vector2Utility.scale(new Vector2(9, 10),
+                                               Vector2.DIVS_PER_TILE));
 
         enemyList.add(d);
+        enemyList.add(p);
     }
 
     public void setDriller(Driller d) {
@@ -225,7 +232,6 @@ public class GameBoard {
             }
             if (character == 'p') {
 
-                //enemyList.add(new Puff(this));
                 System.out.println("puff made");
             }
 
