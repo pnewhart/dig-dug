@@ -113,6 +113,11 @@ public class GameManager {
         //System.out.println("SHOOT");
     }
 
+    public void checkCollision() {
+
+        this.getTheBoard().isCollision();
+    }
+
     private void initializeFromFile() throws IOException {
 
         try {
@@ -125,6 +130,7 @@ public class GameManager {
             //File f = new File("input.txt");
             //this.theBoard.generateFromFile(f);
             this.player1 = new Driller();
+            theBoard.setDriller(this.player1);
             this.loadPlayerSprites();
             this.loadMapSprites();
             this.loadEnemySprites();
