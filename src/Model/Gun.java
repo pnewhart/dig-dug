@@ -56,7 +56,7 @@ public class Gun extends Object {
         this.length = 0.0;
         this.direction = direction;
         this.timeCreated = new Date();
-        this.location = location;
+        this.setDiv(location);
         this.destroyed = false;
 
         this.isPumping = false;

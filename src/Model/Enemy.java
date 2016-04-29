@@ -22,7 +22,7 @@ import java.util.Random;
  */
 public abstract class Enemy extends Object {
 
-    private final double INITIAL_SPEED = 1;
+    protected final double INITIAL_SPEED = 1.2;
 
     protected Direction prevDirection;
     protected Direction direction;
@@ -49,10 +49,12 @@ public abstract class Enemy extends Object {
 
     @Override
     public void move() {
-        if ((getBoard().isClearedHorizontal(this.getFront()) && (direction == Direction.RIGHT || direction == Direction.RIGHT)) || (getBoard().isClearedVertical(
-                                                                                                                                    this.getFront()) && (direction == Direction.UP || direction == Direction.DOWN))) {
-            this.location = Vector2Utility.add(location, Vector2Utility.scale(
-                                               this.direction.getVector(), speed));
+        if ((getBoard().isClearedHorizontal(this.getFront()) && (direction == Direction.RIGHT || direction == Direction.LEFT)) || (getBoard().isClearedVertical(
+                                                                                                                                   this.getFront()) && (direction == Direction.UP || direction == Direction.DOWN))) {
+            this.setDiv(Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
+                                           this.direction.getVector(), speed)));
+            System.out.println(this.direction);
+
         } else {
             ArrayList<Vector2> locations = new ArrayList<Vector2>();
             ArrayList<Direction> directions = new ArrayList<Direction>();
@@ -78,14 +80,13 @@ public abstract class Enemy extends Object {
                 locations.add(right);
                 directions.add(Direction.RIGHT);
             }
-            System.out.println(locations.size());
 
             Random r = new Random();
 
             int i = r.nextInt(locations.size());
 
             this.direction = directions.get(i);
-            this.location = locations.get(i);
+            this.setDiv(locations.get(i));
         }
     }
 
@@ -96,8 +97,8 @@ public abstract class Enemy extends Object {
      */
     public void floatToDriller(Vector2 coord) {
         Vector2 drillerLocation = coord;
-        double enemyX = this.location.getX();
-        double enemyY = this.location.getY();
+        double enemyX = this.getDiv().getX();
+        double enemyY = this.getDiv().getY();
         double drillerX = drillerLocation.getX();
         double drillerY = drillerLocation.getY();
         double horizontalMove = drillerX - enemyX;
@@ -108,20 +109,20 @@ public abstract class Enemy extends Object {
 
             if (horizontalMove < 0) {
                 if (verticalMove < 0) {
-                    this.location = new Vector2((enemyX + (.1 * horizontalMove)),
-                                                (enemyY + (.1 * verticalMove))); // vert and horiz are negative
+                    this.setDiv(new Vector2((enemyX + (.1 * horizontalMove)),
+                                            (enemyY + (.1 * verticalMove)))); // vert and horiz are negative
                 } else {
-                    this.location = new Vector2((enemyX + (.1 * horizontalMove)),
-                                                (enemyY - (.1 * verticalMove))); // vert is positive horiz is negative
+                    this.setDiv(new Vector2((enemyX + (.1 * horizontalMove)),
+                                            (enemyY - (.1 * verticalMove)))); // vert is positive horiz is negative
                 }
 
             } else if (verticalMove < 0) {
-                this.location = new Vector2((enemyX - (.1 * horizontalMove)),
-                                            (enemyY + (.1 * verticalMove))); // vert is neg and horiz is positive
+                this.setDiv(new Vector2((enemyX - (.1 * horizontalMove)),
+                                        (enemyY + (.1 * verticalMove)))); // vert is neg and horiz is positive
 
             } else {
-                this.location = new Vector2((enemyX - (.1 * horizontalMove)),
-                                            (enemyY - (.1 * verticalMove))); // vert and horiz are positive
+                this.setDiv(new Vector2((enemyX - (.1 * horizontalMove)),
+                                        (enemyY - (.1 * verticalMove)))); // vert and horiz are positive
             }
             i++;
         }
@@ -146,27 +147,21 @@ public abstract class Enemy extends Object {
     /**
      * Current location of the direction in divs with respect to location
      *
-     * @return Vector2 front location in divs
+     * @return Vector2 loc location in divs
      */
     public Vector2 getDirection(Direction d) {
-        Vector2 front = this.getDiv();
-        if (d == Direction.RIGHT) {
-            front = Vector2Utility.add(front, Vector2Utility.scale(
-                                       Direction.RIGHT.getVector(),
-                                       Vector2.DIVS_PER_TILE));
-        } else if (d == Direction.DOWN) {
-            front = Vector2Utility.add(front, Vector2Utility.scale(
-                                       Direction.DOWN.getVector(),
-                                       Vector2.DIVS_PER_TILE));
-        }
+        Vector2 loc = this.getDiv();
 
-        if (d == Direction.RIGHT || this.direction == Direction.LEFT) {
-            Vector2Utility.add(front, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
-        } else {
-            Vector2Utility.add(front, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
-        }
+        loc = Vector2Utility.add(loc, Vector2Utility.scale(
+                                 d.getVector(),
+                                 Vector2.DIVS_PER_TILE));
 
-        return front;
+//        if (d == Direction.RIGHT || this.direction == Direction.LEFT) {
+//            Vector2Utility.add(loc, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
+//        } else {
+//            Vector2Utility.add(loc, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
+//        }
+        return loc;
     }
 
     public Vector2 getFront() {

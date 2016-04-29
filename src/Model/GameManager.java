@@ -92,7 +92,7 @@ public class GameManager {
         return spriteImage;
     }
 
-    public void moveObject() {
+    public void moveObjects() {
         for (Enemy enemy : getEnemies()) {
             enemy.move();
         }

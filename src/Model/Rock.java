@@ -43,8 +43,8 @@ public class Rock extends Object {
      * @return true if rock should fall
      */
     public boolean shouldRockFall() {
-        int x = ((int) this.location.getX());
-        int y = ((int) this.location.getY()) - 1; // -1 to look at the tile below the rock
+        int x = ((int) this.getDiv().getX());
+        int y = ((int) this.getDiv().getY()) - 1; // -1 to look at the tile below the rock
         if (this.gBoard.board[x][y].isClearedVertical() || this.gBoard.board[x][y].isEmpty() || this.gBoard.board[x][y].isClearedHorizontal()) {
             this.breakRock();
             return true;
@@ -57,7 +57,7 @@ public class Rock extends Object {
     }
 
     private Vector2 getBelow() {
-        Vector2 below = Vector2Utility.add(this.location,
+        Vector2 below = Vector2Utility.add(this.getDiv(),
                                            Vector2Utility.scale(
                                                    Direction.DOWN.getVector(),
                                                    Vector2.DIVS_PER_TILE + 1));
@@ -94,9 +94,9 @@ public class Rock extends Object {
     public void move() {
         if (shouldRockFall() && !this.isFalling) {
             this.isFalling = true;
-            this.location.setX(this.location.getX() + this.SPEED);
+            this.getDiv().setX(this.getDiv().getX() + this.SPEED);
         } else if (shouldRockFall() && this.isFalling) {
-            this.location.setX(this.location.getX() + this.SPEED);
+            this.getDiv().setX(this.getDiv().getX() + this.SPEED);
         } else if (!shouldRockFall() && this.isFalling) {
             this.isBroken = true;
         }

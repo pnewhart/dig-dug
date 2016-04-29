@@ -25,7 +25,8 @@ public class Dragon extends Enemy {
     private final double HALF_SECOND_NS = Math.pow(5, 9);
 
     public Dragon(Vector2 location) {
-        super();
+        this.speed = INITIAL_SPEED;
+        this.direction = Direction.RIGHT;
         this.setDiv(location);
         this.direction = Direction.RIGHT;
         this.prevDirection = Direction.RIGHT;

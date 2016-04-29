@@ -25,7 +25,7 @@ public abstract class Object {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    protected Vector2 location = null;
+    private Vector2 location = null;
     protected boolean isPumpable = false;
     protected boolean canCrush = false;
     protected boolean isCrushed = false;
@@ -57,6 +57,7 @@ public abstract class Object {
 
     public void setDiv(Vector2 location) {
         this.location = location;
+        location.adjust();
     }
 
     public Vector2 getTile() {
