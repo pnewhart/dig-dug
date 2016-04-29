@@ -62,6 +62,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     }
 
     public void update() {
+        theModel.checkCollision();
         theModel.moveObjects();
 
         if (rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
@@ -84,7 +85,6 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             moveState = null;
         }
         this.theModel.movePlayer(moveState);
-        theModel.checkCollision();
         GUI.repaint();
     }
 

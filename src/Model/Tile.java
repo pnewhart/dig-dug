@@ -168,10 +168,7 @@ public class Tile extends Object {
             dig = this.leftHole.dig(amount);
 
         } else if (dir == Direction.UP) {
-            if (this.isClearedHorizontal()) {
-                System.out.println("lakjsdhfhasd");
-                this.clearTile(dir);
-            }
+
             dig = this.upHole.dig(amount);
 
         } else if (dir == Direction.DOWN) {
