@@ -55,6 +55,20 @@ public abstract class Enemy extends Object {
 
     @Override
     public void move() {
+        System.out.println(this.getDiv());
+        if (getBoard().isClearedVertical(
+                this.getDiv())) {
+            System.out.println(
+                    "i9s cleared vert" + getBoard().isClearedVertical(
+                            this.getDiv()));
+        }
+        if (getBoard().isClearedHorizontal(
+                this.getDiv())) {
+            System.out.println(
+                    "is cleared horizontal" + getBoard().isClearedHorizontal(
+                            this.getDiv()));
+        }
+
         if ((getBoard().isClearedHorizontal(this.getFront()) && (direction == Direction.RIGHT || direction == Direction.LEFT)) || (getBoard().isClearedVertical(
                                                                                                                                    this.getFront()) && (direction == Direction.UP || direction == Direction.DOWN))) {
             this.setDiv(Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
@@ -157,16 +171,12 @@ public abstract class Enemy extends Object {
      * @return Vector2 loc location in divs
      */
     public Vector2 getDirection(Direction d) {
-        Vector2 loc = Vector2Utility.roundDivide(getDiv(), Vector2.DIVS_PER_TILE);
-
-        if (direction == Direction.RIGHT) {
-            loc = Vector2Utility.add(loc, d.getVector());
-        } else if (direction == Direction.DOWN) {
-            loc = Vector2Utility.add(loc, d.getVector());
+        Vector2 loc = this.getDiv();
+        if (d == Direction.RIGHT || d == Direction.DOWN) {
+            loc = Vector2Utility.add(loc, Vector2Utility.scale(
+                                     d.getVector(),
+                                     Vector2.DIVS_PER_TILE));
         }
-        loc = Vector2Utility.add(loc, d.getVector());
-
-        loc = Vector2Utility.scale(loc, Vector2.DIVS_PER_TILE);
 
         return loc;
     }
