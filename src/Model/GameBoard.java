@@ -115,6 +115,10 @@ public class GameBoard {
                 dig1 = board[x - 1][y].digHole(d,
                                                Math.abs(
                                                        (int) loc.getX() - (x - 1) * DIVS_PER_TILE));
+                if (board[x - 1][y].isClearedVertical()) {
+                    board[x - 1][y].clearTileHorizontal();
+                    board[x - 1][y].clearTileVertical();
+                }
             }
             dig2 = board[x][y].digHole(d,
                                        Math.abs(
@@ -124,6 +128,10 @@ public class GameBoard {
                 dig1 = board[x + 1][y].digHole(d, 31
                                                   - Math.abs(
                                                        (int) loc.getX() - (x + 1) * DIVS_PER_TILE));
+                if (board[x + 1][y].isClearedVertical()) {
+                    board[x + 1][y].clearTileHorizontal();
+                    board[x + 1][y].clearTileVertical();
+                }
             }
             dig2 = board[x][y].digHole(d, 15
                                           - Math.abs(
@@ -133,6 +141,10 @@ public class GameBoard {
                 dig1 = board[x][y + 1].digHole(d, 31
                                                   - Math.abs(
                                                        (int) loc.getY() - (y + 1) * DIVS_PER_TILE));
+                if (board[x][y + 1].isClearedHorizontal()) {
+                    board[x][y + 1].clearTileHorizontal();
+                    board[x][y + 1].clearTileVertical();
+                }
             }
             dig2 = board[x][y].digHole(d, 15
                                           - Math.abs(
@@ -142,6 +154,10 @@ public class GameBoard {
                 dig1 = board[x][y - 1].digHole(d,
                                                Math.abs(
                                                        (int) loc.getY() - (y - 1) * DIVS_PER_TILE));
+                if (board[x][y - 1].isClearedHorizontal()) {
+                    board[x][y - 1].clearTileHorizontal();
+                    board[x][y - 1].clearTileVertical();
+                }
             }
             dig2 = board[x][y].digHole(d,
                                        Math.abs(

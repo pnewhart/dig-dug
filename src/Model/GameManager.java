@@ -211,6 +211,14 @@ public class GameManager {
                                 "Pumper_Right_1.png",
                                 "Pumper_Right_2.png"};
 
+        String[] deadFiles = {"Dead_Left_1.png", "Dead_Left_2.png", "Dead_Left_3.png", "Dead_Left_4.png", "Dead_Left_5.png",
+                              "Dead_Right_1.png", "Dead_Right_2.png", "Dead_Right_3.png", "Dead_Right_4.png", "Dead_Right_5.png",
+                              "Dead_Down_L1.png", "Dead_Down_L2.png", "Dead_Down_L3.png", "Dead_Down_L4.png", "Dead_Down_L5.png",
+                              "Dead_Down_R1.png", "Dead_Down_R2.png", "Dead_Down_R3.png", "Dead_Down_R4.png", "Dead_Down_R5.png",
+                              "Dead_Up_L1.png", "Dead_Up_L2.png", "Dead_Up_L3.png", "Dead_Up_L4.png", "Dead_Up_L5.png",
+                              "Dead_Up_R1.png", "Dead_Up_R2.png", "Dead_Up_R3.png", "Dead_Up_R4.png", "Dead_Up_R5.png",
+                              "Dead_Rock_Left", "Dead_Rock_Right", "Dead_Fire_Left", "Dead_Fire_Right"};
+
         for (String file : pumperFiles) {
             player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }

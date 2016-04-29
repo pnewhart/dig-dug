@@ -71,29 +71,21 @@ public abstract class Enemy extends Object {
                                             getDiv()))) && getBoard().isDugTo(up,
                                                                               Direction.UP)) {
                 directions.add(Direction.UP);
-//                System.out.println("Can Move Up. canTurn = " + isAtTurnableDiv(
-//                        getDiv()));
             }
             if ((direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
                                             getDiv()))) && getBoard().isDugTo(
                     down, Direction.DOWN)) {
                 directions.add(Direction.DOWN);
-//                System.out.println(
-//                        "Can Move Down. canTurn = " + isAtTurnableDiv(getDiv()));
             }
             if ((direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
                                               getDiv()))) && getBoard().isDugTo(
                     left, Direction.LEFT)) {
                 directions.add(Direction.LEFT);
-//                System.out.println(
-//                        "Can Move Left. canTurn = " + isAtTurnableDiv(getDiv()));
             }
             if ((direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
                                               getDiv()))) && getBoard().isDugTo(
                     right, Direction.RIGHT)) {
                 directions.add(Direction.RIGHT);
-//                System.out.println(
-//                        "Can Move Right. canTurn = " + isAtTurnableDiv(getDiv()));
             }
 
             Random r = new Random();
