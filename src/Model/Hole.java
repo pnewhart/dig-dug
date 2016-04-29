@@ -23,6 +23,7 @@ public class Hole {
     private final int MIN_FILL = 19;
     protected Direction dir;
     protected boolean isEmpty;
+    protected boolean hasBeenDug = false;
 
     /**
      *
@@ -51,12 +52,17 @@ public class Hole {
             isEmpty = true;
             return false;
         } else {
-            if (percentRemoved < 4) {
-                percentRemoved += 1;
+            if (hasBeenDug && percentRemoved < 2) {
+                if (percentRemoved < 4) {
+                    percentRemoved += 1;
+                }
+                percentRemoved += percentToDestroy;
+                isEmpty = false;
+                hasBeenDug = true;
+                return true;
+            } else {
+                return false;
             }
-            percentRemoved += percentToDestroy;
-            isEmpty = false;
-            return true;
 
         }
     }
