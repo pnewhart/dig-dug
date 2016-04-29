@@ -72,6 +72,6 @@ public class MainMenuVisual extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     private void drawMenu(Graphics g) {
-        g.drawImage(theModel.)
+        g.drawImage(theModel.getBackGround(), 0, 0, this);
     }
 }
