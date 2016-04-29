@@ -74,7 +74,7 @@ public class GameBoard {
         boolean isCollision = false;
         for (Enemy e : enemyList) {
 
-            if ((e.getDiv().getX() >= driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) <= driller.getDiv().getX()) || (e.getDiv().getY() >= driller.getDiv().getY() && e.getDiv().getY() <= (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+            if ((e.getDiv().getX() > driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) < driller.getDiv().getX()) || (e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
                 isCollision = true;
                 driller.kill();
                 System.out.println("collision");
