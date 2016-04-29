@@ -12,6 +12,8 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
+
 /**
  *
  * @author laa024
@@ -22,4 +24,24 @@ public class Puff extends Enemy {
         super(location);
     }
 
+    @Override
+    public Image getCurrentImage() {
+        String dir = null;
+        if (direction == Direction.UP || direction == Direction.DOWN) {
+            if (prevDirection == Direction.LEFT) {
+                dir = "Left";
+            } else {
+                dir = "Right";
+            }
+        } else {
+            if (direction == Direction.LEFT) {
+                dir = "Left";
+            } else {
+                dir = "Right";
+            }
+        }
+
+        return Images.get(
+                "Pooka_" + dir + "_" + (1 + stepCount / (MAX_STEP_COUNT / 2)) + ".png");
+    }
 }

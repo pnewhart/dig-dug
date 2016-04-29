@@ -112,7 +112,8 @@ public class Dragon extends Enemy {
             }
         }
 
-        return Images.get("Fygar_" + dir + "_1.png");
+        return Images.get(
+                "Fygar_" + dir + "_" + (1 + stepCount / (MAX_STEP_COUNT / 2)) + ".png");
     }
 
 }

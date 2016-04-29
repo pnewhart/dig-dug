@@ -28,6 +28,9 @@ public abstract class Enemy extends Object {
     protected Direction direction;
     protected double speed;
 
+    protected int stepCount;
+    protected final int MAX_STEP_COUNT = 16;
+
     private static final double DEFLATE_TIME = 0.8;
     private static final double PUMP_TIME = 0.5;
     private static final int MAX_PUMPS = 3;
@@ -56,6 +59,7 @@ public abstract class Enemy extends Object {
                                                                                                                                    this.getFront()) && (direction == Direction.UP || direction == Direction.DOWN))) {
             this.setDiv(Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
                                            this.direction.getVector(), speed)));
+            stepCount = (stepCount + 1) % MAX_STEP_COUNT;
 
         } else {
             ArrayList<Vector2> locations = new ArrayList<Vector2>();
@@ -90,7 +94,6 @@ public abstract class Enemy extends Object {
                 this.prevDirection = direction;
             }
             this.direction = directions.get(i);
-
         }
     }
 
@@ -154,22 +157,22 @@ public abstract class Enemy extends Object {
      * @return Vector2 loc location in divs
      */
     public Vector2 getDirection(Direction d) {
-        Vector2 loc = this.getDiv();
+        Vector2 loc = Vector2Utility.roundDivide(getDiv(), Vector2.DIVS_PER_TILE);
 
-        loc = Vector2Utility.add(loc, Vector2Utility.scale(
-                                 d.getVector(),
-                                 Vector2.DIVS_PER_TILE));
+        if (direction == Direction.RIGHT) {
+            loc = Vector2Utility.add(loc, d.getVector());
+        } else if (direction == Direction.DOWN) {
+            loc = Vector2Utility.add(loc, d.getVector());
+        }
+        loc = Vector2Utility.add(loc, d.getVector());
 
-//        if (d == Direction.RIGHT || this.direction == Direction.LEFT) {
-//            Vector2Utility.add(loc, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
-//        } else {
-//            Vector2Utility.add(loc, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
-//        }
+        loc = Vector2Utility.scale(loc, Vector2.DIVS_PER_TILE);
+
         return loc;
     }
 
     public Vector2 getFront() {
-        return getDirection(this.direction);
+        return Vector2Utility.add(getDiv(), direction.getVector());
     }
 
     public boolean isIsPopped() {

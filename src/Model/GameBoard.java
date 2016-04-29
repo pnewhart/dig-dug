@@ -53,7 +53,7 @@ public class GameBoard {
 
         Dragon d = new Dragon(Vector2Utility.scale(new Vector2(4, 5),
                                                    Vector2.DIVS_PER_TILE));
-        Puff p = new Puff(Vector2Utility.scale(new Vector2(9, 10),
+        Puff p = new Puff(Vector2Utility.scale(new Vector2(9, 11),
                                                Vector2.DIVS_PER_TILE));
 
         enemyList.add(d);
