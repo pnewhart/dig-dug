@@ -177,7 +177,7 @@ public class Tile extends Object {
             try {
                 if (dir == Direction.RIGHT) {
 
-                    if (rightHole.isFull()) {
+                    if (!rightHole.isEmpty()) {
                         return rightHole.destroy(percentToDestroy);
 
                     } else {
@@ -193,7 +193,7 @@ public class Tile extends Object {
                 }
                 if (dir == Direction.LEFT) {
 
-                    if (leftHole.isFull()) {
+                    if (!leftHole.isEmpty()) {
                         return leftHole.destroy(percentToDestroy);
 
                     } else {
@@ -207,7 +207,7 @@ public class Tile extends Object {
                     }
                 }
                 if (dir == Direction.UP) {
-                    if (upHole.isFull()) {
+                    if (!upHole.isEmpty()) {
                         return upHole.destroy(percentToDestroy);
 
                     } else {
@@ -222,7 +222,7 @@ public class Tile extends Object {
                     }
                 }
                 if (dir == Direction.DOWN) {
-                    if (downHole.isFull()) {
+                    if (!downHole.isEmpty()) {
                         return downHole.destroy(percentToDestroy);
 
                     } else {
@@ -271,7 +271,7 @@ public class Tile extends Object {
      * @return true if tile is full
      */
     public boolean isFull() {
-        if (leftHole.isFull() && rightHole.isFull() && upHole.isFull() && downHole.isFull()) {
+        if (!(leftHole.isEmpty() && rightHole.isEmpty() && upHole.isEmpty() && downHole.isEmpty())) {
             return true;
         } else {
             return false;

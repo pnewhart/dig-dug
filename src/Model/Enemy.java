@@ -52,6 +52,20 @@ public abstract class Enemy extends Object {
 
     @Override
     public void move() {
+        System.out.println(this.getDiv());
+        if (getBoard().isClearedVertical(
+                this.getDiv())) {
+            System.out.println(
+                    "i9s cleared vert" + getBoard().isClearedVertical(
+                            this.getDiv()));
+        }
+        if (getBoard().isClearedHorizontal(
+                this.getDiv())) {
+            System.out.println(
+                    "is cleared horizontal" + getBoard().isClearedHorizontal(
+                            this.getDiv()));
+        }
+
         if ((getBoard().isClearedHorizontal(this.getFront()) && (direction == Direction.RIGHT || direction == Direction.LEFT)) || (getBoard().isClearedVertical(
                                                                                                                                    this.getFront()) && (direction == Direction.UP || direction == Direction.DOWN))) {
             this.setDiv(Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
@@ -155,10 +169,11 @@ public abstract class Enemy extends Object {
      */
     public Vector2 getDirection(Direction d) {
         Vector2 loc = this.getDiv();
-
-        loc = Vector2Utility.add(loc, Vector2Utility.scale(
-                                 d.getVector(),
-                                 Vector2.DIVS_PER_TILE));
+        if (d == Direction.RIGHT || d == Direction.DOWN) {
+            loc = Vector2Utility.add(loc, Vector2Utility.scale(
+                                     d.getVector(),
+                                     Vector2.DIVS_PER_TILE));
+        }
 
 //        if (d == Direction.RIGHT || this.direction == Direction.LEFT) {
 //            Vector2Utility.add(loc, new Vector2(0, Vector2.DIVS_PER_TILE / 2));

@@ -18,10 +18,11 @@ package Model;
  */
 public class Hole {
 
-    private int percentRemoved = 1;
+    private int percentRemoved = 0;
     private final int MAX_FILL = 0;
     private final int MIN_FILL = 19;
     protected Direction dir;
+    protected boolean isEmpty;
 
     /**
      *
@@ -47,30 +48,17 @@ public class Hole {
      */
     public boolean destroy(int percentToDestroy) throws Exception {
         if (percentRemoved >= MIN_FILL) {
-
+            isEmpty = true;
             return false;
         } else {
             if (percentRemoved < 4) {
                 percentRemoved += 1;
             }
             percentRemoved += percentToDestroy;
-
+            isEmpty = false;
             return true;
 
         }
-    }
-
-    /**
-     *
-     * @return true if hole is full
-     */
-    public boolean isFull() {
-        if (percentRemoved == MAX_FILL) {
-            return true;
-        } else {
-            return false;
-        }
-
     }
 
     /**
@@ -78,16 +66,14 @@ public class Hole {
      * @return true if hole if empty
      */
     public boolean isEmpty() {
-        if (percentRemoved == MIN_FILL) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.isEmpty;
 
     }
 
     public void clearHole() {
         percentRemoved = MIN_FILL;
+        this.percentRemoved = MIN_FILL;
+        this.isEmpty = true;
     }
 
     public String filePath() {
