@@ -12,7 +12,6 @@
  * **************************************** */
 package Model;
 
-import static Model.Vector2.DIVS_PER_TILE;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -74,14 +73,21 @@ public class GameBoard {
         boolean isCollision = false;
         for (Enemy e : enemyList) {
 
-            if ((e.getDiv().getX() > driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) < driller.getDiv().getX()) || (e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+            if (((e.getDiv().getX() + Vector2.DIVS_PER_TILE) > driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
                 isCollision = true;
-                driller.kill();
-                System.out.println("collision");
+                System.out.println("collision 1 ");
+            } else if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+                isCollision = true;
+                System.out.println("collision 2");
+            } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+                isCollision = true;
+                System.out.println("collision 3");
             }
-
+            driller.kill();
+            //System.out.println("collision");
         }
         return isCollision;
+
     }
 
     /**
@@ -111,7 +117,7 @@ public class GameBoard {
             }
             dig2 = board[x][y].digHole(d,
                                        Math.abs(
-                                               (int) loc.getX() - x * DIVS_PER_TILE));
+                                               (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
             if (board[x - 1][y].isClearedVertical()) {
                 board[x - 1][y].clearTile();
 
@@ -129,7 +135,7 @@ public class GameBoard {
             }
             dig2 = board[x][y].digHole(d, 15
                                           - Math.abs(
-                                               (int) loc.getX() - x * DIVS_PER_TILE));
+                                               (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
         } else if (d == Direction.UP) {
             if (y <= Vector2.MAX_Y) {
                 dig1 = board[x][y + 1].digHole(d, 31
@@ -142,7 +148,7 @@ public class GameBoard {
             }
             dig2 = board[x][y].digHole(d, 15
                                           - Math.abs(
-                                               (int) loc.getY() - y * DIVS_PER_TILE));
+                                               (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
         } else if (d == Direction.DOWN) {
             if (y < Vector2.MAX_Y) {
                 dig1 = board[x][y - 1].digHole(d,
@@ -155,7 +161,7 @@ public class GameBoard {
             }
             dig2 = board[x][y].digHole(d,
                                        Math.abs(
-                                               (int) loc.getY() - y * DIVS_PER_TILE));
+                                               (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
         }
 
         return dig1 || dig2;
@@ -178,16 +184,16 @@ public class GameBoard {
         } else {
             if (dir == Direction.RIGHT) {
                 return board[x][y].isDugTo(dir, Math.abs(
-                                           (int) loc.getX() - x * DIVS_PER_TILE));
+                                           (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
             } else if (dir == Direction.LEFT) {
                 return board[x][y].isDugTo(dir, 15 - Math.abs(
-                                           (int) loc.getX() - x * DIVS_PER_TILE));
+                                           (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
             } else if (dir == Direction.UP) {
                 return board[x][y].isDugTo(dir, Math.abs(
-                                           (int) loc.getY() - y * DIVS_PER_TILE));
+                                           (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
             } else if (dir == Direction.DOWN) {
                 return board[x][y].isDugTo(dir, 15 - Math.abs(
-                                           (int) loc.getY() - y * DIVS_PER_TILE));
+                                           (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
             } else {
                 return false;
             }
