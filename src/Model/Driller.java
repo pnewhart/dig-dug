@@ -182,8 +182,8 @@ public class Driller extends Object {
             }
         }
         if (direction != null) {
-            this.isDigging = getBoard().makeHole(this.getFront(),
-                                                 this.direction);
+            this.isDigging = getBoard().digHole(this.getFront(),
+                                                this.direction);
         }
     }
 
@@ -381,12 +381,11 @@ public class Driller extends Object {
                                        Vector2.DIVS_PER_TILE - 1));
         }
 
-        if (this.direction == Direction.RIGHT || this.direction == Direction.LEFT) {
-            Vector2Utility.add(front, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
-        } else {
-            Vector2Utility.add(front, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
-        }
-
+//        if (this.direction == Direction.RIGHT || this.direction == Direction.LEFT) {
+//            Vector2Utility.add(front, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
+//        } else {
+//            Vector2Utility.add(front, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
+//        }
         return front;
     }
 

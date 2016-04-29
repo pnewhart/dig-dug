@@ -165,6 +165,40 @@ public class Tile extends Object {
     }
 
     /**
+     * Digs the hole for the digger in this tile
+     *
+     * @param dir
+     * @param loc (divs)
+     * @return
+     */
+    public boolean digHole(Direction dir, int amount) {
+        boolean dig = false;
+        if (dir == Direction.RIGHT) {
+            dig = this.rightHole.dig(amount);
+        } else if (dir == Direction.LEFT) {
+            dig = this.leftHole.dig(amount);
+
+        } else if (dir == Direction.UP) {
+            dig = this.upHole.dig(amount);
+        } else if (dir == Direction.DOWN) {
+            dig = this.downHole.dig(amount);
+        } else {
+            return false;
+        }
+
+        if (this.rightHole.isClear() || this.leftHole.isClear()) {
+            this.rightHole.clear();
+            this.leftHole.clear();
+        }
+        if (this.upHole.isClear() || this.downHole.isClear()) {
+            this.upHole.clear();
+            this.downHole.clear();
+        }
+
+        return dig;
+    }
+
+    /**
      * destroys part of a hole in a certain direction
      *
      * @param dir

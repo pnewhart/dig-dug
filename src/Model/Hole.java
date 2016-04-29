@@ -38,7 +38,11 @@ public class Hole {
      * @return percent of hole filled
      */
     public int getPercentRemoved() {
-        return percentRemoved;
+        if (isClear()) {
+            return 19;
+        } else {
+            return percentRemoved;
+        }
     }
 
     /**
@@ -70,6 +74,38 @@ public class Hole {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Digs in the correct amount
+     *
+     * @param digAmount
+     * @return
+     */
+    public boolean dig(int digAmount) {
+        System.out.println(digAmount + " " + percentRemoved);
+        if (digAmount == 1 && !hasBeenDug) {
+            percentRemoved = 1;
+            hasBeenDug = true;
+            return true;
+        } else if (hasBeenDug) {
+            if (digAmount > percentRemoved) {
+                percentRemoved = digAmount;
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isClear() {
+        return this.percentRemoved >= 19;
+    }
+
+    public void clear() {
+        this.percentRemoved = 100;
     }
 
     /**

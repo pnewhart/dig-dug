@@ -12,6 +12,7 @@
  * **************************************** */
 package Model;
 
+import static Model.Vector2.DIVS_PER_TILE;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -92,6 +93,53 @@ public class GameBoard {
 
         return board[x][y].makeHole(d, location, DIVS_TO_DIG);
 
+    }
+
+    public boolean digHole(Vector2 loc, Direction d) {
+        int x = (int) loc.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) loc.getY() / Vector2.DIVS_PER_TILE;
+
+        boolean dig1 = false, dig2 = false;
+
+        if (d == Direction.RIGHT) {
+            if (x > 0) {
+                dig1 = board[x - 1][y].digHole(d,
+                                               Math.abs(
+                                                       (int) loc.getX() - (x - 1) * DIVS_PER_TILE));
+            }
+            dig2 = board[x][y].digHole(d,
+                                       Math.abs(
+                                               (int) loc.getX() - x * DIVS_PER_TILE));
+        } else if (d == Direction.LEFT) {
+            if (x < Vector2.MAX_X) {
+                dig1 = board[x + 1][y].digHole(d, 31
+                                                  - Math.abs(
+                                                       (int) loc.getX() - (x + 1) * DIVS_PER_TILE));
+            }
+            dig2 = board[x][y].digHole(d, 15
+                                          - Math.abs(
+                                               (int) loc.getX() - x * DIVS_PER_TILE));
+        } else if (d == Direction.UP) {
+            if (y < Vector2.MAX_Y) {
+                dig1 = board[x][y + 1].digHole(d, 31
+                                                  - Math.abs(
+                                                       (int) loc.getY() - (y + 1) * DIVS_PER_TILE));
+            }
+            dig2 = board[x][y].digHole(d, 15
+                                          - Math.abs(
+                                               (int) loc.getY() - y * DIVS_PER_TILE));
+        } else if (d == Direction.DOWN) {
+            if (y < Vector2.MAX_Y) {
+                dig1 = board[x][y - 1].digHole(d,
+                                               Math.abs(
+                                                       (int) loc.getY() - (y - 1) * DIVS_PER_TILE));
+            }
+            dig2 = board[x][y].digHole(d,
+                                       Math.abs(
+                                               (int) loc.getY() - y * DIVS_PER_TILE));
+        }
+
+        return dig1 || dig2;
     }
 
     /**
