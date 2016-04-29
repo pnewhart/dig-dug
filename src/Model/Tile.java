@@ -68,12 +68,8 @@ public class Tile extends Object {
      * @param y
      */
     public Tile(int x, int y) {
-        this.location = new Vector2(x * Vector2.DIVS_PER_TILE,
-                                    y * Vector2.DIVS_PER_TILE);
-    }
-
-    public Vector2 getLocation() {
-        return location;
+        this.setDiv(new Vector2(x * Vector2.DIVS_PER_TILE,
+                                y * Vector2.DIVS_PER_TILE));
     }
 
 //
@@ -186,7 +182,7 @@ public class Tile extends Object {
 
                     } else {
 
-                        if (loc.getX() >= (this.location.getX() + rightHole.getPercentRemoved())) {
+                        if (loc.getX() >= (this.getDiv().getX() + rightHole.getPercentRemoved())) {
                             return rightHole.destroy(percentToDestroy);
 
                         } else {
@@ -201,7 +197,7 @@ public class Tile extends Object {
                         return leftHole.destroy(percentToDestroy);
 
                     } else {
-                        if (loc.getX() >= (this.location.getX() + (Vector2.DIVS_PER_TILE - leftHole.getPercentRemoved()))) {
+                        if (loc.getX() >= (this.getDiv().getX() + (Vector2.DIVS_PER_TILE - leftHole.getPercentRemoved()))) {
                             return leftHole.destroy(percentToDestroy);
 
                         } else {
@@ -216,7 +212,7 @@ public class Tile extends Object {
 
                     } else {
 
-                        if (loc.getY() >= (this.location.getY() + (Vector2.DIVS_PER_TILE - upHole.getPercentRemoved()))) {
+                        if (loc.getY() >= (this.getDiv().getY() + (Vector2.DIVS_PER_TILE - upHole.getPercentRemoved()))) {
                             return upHole.destroy(percentToDestroy);
 
                         } else {
@@ -231,7 +227,7 @@ public class Tile extends Object {
 
                     } else {
 
-                        if (loc.getY() >= (this.location.getY() - downHole.getPercentRemoved())) {
+                        if (loc.getY() >= (this.getDiv().getY() - downHole.getPercentRemoved())) {
                             return downHole.destroy(percentToDestroy);
 
                         } else {
@@ -304,7 +300,7 @@ public class Tile extends Object {
      * @param dir
      */
     protected void clearTile(Direction dir) {
-        this.makeHole(dir, this.location, 19);
+        this.makeHole(dir, this.getDiv(), 19);
 
     }
 

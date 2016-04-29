@@ -46,7 +46,9 @@ public class GameBoard {
         board[5][5].clearTileHorizontal();
         board[4][5].clearTileHorizontal();
         board[3][5].clearTileHorizontal();
-        Dragon d = new Dragon(new Vector2(4, 5));
+        Dragon d = new Dragon(Vector2Utility.scale(new Vector2(4, 5),
+                                                   Vector2.DIVS_PER_TILE));
+
         enemyList.add(d);
     }
 
@@ -106,11 +108,7 @@ public class GameBoard {
      * @return true if tile is empty
      */
     public boolean isEmpty(int x, int y) {
-        if (board[x][y].isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        return board[x][y].isEmpty();
     }
 
     /**
