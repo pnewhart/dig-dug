@@ -30,8 +30,24 @@ public class MainMenuManager {
 
         private Image background;
 
-        public Image getBackGround() {
-            return background;
+    private void initialize() throws IOException {
+
+        this.background = this.loadAndResizeSprite("MainMenu.png", 672, 864);
+    }
+
+    public static Image loadAndResizeSprite(String imageName, int pixWidth,
+                                            int pixHeight) {
+
+        Image spriteImage = null;
+        try {
+            File inStream = new File("src/PNGImages/" + imageName);
+
+            spriteImage = ImageIO.read(inStream);
+
+            spriteImage = spriteImage.getScaledInstance(pixWidth, pixHeight,
+                                                        java.awt.Image.SCALE_SMOOTH);
+        } catch (IOException ex) {
+            System.out.println(ex.toString() + imageName);
         }
 
         private void initialize() throws IOException {
