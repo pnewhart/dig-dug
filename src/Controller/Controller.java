@@ -62,8 +62,8 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     }
 
     public void update() {
-        theModel.moveObjects();
         theModel.checkCollision();
+        theModel.moveObjects();
 
         if (rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = Direction.RIGHT;
