@@ -57,7 +57,7 @@ public class GameBoard {
                                                Vector2.DIVS_PER_TILE));
 
         enemyList.add(d);
-        enemyList.add(p);
+        //enemyList.add(p);
     }
 
     public void setDriller(Driller d) {

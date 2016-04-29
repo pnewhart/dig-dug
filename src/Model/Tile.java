@@ -182,7 +182,7 @@ public class Tile extends Object {
 
                     } else {
 
-                        if (loc.getX() >= (this.getDiv().getX() + rightHole.getPercentRemoved())) {
+                        if ((loc.getX() == (this.getDiv().getX() + rightHole.getPercentRemoved())) && !this.isClearedHorizontal()) {
                             return rightHole.destroy(percentToDestroy);
 
                         } else {
@@ -197,7 +197,7 @@ public class Tile extends Object {
                         return leftHole.destroy(percentToDestroy);
 
                     } else {
-                        if (loc.getX() >= (this.getDiv().getX() + (Vector2.DIVS_PER_TILE - leftHole.getPercentRemoved()))) {
+                        if ((loc.getX() == (this.getDiv().getX() + (Vector2.DIVS_PER_TILE - leftHole.getPercentRemoved()))) && !this.isClearedHorizontal()) {
                             return leftHole.destroy(percentToDestroy);
 
                         } else {
@@ -207,12 +207,12 @@ public class Tile extends Object {
                     }
                 }
                 if (dir == Direction.UP) {
-                    if (!upHole.isEmpty()) {
+                    if (!upHole.isEmpty() && !upHole.hasBeenDug) {
                         return upHole.destroy(percentToDestroy);
 
                     } else {
 
-                        if (loc.getY() >= (this.getDiv().getY() + (Vector2.DIVS_PER_TILE - upHole.getPercentRemoved()))) {
+                        if ((loc.getY() == (this.getDiv().getY() + (Vector2.DIVS_PER_TILE - upHole.getPercentRemoved()))) && !this.isClearedVertical()) {
                             return upHole.destroy(percentToDestroy);
 
                         } else {
@@ -222,12 +222,12 @@ public class Tile extends Object {
                     }
                 }
                 if (dir == Direction.DOWN) {
-                    if (!downHole.isEmpty()) {
+                    if (!downHole.isEmpty() && downHole.hasBeenDug) {
                         return downHole.destroy(percentToDestroy);
 
                     } else {
 
-                        if (loc.getY() >= (this.getDiv().getY() - downHole.getPercentRemoved())) {
+                        if ((loc.getY() == (this.getDiv().getY() - downHole.getPercentRemoved())) && !this.isClearedVertical()) {
                             return downHole.destroy(percentToDestroy);
 
                         } else {
@@ -312,6 +312,8 @@ public class Tile extends Object {
         rightHole.clearHole();
         leftHole.clearHole();
         clearedHorizontal = true;
+        leftHole.hasBeenDug = true;
+        rightHole.hasBeenDug = true;
     }
 
     /**
@@ -331,6 +333,7 @@ public class Tile extends Object {
      */
     public boolean isClearedVertical() {
         if ((downHole.getPercentRemoved() + upHole.getPercentRemoved()) > 16) {
+            this.clearTileVertical();
             return true;
         } else {
             return false;
