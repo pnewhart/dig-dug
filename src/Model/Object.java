@@ -68,6 +68,32 @@ public abstract class Object {
         return new Vector2(this.location.getX(), this.location.getY());
     }
 
+    /**
+     * Is the object able to turn at its current location?
+     *
+     * @author Sam Greenberg
+     * @param loc (in divs)
+     * @return
+     */
+    public boolean isAtTurnableDiv(Vector2 loc) {
+        return (this.location.getX() % Vector2.DIVS_PER_TILE < 2 || this.location.getX() % Vector2.DIVS_PER_TILE > 14) && (this.location.getY() % Vector2.DIVS_PER_TILE < 2 || this.location.getY() % Vector2.DIVS_PER_TILE > 14);
+    }
+
+    public void align(Direction dir) {
+        Vector2 loc = getDiv();
+        if (dir.isHorizontal()) {
+            int y = (int) Math.round(
+                    loc.getY() / Vector2.DIVS_PER_TILE);
+            loc.setY(y * Vector2.DIVS_PER_TILE);
+            this.setDiv(loc);
+        } else if (dir.isVertical()) {
+            int x = (int) Math.round(
+                    loc.getX() / Vector2.DIVS_PER_TILE);
+            loc.setX(x * Vector2.DIVS_PER_TILE);
+            this.setDiv(loc);
+        }
+    }
+
     public int[] getPixel() {
         int[] loc = {(int) location.getX() * Vector2.PIXELS_PER_DIV, (int) location.getY() * Vector2.PIXELS_PER_DIV + Vector2.PIXELS_PER_DIV * Vector2.DIVS_PER_TILE};
         return loc;

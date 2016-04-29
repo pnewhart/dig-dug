@@ -95,6 +95,15 @@ public class GameBoard {
 
     }
 
+    /**
+     * Will dig the hole for the digger based on the location and direction of
+     * the Driller.
+     *
+     * @author Sam Greenberg
+     * @param loc
+     * @param d
+     * @return
+     */
     public boolean digHole(Vector2 loc, Direction d) {
         int x = (int) loc.getX() / Vector2.DIVS_PER_TILE;
         int y = (int) loc.getY() / Vector2.DIVS_PER_TILE;
@@ -111,7 +120,7 @@ public class GameBoard {
                                        Math.abs(
                                                (int) loc.getX() - x * DIVS_PER_TILE));
         } else if (d == Direction.LEFT) {
-            if (x < Vector2.MAX_X) {
+            if (x <= Vector2.MAX_X) {
                 dig1 = board[x + 1][y].digHole(d, 31
                                                   - Math.abs(
                                                        (int) loc.getX() - (x + 1) * DIVS_PER_TILE));
@@ -120,7 +129,7 @@ public class GameBoard {
                                           - Math.abs(
                                                (int) loc.getX() - x * DIVS_PER_TILE));
         } else if (d == Direction.UP) {
-            if (y < Vector2.MAX_Y) {
+            if (y <= Vector2.MAX_Y) {
                 dig1 = board[x][y + 1].digHole(d, 31
                                                   - Math.abs(
                                                        (int) loc.getY() - (y + 1) * DIVS_PER_TILE));
@@ -143,14 +152,47 @@ public class GameBoard {
     }
 
     /**
+     * Will see if a hole is dug into by a certain amount.
+     *
+     * @author Sam Greenberg
+     * @param loc
+     * @param dir
+     * @return
+     */
+    public boolean isDugTo(Vector2 loc, Direction dir) {
+        int x = (int) loc.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) loc.getY() / Vector2.DIVS_PER_TILE;
+
+        if (x > Vector2.MAX_X || x < 0 || y > Vector2.MAX_Y || y < 0) {
+            return false;
+        } else {
+            if (dir == Direction.RIGHT) {
+                return board[x][y].isDugTo(dir, Math.abs(
+                                           (int) loc.getX() - x * DIVS_PER_TILE));
+            } else if (dir == Direction.LEFT) {
+                return board[x][y].isDugTo(dir, 15 - Math.abs(
+                                           (int) loc.getX() - x * DIVS_PER_TILE));
+            } else if (dir == Direction.UP) {
+                return board[x][y].isDugTo(dir, Math.abs(
+                                           (int) loc.getY() - y * DIVS_PER_TILE));
+            } else if (dir == Direction.DOWN) {
+                return board[x][y].isDugTo(dir, 15 - Math.abs(
+                                           (int) loc.getY() - y * DIVS_PER_TILE));
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /**
      * clears the dirt from a tile
      *
-     * @param num
+     * @param num (in divs)
      * @param dir
      */
-    public void clearTile(Vector2 num, Direction dir) {
-        int x = (int) num.getX();
-        int y = (int) num.getY();
+    public void clearTile(Vector2 loc, Direction dir) {
+        int x = (int) loc.getX();
+        int y = (int) loc.getY();
 
         board[x][y].clearTile(dir);
 

@@ -56,6 +56,8 @@ public class Driller extends Object {
     private int prevWalkState;
     private final static int NUM_WALK_STATES = 8;
 
+    private boolean isTurning;
+
     //TEMPORARY CHANGE LATER//
     private Image currentImage;
     //////////////////////////
@@ -70,6 +72,7 @@ public class Driller extends Object {
         this.isMoving = false;
         this.isShooting = false;
         this.isDigging = false;
+        this.isTurning = false;
         this.gun = null;
 
         this.isCrushed = false;
@@ -159,7 +162,7 @@ public class Driller extends Object {
     }
 
     public boolean isDigging() {
-        return this.isDigging;
+        return this.isDigging && getDiv().getY() >= 1;
     }
 
     public void move(Direction direction) {
@@ -207,10 +210,12 @@ public class Driller extends Object {
                     this.getDiv())) {
                 this.setDiv(new Vector2(this.getDiv().getX() - speed,
                                         getDiv().getY()));
+                this.isTurning = true;
             } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
                     this.getDiv())) {
                 this.setDiv(new Vector2(this.getDiv().getX() + speed,
                                         this.getDiv().getY()));
+                this.isTurning = true;
             } else {
                 setDiv(new Vector2(this.getTile().getX() * Vector2.DIVS_PER_TILE,
                                    getDiv().getY() - speed));
@@ -226,28 +231,30 @@ public class Driller extends Object {
                     }
                     this.direction = Direction.UP;
                 }
+                this.isTurning = false;
             }
             this.isMoving = true;
         }
     }
 
     /**
-     * This method will have the character goUp according to the individual
+     * This method will have the character goDown according to the individual
      * character's speed and location, changing its direction to up. When the
      * driller is not aligned with any column it will move in its current
      * direction to the next column.
      */
     public void goDown() {
-        //this.location.setX(Math.round(this.location.getX()));
         if (getDiv().getY() < Vector2.MAX_Y * Vector2.DIVS_PER_TILE - Vector2Utility.EPSILON) {
             if (this.direction == Direction.LEFT && !Vector2Utility.isNearTile(
                     this.getDiv())) {
                 this.setDiv(new Vector2(this.getDiv().getX() - speed,
                                         getDiv().getY()));
+                this.isTurning = true;
             } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
                     this.getDiv())) {
                 this.setDiv(new Vector2(this.getDiv().getX() + speed,
                                         this.getDiv().getY()));
+                this.isTurning = true;
             } else {
                 setDiv(new Vector2(this.getTile().getX() * Vector2.DIVS_PER_TILE,
                                    getDiv().getY() + speed));
@@ -263,13 +270,14 @@ public class Driller extends Object {
                     }
                     this.direction = Direction.DOWN;
                 }
+                this.isTurning = false;
             }
             this.isMoving = true;
         }
     }
 
     /**
-     * This method will have the character goUp according to the individual
+     * This method will have the character goLeft according to the individual
      * character's speed and location, changing its direction to up. When the
      * driller is not aligned with any row it will move in its current direction
      * to the next row.
@@ -281,10 +289,12 @@ public class Driller extends Object {
                 this.getDiv())) {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() - speed));
+            this.isTurning = true;
         } else if (this.direction == Direction.DOWN && !Vector2Utility.isNearTile(
                 this.getDiv())) {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() + speed));
+            this.isTurning = true;
         } else {
             setDiv(new Vector2(getDiv().getX() - speed,
                                this.getTile().getY() * Vector2.DIVS_PER_TILE));
@@ -295,12 +305,13 @@ public class Driller extends Object {
                 this.prevDirection = direction;
                 this.direction = Direction.LEFT;
             }
+            this.isTurning = false;
         }
         this.isMoving = true;
     }
 
     /**
-     * This method will have the character goUp according to the individual
+     * This method will have the character goRight according to the individual
      * character's speed and location, changing its direction to up. When the
      * driller is not aligned with any row it will move in its current direction
      * to the next row.
@@ -312,10 +323,12 @@ public class Driller extends Object {
                 this.getDiv())) {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() - speed));
+            this.isTurning = true;
         } else if (this.direction == Direction.DOWN && !Vector2Utility.isNearTile(
                 this.getDiv())) {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() + speed));
+            this.isTurning = true;
         } else {
             setDiv(new Vector2(getDiv().getX() + speed,
                                this.getTile().getY() * Vector2.DIVS_PER_TILE));
@@ -326,6 +339,7 @@ public class Driller extends Object {
                 this.prevDirection = direction;
                 this.direction = Direction.RIGHT;
             }
+            this.isTurning = false;
         }
         this.isMoving = true;
     }
@@ -381,11 +395,6 @@ public class Driller extends Object {
                                        Vector2.DIVS_PER_TILE - 1));
         }
 
-//        if (this.direction == Direction.RIGHT || this.direction == Direction.LEFT) {
-//            Vector2Utility.add(front, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
-//        } else {
-//            Vector2Utility.add(front, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
-//        }
         return front;
     }
 

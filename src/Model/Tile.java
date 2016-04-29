@@ -72,28 +72,16 @@ public class Tile extends Object {
                                 y * Vector2.DIVS_PER_TILE));
     }
 
-//
-//    public void loadRightImage(String name, Image image) {
-//        TileRightImages.put(name, image);
-//    }
-//
-//    public void loadLeftImage(String name, Image image) {
-//        TileLeftImages.put(name, image);
-//    }
-//
-//    public void loadUpImage(String name, Image image) {
-//        TileUpImages.put(name, image);
-//    }
-//
-//    public void loadDownImage(String name, Image image) {
-//        TileDownImages.put(name, image);
-//    }
     public Image[] getCurrentImages() {
         Image[] images = {Images.get(getRightHoleImageKey()), Images.get(
                           getLeftHoleImageKey()),
                           Images.get(getUpHoleImageKey()), Images.get(
                           getDownHoleImageKey())};
-        return images;
+        if (this.getDiv().getY() == 0) {
+            return null;
+        } else {
+            return images;
+        }
     }
 
     public String getBaseImageKey() {
@@ -177,7 +165,6 @@ public class Tile extends Object {
             dig = this.rightHole.dig(amount);
         } else if (dir == Direction.LEFT) {
             dig = this.leftHole.dig(amount);
-
         } else if (dir == Direction.UP) {
             dig = this.upHole.dig(amount);
         } else if (dir == Direction.DOWN) {
@@ -196,6 +183,20 @@ public class Tile extends Object {
         }
 
         return dig;
+    }
+
+    public boolean isDugTo(Direction dir, int amount) {
+        if (dir == Direction.RIGHT) {
+            return this.rightHole.isDugTo(amount);
+        } else if (dir == Direction.LEFT) {
+            return this.leftHole.isDugTo(amount);
+        } else if (dir == Direction.UP) {
+            return this.upHole.isDugTo(amount);
+        } else if (dir == Direction.DOWN) {
+            return this.downHole.isDugTo(amount);
+        } else {
+            return false;
+        }
     }
 
     /**

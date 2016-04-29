@@ -83,13 +83,12 @@ public class Hole {
      * @return
      */
     public boolean dig(int digAmount) {
-        System.out.println(digAmount + " " + percentRemoved);
         if (digAmount == 1 && !hasBeenDug) {
             percentRemoved = 1;
             hasBeenDug = true;
             return true;
         } else if (hasBeenDug) {
-            if (digAmount > percentRemoved) {
+            if (!isDugTo(digAmount)) {
                 percentRemoved = digAmount;
                 return true;
             } else {
@@ -100,12 +99,31 @@ public class Hole {
         }
     }
 
+    /**
+     * Digs in the correct amount for special circumstances
+     *
+     * @param digAmount
+     * @return
+     */
+    public boolean forceDig(int digAmount) {
+        if (!isDugTo(digAmount)) {
+            percentRemoved = digAmount;
+            return true;
+        } else {
+            return true;
+        }
+    }
+
     public boolean isClear() {
         return this.percentRemoved >= 19;
     }
 
     public void clear() {
         this.percentRemoved = 100;
+    }
+
+    public boolean isDugTo(int digAmount) {
+        return percentRemoved >= digAmount;
     }
 
     /**
