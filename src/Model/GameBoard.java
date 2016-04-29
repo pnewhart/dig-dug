@@ -83,8 +83,10 @@ public class GameBoard {
                 isCollision = true;
                 System.out.println("collision 3");
             }
-            driller.kill();
             //System.out.println("collision");
+        }
+        if (isCollision) {
+            driller.kill();
         }
         return isCollision;
 
@@ -109,7 +111,7 @@ public class GameBoard {
             if (x > 0) {
                 dig1 = board[x - 1][y].digHole(d,
                                                Math.abs(
-                                                       (int) loc.getX() - (x - 1) * DIVS_PER_TILE));
+                                                       (int) loc.getX() - (x - 1) * Vector2.DIVS_PER_TILE));
                 if (board[x - 1][y].isClearedVertical()) {
                     board[x - 1][y].clearTileHorizontal();
                     board[x - 1][y].clearTileVertical();
@@ -127,7 +129,7 @@ public class GameBoard {
             if (x <= Vector2.MAX_X) {
                 dig1 = board[x + 1][y].digHole(d, 31
                                                   - Math.abs(
-                                                       (int) loc.getX() - (x + 1) * DIVS_PER_TILE));
+                                                       (int) loc.getX() - (x + 1) * Vector2.DIVS_PER_TILE));
                 if (board[x + 1][y].isClearedVertical()) {
                     board[x + 1][y].clearTileHorizontal();
                     board[x + 1][y].clearTileVertical();
@@ -140,7 +142,7 @@ public class GameBoard {
             if (y <= Vector2.MAX_Y) {
                 dig1 = board[x][y + 1].digHole(d, 31
                                                   - Math.abs(
-                                                       (int) loc.getY() - (y + 1) * DIVS_PER_TILE));
+                                                       (int) loc.getY() - (y + 1) * Vector2.DIVS_PER_TILE));
                 if (board[x][y + 1].isClearedHorizontal()) {
                     board[x][y + 1].clearTileHorizontal();
                     board[x][y + 1].clearTileVertical();
@@ -153,7 +155,7 @@ public class GameBoard {
             if (y < Vector2.MAX_Y) {
                 dig1 = board[x][y - 1].digHole(d,
                                                Math.abs(
-                                                       (int) loc.getY() - (y - 1) * DIVS_PER_TILE));
+                                                       (int) loc.getY() - (y - 1) * Vector2.DIVS_PER_TILE));
                 if (board[x][y - 1].isClearedHorizontal()) {
                     board[x][y - 1].clearTileHorizontal();
                     board[x][y - 1].clearTileVertical();

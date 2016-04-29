@@ -143,6 +143,8 @@ public class Driller extends Object {
 
         String string = String.format("%s_%s%s.png", s1, s2, s3);
 
+        System.out.println(string);
+
         return this.Images.get(string);
     }
 
