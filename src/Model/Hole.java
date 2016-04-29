@@ -51,19 +51,24 @@ public class Hole {
         if (percentRemoved >= MIN_FILL) {
             isEmpty = true;
             return false;
-        } else {
-            if (hasBeenDug && percentRemoved < 2) {
-                if (percentRemoved < 4) {
-                    percentRemoved += 1;
-                }
-                percentRemoved += percentToDestroy;
-                isEmpty = false;
-                hasBeenDug = true;
-                return true;
-            } else {
-                return false;
+        } else if (!hasBeenDug && percentRemoved < 2) {
+            if (percentRemoved < 4) {
+                percentRemoved += 1;
             }
-
+            percentRemoved += percentToDestroy;
+            isEmpty = false;
+            hasBeenDug = true;
+            return true;
+        } else if (hasBeenDug && percentRemoved < 19) {
+            if (percentRemoved < 4) {
+                percentRemoved += 1;
+            }
+            percentRemoved += percentToDestroy;
+            isEmpty = false;
+            hasBeenDug = true;
+            return true;
+        } else {
+            return false;
         }
     }
 

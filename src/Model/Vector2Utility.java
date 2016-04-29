@@ -33,8 +33,7 @@ public class Vector2Utility {
     }
 
     public static Vector2 roundDivide(Vector2 vec, double div) {
-        return new Vector2(Math.round(vec.getX() / div), Math.round(
-                           vec.getY() / div));
+        return new Vector2((int) vec.getX() / div, (int) (vec.getY() / div));
     }
 
     public static Vector2 scale(Vector2 vec, double factor) {

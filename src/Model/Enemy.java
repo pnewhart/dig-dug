@@ -55,28 +55,27 @@ public abstract class Enemy extends Object {
 
     @Override
     public void move() {
-        System.out.println(this.getDiv());
-        if (getBoard().isClearedVertical(
-                this.getDiv())) {
-            System.out.println(
-                    "i9s cleared vert" + getBoard().isClearedVertical(
-                            this.getDiv()));
-        }
-        if (getBoard().isClearedHorizontal(
-                this.getDiv())) {
-            System.out.println(
-                    "is cleared horizontal" + getBoard().isClearedHorizontal(
-                            this.getDiv()));
-        }
+//        System.out.println(this.getDiv());
+//        if (getBoard().isClearedVertical(
+//                this.getDiv())) {
+//            System.out.println(
+//                    "i9s cleared vert" + getBoard().isClearedVertical(
+//                            this.getDiv()));
+//        }
+//        if (getBoard().isClearedHorizontal(
+//                this.getDiv())) {
+//            System.out.println(
+//                    "is cleared horizontal" + getBoard().isClearedHorizontal(
+//                            this.getDiv()));
+//        }
 
-        if ((getBoard().isClearedHorizontal(this.getFront()) && (direction == Direction.RIGHT || direction == Direction.LEFT)) || (getBoard().isClearedVertical(
-                                                                                                                                   this.getFront()) && (direction == Direction.UP || direction == Direction.DOWN))) {
+        if ((getBoard().isClearedHorizontal(this.getFront()) && (direction == Direction.RIGHT || direction == Direction.LEFT))
+            || (getBoard().isClearedVertical(this.getFront()) && (direction == Direction.UP || direction == Direction.DOWN))) {
             this.setDiv(Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
                                            this.direction.getVector(), speed)));
             stepCount = (stepCount + 1) % MAX_STEP_COUNT;
 
         } else {
-            ArrayList<Vector2> locations = new ArrayList<Vector2>();
             ArrayList<Direction> directions = new ArrayList<Direction>();
 
             Vector2 up = this.getDirection(Direction.UP);
@@ -84,30 +83,36 @@ public abstract class Enemy extends Object {
             Vector2 left = this.getDirection(Direction.LEFT);
             Vector2 right = this.getDirection(Direction.RIGHT);
             if (getBoard().isClearedVertical(up)) {
-                locations.add(up);
                 directions.add(Direction.UP);
             }
             if (getBoard().isClearedVertical(down)) {
-                locations.add(down);
                 directions.add(Direction.DOWN);
             }
             if (getBoard().isClearedHorizontal(left)) {
-                locations.add(left);
                 directions.add(Direction.LEFT);
             }
             if (getBoard().isClearedHorizontal(right)) {
-                locations.add(right);
                 directions.add(Direction.RIGHT);
             }
 
             Random r = new Random();
-
-            int i = r.nextInt(locations.size());
-
-            if ((directions.get(i) == Direction.UP || directions.get(i) == Direction.DOWN) && (this.direction == Direction.LEFT || this.direction == direction.RIGHT)) {
-                this.prevDirection = direction;
+            if (directions.size() > 0) {
+                int i = r.nextInt(directions.size());
+                if ((directions.get(i) == Direction.UP || directions.get(i) == Direction.DOWN) && (this.direction == Direction.LEFT || this.direction == direction.RIGHT)) {
+                    this.prevDirection = direction;
+                }
+                this.direction = directions.get(i);
+            } else {
+                if (direction == Direction.RIGHT) {
+                    direction = Direction.LEFT;
+                } else if (direction == Direction.LEFT) {
+                    direction = Direction.RIGHT;
+                } else if (direction == Direction.DOWN) {
+                    direction = Direction.UP;
+                } else if (direction == Direction.UP) {
+                    direction = Direction.DOWN;
+                }
             }
-            this.direction = directions.get(i);
         }
     }
 
@@ -166,23 +171,24 @@ public abstract class Enemy extends Object {
     }
 
     /**
-     * Current location of the direction in divs with respect to location
+     * Current location of the direction in tiles with respect to location
      *
-     * @return Vector2 loc location in divs
+     * @return Vector2 loc location in tiles
      */
     public Vector2 getDirection(Direction d) {
-        Vector2 loc = this.getDiv();
-        if (d == Direction.RIGHT || d == Direction.DOWN) {
-            loc = Vector2Utility.add(loc, Vector2Utility.scale(
-                                     d.getVector(),
-                                     Vector2.DIVS_PER_TILE));
-        }
+        Vector2 loc = this.getTile();
+//        if (d == Direction.RIGHT || d == Direction.DOWN) {
+//            loc = Vector2Utility.add(loc, Vector2Utility.scale(
+//                                     d.getVector(),
+//                                     Vector2.DIVS_PER_TILE));
+//        }
+        loc = Vector2Utility.add(loc, d.getVector());
 
         return loc;
     }
 
     public Vector2 getFront() {
-        return Vector2Utility.add(getDiv(), direction.getVector());
+        return getDirection(direction);
     }
 
     public boolean isIsPopped() {
@@ -250,6 +256,26 @@ public abstract class Enemy extends Object {
     public double curDeflateTime() {
         Date now = new Date();
         return now.compareTo(prevDeflateTime) / 1000.0;
+    }
+
+    @Override
+    public Vector2 getTile() {
+        Vector2 tile = Vector2Utility.divide(this.getDiv(),
+                                             Vector2.DIVS_PER_TILE);
+        if (direction == Direction.LEFT) {
+            tile.setX(Math.ceil(tile.getX()));
+            tile.setY(Math.floor(tile.getY()));
+        } else if (direction == Direction.RIGHT) {
+            tile.setX(Math.ceil(tile.getX()) - 1);
+            tile.setY(Math.floor(tile.getY()));
+        } else if (direction == Direction.UP) {
+            tile.setY(Math.ceil(tile.getY()));
+            tile.setX(Math.floor(tile.getX()));
+        } else if (direction == Direction.DOWN) {
+            tile.setY(Math.ceil(tile.getY()) - 1);
+            tile.setX(Math.floor(tile.getX()));
+        }
+        return tile;
     }
 
 }

@@ -57,7 +57,7 @@ public class GameBoard {
                                                Vector2.DIVS_PER_TILE));
 
         enemyList.add(d);
-        //enemyList.add(p);
+        enemyList.add(p);
     }
 
     public void setDriller(Driller d) {
@@ -353,10 +353,13 @@ public class GameBoard {
      * @return boolean
      */
     public boolean isClearedVertical(Vector2 location) {
-        int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
-        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
-        return board[x][y].isClearedVertical();
-
+        int x = (int) location.getX();
+        int y = (int) location.getY();
+        if (x < GameBoard.BOARD_WIDTH && y < GameBoard.BOARD_HEIGHT && x >= 0 && y >= 0) {
+            return board[x][y].isClearedVertical();
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -366,9 +369,13 @@ public class GameBoard {
      * @return boolean
      */
     public boolean isClearedHorizontal(Vector2 location) {
-        int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
-        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
-        return board[x][y].isClearedHorizontal();
+        int x = (int) location.getX();
+        int y = (int) location.getY();
+        if (x < GameBoard.BOARD_WIDTH && y < GameBoard.BOARD_HEIGHT && x >= 0 && y >= 0) {
+            return board[x][y].isClearedHorizontal();
+        } else {
+            return false;
+        }
 
     }
 
