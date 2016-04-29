@@ -48,6 +48,7 @@ public class GameBoard {
         board[3][5].clearTileHorizontal();
         Dragon d = new Dragon(Vector2Utility.scale(new Vector2(4, 5),
                                                    Vector2.DIVS_PER_TILE));
+
         enemyList.add(d);
     }
 
@@ -107,8 +108,17 @@ public class GameBoard {
      * @return true if tile is empty
      */
     public boolean isEmpty(int x, int y) {
+         << << << < HEAD
+
         return board[x][y].isEmpty();
 
+         == == == =
+        if (board[x][y].isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+         >>> >>> > origin / dev
     }
 
     /**
@@ -346,8 +356,14 @@ public class GameBoard {
      * @return boolean
      */
     public boolean isClearedVertical(Vector2 location) {
+         << << << < HEAD
+
         int x = (int) location.getX() % Vector2.DIVS_PER_TILE;
         int y = (int) location.getY() % Vector2.DIVS_PER_TILE;
+         == == ==
+        = int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
+         >>> >>> > origin / dev
         return board[x][y].isClearedVertical();
 
     }
@@ -359,8 +375,14 @@ public class GameBoard {
      * @return boolean
      */
     public boolean isClearedHorizontal(Vector2 location) {
+         << << << < HEAD
+
         int x = (int) location.getX() % Vector2.DIVS_PER_TILE;
         int y = (int) location.getY() % Vector2.DIVS_PER_TILE;
+         == == ==
+        = int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
+         >>> >>> > origin / dev
         return board[x][y].isClearedHorizontal();
 
     }
