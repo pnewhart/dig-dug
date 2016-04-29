@@ -12,17 +12,40 @@
  * **************************************** */
 package View;
 
+import Model.MainMenuManager;
+import java.awt.Graphics;
+
 /**
  *
  * @author tjf010
  */
-public class MainMenu extends javax.swing.JPanel {
+public class MainMenuVisual extends javax.swing.JPanel {
+    private MainMenuManager theModel;
 
     /**
      * Creates new form MainMenu
      */
-    public MainMenu() {
-        initComponents();
+    public MainMenuVisual() {
+        try {
+            initComponents();
+            this.theModel = null;
+
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+    }
+
+    public MainMenuManager getTheModel() {
+        return theModel;
+    }
+
+    public void setTheModel(MainMenuManager theModel) {
+        this.theModel = theModel;
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        drawMenu(g);
     }
 
     /**
@@ -48,4 +71,7 @@ public class MainMenu extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    private void drawMenu(Graphics g) {
+        g.drawImage(theModel.)
+    }
 }
