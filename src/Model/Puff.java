@@ -18,8 +18,8 @@ package Model;
  */
 public class Puff extends Enemy {
 
-    public Puff(GameBoard b) {
-        super();
+    public Puff(Vector2 location) {
+        super(location);
     }
 
 }

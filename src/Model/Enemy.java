@@ -42,9 +42,13 @@ public abstract class Enemy extends Object {
     protected boolean canCrush = true;
     protected boolean isCrushed = false;
 
-    public Enemy() {
+    public Enemy(Vector2 location) {
         this.speed = INITIAL_SPEED;
         this.direction = Direction.RIGHT;
+        this.setDiv(location);
+        this.direction = Direction.RIGHT;
+        this.prevDirection = Direction.RIGHT;
+
     }
 
     @Override
