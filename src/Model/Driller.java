@@ -205,13 +205,15 @@ public class Driller extends Object {
         if (getDiv().getY() > Vector2Utility.EPSILON) {
             if (this.direction == Direction.LEFT && !Vector2Utility.isNearTile(
                     this.getDiv())) {
-                this.getDiv().setX(this.getDiv().getX() - speed);
+                this.setDiv(new Vector2(this.getDiv().getX() - speed,
+                                        getDiv().getY()));
             } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
                     this.getDiv())) {
-                this.getDiv().setX(this.getDiv().getX() + speed);
+                this.setDiv(new Vector2(this.getDiv().getX() + speed,
+                                        this.getDiv().getY()));
             } else {
-                getDiv().setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
-                getDiv().setY(getDiv().getY() - speed);
+                setDiv(new Vector2(this.getTile().getX() * Vector2.DIVS_PER_TILE,
+                                   getDiv().getY() - speed));
                 if (direction != Direction.UP) {
                     if (direction != Direction.DOWN) {
                         this.prevDirection = direction;
@@ -240,13 +242,15 @@ public class Driller extends Object {
         if (getDiv().getY() < Vector2.MAX_Y * Vector2.DIVS_PER_TILE - Vector2Utility.EPSILON) {
             if (this.direction == Direction.LEFT && !Vector2Utility.isNearTile(
                     this.getDiv())) {
-                this.getDiv().setX(this.getDiv().getX() - speed);
+                this.setDiv(new Vector2(this.getDiv().getX() - speed,
+                                        getDiv().getY()));
             } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
                     this.getDiv())) {
-                this.getDiv().setX(this.getDiv().getX() + speed);
+                this.setDiv(new Vector2(this.getDiv().getX() + speed,
+                                        this.getDiv().getY()));
             } else {
-                getDiv().setX(this.getTile().getX() * Vector2.DIVS_PER_TILE);
-                getDiv().setY(getDiv().getY() + speed);
+                setDiv(new Vector2(this.getTile().getX() * Vector2.DIVS_PER_TILE,
+                                   getDiv().getY() + speed));
                 if (direction != Direction.DOWN) {
                     if (direction != Direction.UP) {
                         this.prevDirection = direction;
@@ -275,13 +279,15 @@ public class Driller extends Object {
 
         if (this.direction == Direction.UP && !Vector2Utility.isNearTile(
                 this.getDiv())) {
-            this.getDiv().setY(this.getDiv().getY() - speed);
+            this.setDiv(new Vector2(getDiv().getX(),
+                                    this.getDiv().getY() - speed));
         } else if (this.direction == Direction.DOWN && !Vector2Utility.isNearTile(
                 this.getDiv())) {
-            this.getDiv().setY(this.getDiv().getY() + speed);
+            this.setDiv(new Vector2(getDiv().getX(),
+                                    this.getDiv().getY() + speed));
         } else {
-            getDiv().setY(this.getTile().getY() * Vector2.DIVS_PER_TILE);
-            getDiv().setX(getDiv().getX() - speed);
+            setDiv(new Vector2(getDiv().getX() - speed,
+                               this.getTile().getY() * Vector2.DIVS_PER_TILE));
             if (this.getDiv().getX() < 0) {
                 this.getDiv().setX(0);
             }
@@ -304,13 +310,15 @@ public class Driller extends Object {
 
         if (this.direction == Direction.UP && !Vector2Utility.isNearTile(
                 this.getDiv())) {
-            this.getDiv().setY(this.getDiv().getY() - speed);
+            this.setDiv(new Vector2(getDiv().getX(),
+                                    this.getDiv().getY() - speed));
         } else if (this.direction == Direction.DOWN && !Vector2Utility.isNearTile(
                 this.getDiv())) {
-            this.getDiv().setY(this.getDiv().getY() + speed);
+            this.setDiv(new Vector2(getDiv().getX(),
+                                    this.getDiv().getY() + speed));
         } else {
-            getDiv().setY(this.getTile().getY() * Vector2.DIVS_PER_TILE);
-            getDiv().setX(getDiv().getX() + speed);
+            setDiv(new Vector2(getDiv().getX() + speed,
+                               this.getTile().getY() * Vector2.DIVS_PER_TILE));
             if (this.getDiv().getX() < 0) {
                 this.getDiv().setX(0);
             }
@@ -366,11 +374,11 @@ public class Driller extends Object {
         if (this.direction == Direction.RIGHT) {
             front = Vector2Utility.add(front, Vector2Utility.scale(
                                        Direction.RIGHT.getVector(),
-                                       Vector2.DIVS_PER_TILE));
+                                       Vector2.DIVS_PER_TILE - 1));
         } else if (this.direction == Direction.DOWN) {
             front = Vector2Utility.add(front, Vector2Utility.scale(
                                        Direction.DOWN.getVector(),
-                                       Vector2.DIVS_PER_TILE));
+                                       Vector2.DIVS_PER_TILE - 1));
         }
 
         if (this.direction == Direction.RIGHT || this.direction == Direction.LEFT) {

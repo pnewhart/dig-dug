@@ -46,6 +46,7 @@ public class GameBoard {
         board[5][5].clearTileHorizontal();
         board[4][5].clearTileHorizontal();
         board[3][5].clearTileHorizontal();
+        board[2][5].clearTileHorizontal();
         Dragon d = new Dragon(Vector2Utility.scale(new Vector2(4, 5),
                                                    Vector2.DIVS_PER_TILE));
 
@@ -224,7 +225,7 @@ public class GameBoard {
             }
             if (character == 'p') {
 
-                enemyList.add(new Puff(this));
+                //enemyList.add(new Puff(this));
                 System.out.println("puff made");
             }
 

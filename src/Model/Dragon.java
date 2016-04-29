@@ -25,11 +25,7 @@ public class Dragon extends Enemy {
     private final double HALF_SECOND_NS = Math.pow(5, 9);
 
     public Dragon(Vector2 location) {
-        this.speed = INITIAL_SPEED;
-        this.direction = Direction.RIGHT;
-        this.setDiv(location);
-        this.direction = Direction.RIGHT;
-        this.prevDirection = Direction.RIGHT;
+        super(location);
     }
 
 //    @Override
@@ -102,10 +98,18 @@ public class Dragon extends Enemy {
     @Override
     public Image getCurrentImage() {
         String dir = null;
-        if (prevDirection == Direction.LEFT) {
-            dir = "Left";
+        if (direction == Direction.UP || direction == Direction.DOWN) {
+            if (prevDirection == Direction.LEFT) {
+                dir = "Left";
+            } else {
+                dir = "Right";
+            }
         } else {
-            dir = "Right";
+            if (direction == Direction.LEFT) {
+                dir = "Left";
+            } else {
+                dir = "Right";
+            }
         }
 
         return Images.get("Fygar_" + dir + "_1.png");

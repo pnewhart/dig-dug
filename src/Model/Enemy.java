@@ -22,7 +22,7 @@ import java.util.Random;
  */
 public abstract class Enemy extends Object {
 
-    protected final double INITIAL_SPEED = 1.2;
+    protected final double INITIAL_SPEED = 0.5;
 
     protected Direction prevDirection;
     protected Direction direction;
@@ -42,9 +42,12 @@ public abstract class Enemy extends Object {
     protected boolean canCrush = true;
     protected boolean isCrushed = false;
 
-    public Enemy() {
+    public Enemy(Vector2 location) {
         this.speed = INITIAL_SPEED;
         this.direction = Direction.RIGHT;
+        this.setDiv(location);
+        this.direction = Direction.RIGHT;
+        this.prevDirection = Direction.RIGHT;
     }
 
     @Override
@@ -53,7 +56,6 @@ public abstract class Enemy extends Object {
                                                                                                                                    this.getFront()) && (direction == Direction.UP || direction == Direction.DOWN))) {
             this.setDiv(Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
                                            this.direction.getVector(), speed)));
-            System.out.println(this.direction);
 
         } else {
             ArrayList<Vector2> locations = new ArrayList<Vector2>();
@@ -63,7 +65,6 @@ public abstract class Enemy extends Object {
             Vector2 down = this.getDirection(Direction.DOWN);
             Vector2 left = this.getDirection(Direction.LEFT);
             Vector2 right = this.getDirection(Direction.RIGHT);
-            System.out.println(up + " " + down + " " + left + " " + right);
             if (getBoard().isClearedVertical(up)) {
                 locations.add(up);
                 directions.add(Direction.UP);
@@ -85,8 +86,11 @@ public abstract class Enemy extends Object {
 
             int i = r.nextInt(locations.size());
 
+            if ((directions.get(i) == Direction.UP || directions.get(i) == Direction.DOWN) && (this.direction == Direction.LEFT || this.direction == direction.RIGHT)) {
+                this.prevDirection = direction;
+            }
             this.direction = directions.get(i);
-            this.setDiv(locations.get(i));
+
         }
     }
 

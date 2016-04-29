@@ -330,7 +330,7 @@ public class Tile extends Object {
      * @return boolean
      */
     public boolean isClearedVertical() {
-        if (upHole.getPercentRemoved() == 19 || downHole.getPercentRemoved() == 19 || (downHole.getPercentRemoved() + upHole.getPercentRemoved()) == 19) {
+        if ((downHole.getPercentRemoved() + upHole.getPercentRemoved()) > 16) {
             return true;
         } else {
             return false;
@@ -344,7 +344,7 @@ public class Tile extends Object {
      */
     public boolean isClearedHorizontal() {
 
-        if (leftHole.getPercentRemoved() == 19 || rightHole.getPercentRemoved() == 19 || (leftHole.getPercentRemoved() + rightHole.getPercentRemoved()) == 19) {
+        if ((leftHole.getPercentRemoved() + rightHole.getPercentRemoved()) > 16) {
             this.clearTileHorizontal();
             return true;
         } else {
