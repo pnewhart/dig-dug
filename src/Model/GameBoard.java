@@ -75,27 +75,32 @@ public class GameBoard {
 
         for (Enemy e : enemyList) {
 
-            if (((e.getDiv().getX() + Vector2.DIVS_PER_TILE) > driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
-
-                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-                    isCollision = true;
-                    System.out.println("1");
-                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-                    isCollision = true;
-                    System.out.println("3");
-
-                }
-            } else if (e.getDiv().getX() > driller.getDiv().getX() + Vector2.DIVS_PER_TILE && (e.getDiv().getX() < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
-
-                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-                    isCollision = true;
-                    System.out.println("2");
-                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-                    isCollision = true;
-                    System.out.println("4");
-                }
-
+            isCollision = e.isCollidedWith(this.driller);
+            if (isCollision) {
+                driller.kill();
+                break;
             }
+//            if (((e.getDiv().getX() + Vector2.DIVS_PER_TILE) > driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
+//
+//                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("1");
+//                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("3");
+//
+//                }
+//            } else if (e.getDiv().getX() > driller.getDiv().getX() + Vector2.DIVS_PER_TILE && (e.getDiv().getX() < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
+//
+//                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("2");
+//                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("4");
+//                }
+//
+//            }
 
             //System.out.println("collision");
         }
@@ -123,7 +128,10 @@ public class GameBoard {
                 dig1 = board[x - 1][y].digHole(d,
                                                Math.abs(
                                                        (int) loc.getX() - (x - 1) * Vector2.DIVS_PER_TILE));
-
+                if (board[x - 1][y].isClearedVertical()) {
+                    board[x - 1][y].clearTileHorizontal();
+                    board[x - 1][y].clearTileVertical();
+                }
             }
             dig2 = board[x][y].digHole(d,
                                        Math.abs(
@@ -138,6 +146,10 @@ public class GameBoard {
                 dig1 = board[x + 1][y].digHole(d, 31
                                                   - Math.abs(
                                                        (int) loc.getX() - (x + 1) * Vector2.DIVS_PER_TILE));
+                if (board[x + 1][y].isClearedVertical()) {
+                    board[x + 1][y].clearTileHorizontal();
+                    board[x + 1][y].clearTileVertical();
+                }
             }
             dig2 = board[x][y].digHole(d, 15
                                           - Math.abs(
@@ -147,6 +159,10 @@ public class GameBoard {
                 dig1 = board[x][y + 1].digHole(d, 31
                                                   - Math.abs(
                                                        (int) loc.getY() - (y + 1) * Vector2.DIVS_PER_TILE));
+                if (board[x][y + 1].isClearedHorizontal()) {
+                    board[x][y + 1].clearTileHorizontal();
+                    board[x][y + 1].clearTileVertical();
+                }
             }
             dig2 = board[x][y].digHole(d, 15
                                           - Math.abs(
@@ -156,6 +172,10 @@ public class GameBoard {
                 dig1 = board[x][y - 1].digHole(d,
                                                Math.abs(
                                                        (int) loc.getY() - (y - 1) * Vector2.DIVS_PER_TILE));
+                if (board[x][y - 1].isClearedHorizontal()) {
+                    board[x][y - 1].clearTileHorizontal();
+                    board[x][y - 1].clearTileVertical();
+                }
             }
             dig2 = board[x][y].digHole(d,
                                        Math.abs(

@@ -103,7 +103,7 @@ public class Hole {
      * Digs in the correct amount for special circumstances
      *
      * @param digAmount
-     * @return
+     * @return boolean
      */
     public boolean forceDig(int digAmount) {
         if (!isDugTo(digAmount)) {
@@ -114,10 +114,18 @@ public class Hole {
         }
     }
 
+    /**
+     * Is the hole cleared (dug more than or equal to 19)
+     *
+     * @return boolean
+     */
     public boolean isClear() {
         return this.percentRemoved >= 19;
     }
 
+    /**
+     * Clears the hole
+     */
     public void clear() {
         this.percentRemoved = 100;
     }

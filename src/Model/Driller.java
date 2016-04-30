@@ -13,7 +13,6 @@
 package Model;
 
 import java.awt.Image;
-import java.util.Date;
 
 /**
  *
@@ -51,7 +50,8 @@ public class Driller extends Object {
     private boolean isCrushed;
     private boolean isKilled;
 
-    private Date deadTime;
+    private int deadCount;
+    private final int MAX_DEAD_COUNT = 5;
 
     private int prevWalkState;
     private final static int NUM_WALK_STATES = 8;
@@ -77,7 +77,8 @@ public class Driller extends Object {
 
         this.isCrushed = false;
         this.isKilled = false;
-        this.deadTime = null;
+        this.deadCount = 0;
+
         this.currentImage = null;
 
         this.prevWalkState = 0;
@@ -89,7 +90,9 @@ public class Driller extends Object {
         String s2 = "";
         String s3 = "";
 
-        if (isDigging()) {
+        if (isDead()) {
+            s1 = "Dead";
+        } else if (isDigging()) {
             s1 = "Digger";
         } else if (this.gun != null && this.gun.isPumping()) {
             s1 = "Pumper";
@@ -130,13 +133,17 @@ public class Driller extends Object {
                 prevWalkState = 0;
             }
         }
-        if (prevWalkState < NUM_WALK_STATES / 2) {
+        if (isDead()) {
+            s3 = String.valueOf(deadCount / 12);
+        } else if (prevWalkState < NUM_WALK_STATES / 2) {
             s3 = "1";
         } else {
             s3 = "2";
         }
 
         String string = String.format("%s_%s%s.png", s1, s2, s3);
+
+        System.out.println(string);
 
         return this.Images.get(string);
     }
@@ -166,27 +173,31 @@ public class Driller extends Object {
     }
 
     public void move(Direction direction) {
-        if (this.isShooting && !this.gun.isPumping()) {
-            this.stop();
-        } else {
-            if (this.isShooting && this.gun != null) {
-                this.gun.destroy();
-            }
-            if (direction == Direction.UP) {
-                this.goUp();
-            } else if (direction == Direction.DOWN) {
-                this.goDown();
-            } else if (direction == Direction.LEFT) {
-                this.goLeft();
-            } else if (direction == Direction.RIGHT) {
-                this.goRight();
-            } else {
+        if (!isDead()) {
+            if (this.isShooting && !this.gun.isPumping()) {
                 this.stop();
+            } else {
+                if (this.isShooting && this.gun != null) {
+                    this.gun.destroy();
+                }
+                if (direction == Direction.UP) {
+                    this.goUp();
+                } else if (direction == Direction.DOWN) {
+                    this.goDown();
+                } else if (direction == Direction.LEFT) {
+                    this.goLeft();
+                } else if (direction == Direction.RIGHT) {
+                    this.goRight();
+                } else {
+                    this.stop();
+                }
             }
-        }
-        if (direction != null) {
-            this.isDigging = getBoard().digHole(this.getFront(),
-                                                this.direction);
+            if (direction != null) {
+                this.isDigging = getBoard().digHole(this.getFront(),
+                                                    this.direction);
+            }
+        } else {
+            deadCount += 1;
         }
     }
 
@@ -403,7 +414,7 @@ public class Driller extends Object {
      */
     public void crush() {
         this.isCrushed = true;
-        this.deadTime = new Date();
+        Sound.DigDugDead();
     }
 
     /**
@@ -411,7 +422,7 @@ public class Driller extends Object {
      */
     public void kill() {
         this.isKilled = true;
-        this.deadTime = new Date();
+        Sound.DigDugDead();
     }
 
     /**
@@ -421,10 +432,6 @@ public class Driller extends Object {
      */
     public boolean isDead() {
         return this.isCrushed || this.isKilled;
-    }
-
-    public double timeSinceDeath() {
-        return new Date().compareTo(deadTime) / 1000.0;
     }
 
 }
