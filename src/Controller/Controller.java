@@ -12,9 +12,10 @@
  * **************************************** */
 package Controller;
 
+import DigDugMain.MainView;
 import Model.Direction;
 import Model.GameManager;
-import DigDugMain.MainView;
+import View.MainMenuVisual;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,6 +32,7 @@ import javax.swing.event.ChangeListener;
 public class Controller implements ActionListener, ChangeListener, KeyListener {
     private GameManager theModel;
     private MainView GUI;
+    private MainMenuVisual menuVis;
     private Direction moveState;
     private boolean shoot;
     private Timer timer;
@@ -40,12 +42,15 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private boolean upIsPressed;
     private boolean downIsPressed;
     private boolean spaceIsPressed;
+    private boolean enterIsPressed;
+    private boolean gameCreated = false;
 
     private final int DELAY = 25;
 
     public Controller(MainView GUI, GameManager theModel) {
         this.theModel = theModel;
         this.GUI = GUI;
+
         this.moveState = null;
         this.shoot = false;
 
@@ -62,6 +67,10 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     }
 
     public void update() {
+
+        theModel.moveObjects();
+        theModel.checkCollision();
+
         if (rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = Direction.RIGHT;
             shoot = false;
@@ -81,10 +90,15 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (!rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = null;
         }
-
+        if (enterIsPressed) {
+            this.changeToGame();
+        }
         this.theModel.movePlayer(moveState);
-        //this.theModel.shoot(shoot);
         GUI.repaint();
+    }
+
+    protected void changeToGame() {
+
     }
 
     @Override
@@ -117,6 +131,14 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             spaceIsPressed = true;
         }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            enterIsPressed = true;
+            gameCreated = true;
+            theModel.createGame();
+            if (gameCreated) {
+                theModel.nextLevel();
+            }
+        }
     }
 
     @Override
@@ -147,4 +169,5 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             spaceIsPressed = false;
         }
     }
+
 }

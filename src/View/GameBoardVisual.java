@@ -12,6 +12,7 @@
  * **************************************** */
 package View;
 
+import Model.Enemy;
 import Model.GameManager;
 import Model.Tile;
 import java.awt.Graphics;
@@ -32,7 +33,8 @@ public class GameBoardVisual extends javax.swing.JComponent {
     public GameBoardVisual() {
         try {
             initComponents();
-            theModel = new GameManager();
+            this.theModel = null;
+
         } catch (Exception e) {
             System.out.println("error");
         }
@@ -56,19 +58,59 @@ public class GameBoardVisual extends javax.swing.JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
+        drawBackGround(g);
+
+        drawHoles(g);
+        drawEnemies(g);
+        drawDriller(g);
+
+    }
+
+    /**
+     * Draws the BackGround
+     *
+     * @param g
+     */
+    private void drawBackGround(Graphics g) {
         g.drawImage(theModel.getBackGround(), 0, 0, this);
-        for (Tile[] column : theModel.getTheBoard().board) {
-            for (Tile tile : column) {
-                Image[] tempImages = tile.getCurrentImages();
-                for (int i = 0; i < 4; i++) {
-                    g.drawImage(tempImages[i], tile.getPixel()[0],
-                                tile.getPixel()[1], this);
-                }
-            }
-        }
+    }
+
+    /**
+     * Draws Mr.Driller getting his current image based on his state
+     *
+     * @param g
+     */
+    private void drawDriller(Graphics g) {
         g.drawImage(theModel.getPlayer1().getCurrentImage(),
                     theModel.getPlayer1().getPixel()[0],
                     theModel.getPlayer1().getPixel()[1], this);
+    }
+
+    private void drawEnemies(Graphics g) {
+        for (Enemy enemy : theModel.getEnemies()) {
+            g.drawImage(enemy.getCurrentImage(), enemy.getPixel()[0],
+                        enemy.getPixel()[1], this);
+        }
+    }
+
+    /**
+     * Draws the holes onto the board by getting 4 directional holes from the
+     * tile class
+     *
+     * @param g
+     */
+    private void drawHoles(Graphics g) {
+        for (Tile[] column : theModel.getTheBoard().board) {
+            for (Tile tile : column) {
+                Image[] tempImages = tile.getCurrentImages();
+                if (tempImages != null) {
+                    for (int i = 0; i < 4; i++) {
+                        g.drawImage(tempImages[i], tile.getPixel()[0],
+                                    tile.getPixel()[1], this);
+                    }
+                }
+            }
+        }
     }
 
     /**

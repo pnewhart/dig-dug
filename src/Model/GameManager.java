@@ -25,29 +25,75 @@ import javax.imageio.ImageIO;
  */
 public class GameManager {
     protected GameBoard theBoard;
-    private Driller player1;
-    private ArrayList<Enemy> enemies;
-    private Image enemySprite;
-    private Image diggerSprite;
+    private Driller player1 = new Driller();
     private Image backGround;
+    private Object newObject;
+    private Enemy en;
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
     public HashMap<String, Image> boardImageMap;
+    protected MainMenuManager menu = new MainMenuManager();
+    private int levelCounter = 0;
 
-    public GameManager() throws IOException {
+    public GameManager() {
+
+        try {
+            initializeGame();
+        } catch (Exception ex) {
+            System.out.println("ERRONEOUS FILE INTITIALIZATION!");
+        }
+    }
+
+    private void initializeGame() throws IOException {
         loadSprites();
-        initializeFromFile();
+        theBoard = new GameBoard();
+        this.backGround = this.menu.getBackGround();
 
-        //theBoard = new GameBoard();
-        // player1 = new Driller(theBoard);
-        //enemies.add(new Enemy(theBoard));
+    }
+
+    public void createGame() {
+        try {
+
+            this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
+                                                       864);
+
+            theBoard.tempMakeBoard();
+            Object.setBoard(theBoard);
+            player1.setBoard(theBoard);
+            File f = new File("input.txt");
+            this.theBoard.generateFromFile(f);
+            this.player1 = new Driller();
+            theBoard.setDriller(this.player1);
+
+        } catch (Exception e) {
+            System.out.println("cannot find input file");
+        }
+    }
+
+    public void nextLevel() {
+        theBoard.resetBoard();
+        try {
+            String levelString = String.format("src/level%d.txt", levelCounter);
+            System.out.println(levelString);
+            File inputFile = new File(levelString);
+            theBoard.generateFromFile(inputFile);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("cannot go to next level");
+        }
+        levelCounter++;
+
+    }
+
+    public void changeBackground() {
+        this.backGround = menu.getBackGround();
     }
 
     private void loadSprites() {
-        //loadMapSprites();
-        //assignEnemySprites();
-        //assignPlayerSprites();
-        //assignCollectableSprites();
+        this.loadPlayerSprites();
+        this.loadMapSprites();
+        this.loadEnemySprites();
     }
 
     private void loadMapSprites() {
@@ -61,7 +107,7 @@ public class GameManager {
 
                 sprite = loadAndResizeSprite(imageName, 48, 48);
                 try {
-                    Object.Images.put(imageName, sprite);
+                    newObject.Images.put(imageName, sprite);
                 } catch (Exception ex) {
                     System.out.println(imageName + " - " + ex.getMessage());
                 }
@@ -72,14 +118,6 @@ public class GameManager {
 
     public Image getBackGround() {
         return backGround;
-    }
-
-    private void assignEnemySprites() {
-        this.diggerSprite = loadAndResizeSprite("Digger_Left_1", 48, 48);
-    }
-
-    private void assignPlayerSprites() {
-        this.enemySprite = loadAndResizeSprite("Pooka_Left_1", 48, 48);
     }
 
     public static Image loadAndResizeSprite(String imageName, int pixWidth,
@@ -94,14 +132,14 @@ public class GameManager {
             spriteImage = spriteImage.getScaledInstance(pixWidth, pixHeight,
                                                         java.awt.Image.SCALE_SMOOTH);
         } catch (IOException ex) {
-            System.out.println(ex.toString());
+            System.out.println(ex.toString() + imageName);
         }
 
         return spriteImage;
     }
 
-    public void moveObject() {
-        for (Enemy enemy : enemies) {
+    public void moveObjects() {
+        for (Enemy enemy : getEnemies()) {
             enemy.move();
         }
         //move rocks (handles animations
@@ -112,6 +150,7 @@ public class GameManager {
 
     public void movePlayer(Direction dir) {
         //System.out.println(this.player1.getDiv());
+
         player1.move(dir);
     }
 
@@ -120,21 +159,37 @@ public class GameManager {
         //System.out.println("SHOOT");
     }
 
-    private void initializeFromFile() {
+    public void checkCollision() {
 
-        try {
-            this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
-                                                       864);
-            this.theBoard = new GameBoard();
-            //File f = new File("input.txt");
-            //this.theBoard.generateFromFile(f);
-            this.player1 = new Driller(theBoard);
-            this.loadPlayerSprites();
-            this.loadMapSprites();
-        } catch (Exception e) {
-            System.out.println("kjasdf");
+        this.getTheBoard().isCollision();
+    }
+
+    private void loadEnemySprites() {
+        String[] fygarSprites = {"Fygar_Float_1.png", "Fygar_Float_2.png",
+                                 "Fygar_Left_Inflate_1.png", "Fygar_Left_Inflate_2.png",
+                                 "Fygar_Left_Inflate_3.png", "Fygar_Left_Inflate_4.png",
+                                 "Fygar_Right_Inflate_1.png", "Fygar_Right_Inflate_2.png",
+                                 "Fygar_Right_Inflate_3.png", "Fygar_Right_Inflate_4.png",
+                                 "Fygar_Left_1.png", "Fygar_Left_2.png",
+                                 "Fygar_Right_1.png", "Fygar_Right_2.png",
+                                 "Fygar_Rock_Left.png", "Fygar_Rock_Right.png"};
+
+        for (String fygar : fygarSprites) {
+            player1.loadImage(fygar, loadAndResizeSprite(fygar, 48, 48));
         }
 
+        String[] pookaSprites = {"Pooka_Float_1.png", "Pooka_Float_2.png",
+                                 "Pooka_Left_Inflate_1.png", "Pooka_Left_Inflate_2.png",
+                                 "Pooka_Left_Inflate_3.png", "Pooka_Left_Inflate_4.png",
+                                 "Pooka_Right_Inflate_1.png", "Pooka_Right_Inflate_2.png",
+                                 "Pooka_Right_Inflate_3.png", "Pooka_Right_Inflate_4.png",
+                                 "Pooka_Left_1.png", "Pooka_Left_2.png",
+                                 "Pooka_Right_1.png", "Pooka_Right_2.png",
+                                 "Pooka_Rock_Left.png", "Pooka_Rock_Right.png"};
+
+        for (String pooka : pookaSprites) {
+            player1.loadImage(pooka, loadAndResizeSprite(pooka, 48, 48));
+        }
     }
 
     private void loadPlayerSprites() {
@@ -152,7 +207,8 @@ public class GameManager {
                                 "Digger_Right_2.png"};
 
         for (String file : diggerFiles) {
-            this.player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
+
+            player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
 
         String[] walkerFiles = {"Walker_Up_L1.png",
@@ -169,7 +225,7 @@ public class GameManager {
                                 "Walker_Right_2.png"};
 
         for (String file : walkerFiles) {
-            this.player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
+            player1.loadImage(file, this.loadAndResizeSprite(file, 48, 48));
         }
 
         String[] pumperFiles = {"Pumper_Up_L1.png",
@@ -186,7 +242,19 @@ public class GameManager {
                                 "Pumper_Right_2.png"};
 
         for (String file : pumperFiles) {
-            this.player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
+            player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
+        }
+
+        String[] deadFiles = {"Dead_Left_1.png", "Dead_Left_2.png", "Dead_Left_3.png", "Dead_Left_4.png", "Dead_Left_5.png",
+                              "Dead_Right_1.png", "Dead_Right_2.png", "Dead_Right_3.png", "Dead_Right_4.png", "Dead_Right_5.png",
+                              "Dead_Down_L1.png", "Dead_Down_L2.png", "Dead_Down_L3.png", "Dead_Down_L4.png", "Dead_Down_L5.png",
+                              "Dead_Down_R1.png", "Dead_Down_R2.png", "Dead_Down_R3.png", "Dead_Down_R4.png", "Dead_Down_R5.png",
+                              "Dead_Up_L1.png", "Dead_Up_L2.png", "Dead_Up_L3.png", "Dead_Up_L4.png", "Dead_Up_L5.png",
+                              "Dead_Up_R1.png", "Dead_Up_R2.png", "Dead_Up_R3.png", "Dead_Up_R4.png", "Dead_Up_R5.png",
+                              "Dead_Rock_Left", "Dead_Rock_Right", "Dead_Fire_Left", "Dead_Fire_Right"};
+
+        for (String file : deadFiles) {
+            player1.loadImage(file, loadAndResizeSprite(file, 48, 48));
         }
 
         //Need to add dead images!!
@@ -217,37 +285,21 @@ public class GameManager {
         for (Tile[] col : theBoard.board) {
             for (Tile tile : col) {
                 for (String sprite : tileRightSprites) {
-                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    newObject.loadImage(sprite, loadAndResizeSprite(sprite, 48,
+                                                                    48));
                 }
                 for (String sprite : tileLeftSprites) {
-                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    newObject.loadImage(sprite, loadAndResizeSprite(sprite, 48,
+                                                                    48));
                 }
                 for (String sprite : tileUpSprites) {
-                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    newObject.loadImage(sprite, loadAndResizeSprite(sprite, 48,
+                                                                    48));
                 }
                 for (String sprite : tileDownSprites) {
-                    tile.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
+                    newObject.loadImage(sprite, loadAndResizeSprite(sprite, 48,
+                                                                    48));
                 }
-            }
-        }
-    }
-
-    public void loadDragonSprites() {
-        String[] DragonSprites = {"Frygar_Left_1.png", "Frygar_Left_2.png", "Frygar_Right_1.png", "Frygar_Right_2.png", "Frygar_Float_1", "Frygar_Float_2", "Frygar_Inflate_1", "Frygar_Inflate_2", "Frygar_Inflate_3", "Frygar_Inflate_4", "Fygar_Rock_Left", "Fygar_Rock_Right"};
-        for (Dragon d : theBoard.DragonList) {
-            for (String sprite : DragonSprites) {
-                d.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
-
-            }
-        }
-
-    }
-
-    public void loadPuffSprites() {
-        String[] PuffSprites = {"Pooka_Left_1.png", "Pooka_Left_2.png", "Pooka_Right_1.png", "Pooka_Right_2.png", "Pooka_Float_1", "Pooka_Float_2", "Pooka_Inflate_1", "Pooka_Inflate_2", "Pooka_Inflate_3", "Pooka_Inflate_4", "Pooka_Rock_Left", "Pooka_Rock_Right"};
-        for (Puff p : theBoard.PuffList) {
-            for (String sprite : PuffSprites) {
-                p.loadImage(sprite, loadAndResizeSprite(sprite, 48, 48));
             }
         }
     }
@@ -261,15 +313,7 @@ public class GameManager {
     }
 
     public ArrayList<Enemy> getEnemies() {
-        return enemies;
-    }
-
-    public Image getEnemySprite() {
-        return enemySprite;
-    }
-
-    public Image getDiggerSprite() {
-        return diggerSprite;
+        return theBoard.getEnemyList();
     }
 
     public HashMap<String, Image> getBoardImageMap() {

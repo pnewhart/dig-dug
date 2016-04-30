@@ -22,11 +22,15 @@ import java.util.Random;
  */
 public abstract class Enemy extends Object {
 
-    private final double INITIAL_SPEED = 0.5;
+    protected final double INITIAL_SPEED = 0.8;
 
+    protected Direction prevHorDirection;
+    protected Direction prevDirection;
     protected Direction direction;
-    protected GameBoard gBoard;
     protected double speed;
+
+    protected int stepCount;
+    protected final int MAX_STEP_COUNT = 12;
 
     private static final double DEFLATE_TIME = 0.8;
     private static final double PUMP_TIME = 0.5;
@@ -42,19 +46,22 @@ public abstract class Enemy extends Object {
     protected boolean canCrush = true;
     protected boolean isCrushed = false;
 
-    public Enemy(GameBoard b) {
-        gBoard = b;
+    public Enemy(Vector2 location) {
         this.speed = INITIAL_SPEED;
         this.direction = Direction.RIGHT;
+        this.setDiv(location);
+        this.direction = Direction.RIGHT;
+        this.prevHorDirection = Direction.RIGHT;
     }
 
     @Override
     public void move() {
-        if (gBoard.isDivEmpty(this.getFront())) {
-            this.location = Vector2Utility.add(location, Vector2Utility.scale(
-                                               this.direction.getVector(), speed));
+        if (getBoard().isDugTo(getFront(), direction)) {
+            this.setDiv(Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
+                                           this.direction.getVector(), speed)));
+            stepCount = (stepCount + 1) % MAX_STEP_COUNT;
+            prevDirection = direction;
         } else {
-            ArrayList<Vector2> locations = new ArrayList<Vector2>();
             ArrayList<Direction> directions = new ArrayList<Direction>();
 
             Vector2 up = this.getDirection(Direction.UP);
@@ -62,30 +69,54 @@ public abstract class Enemy extends Object {
             Vector2 left = this.getDirection(Direction.LEFT);
             Vector2 right = this.getDirection(Direction.RIGHT);
 
-            if (gBoard.isDivEmpty(up)) {
-                locations.add(up);
+            String Up = "", Down = "", Left = "", Right = "";
+            String canTurn = this.isAtTurnableDiv(getDiv()) ? "Can Turn" : "Cannot Turn";
+            if (prevDirection != Direction.UP.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
+                                                                                           getDiv()))) && getBoard().isDugTo(
+                    up,
+                    Direction.UP)) {
                 directions.add(Direction.UP);
+                Up = "up" + up.toString();
             }
-            if (gBoard.isDivEmpty(down)) {
-                locations.add(down);
+            if (prevDirection != Direction.DOWN.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
+                                                                                             getDiv()))) && getBoard().isDugTo(
+                    down, Direction.DOWN)) {
                 directions.add(Direction.DOWN);
+                Down = "down" + down.toString();
             }
-            if (gBoard.isDivEmpty(left)) {
-                locations.add(left);
+            if (prevDirection != Direction.LEFT.getOpposite() && (direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
+                                                                                               getDiv()))) && getBoard().isDugTo(
+                    left, Direction.LEFT)) {
                 directions.add(Direction.LEFT);
+                Left = "left" + left.toString();
             }
-            if (gBoard.isDivEmpty(right)) {
-                locations.add(right);
+            if (prevDirection != Direction.RIGHT.getOpposite() && (direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
+                                                                                                getDiv()))) && getBoard().isDugTo(
+                    right, Direction.RIGHT)) {
                 directions.add(Direction.RIGHT);
+                Right = "right" + up.toString();
             }
+            System.out.printf("%s: %s %s %s %s\n", canTurn, Up, Down, Left,
+                              Right);
 
             Random r = new Random();
-
-            int i = r.nextInt(locations.size());
-
-            this.direction = directions.get(i);
-            this.location = locations.get(i);
+            if (directions.size() > 0) {
+                int i = r.nextInt(directions.size());
+                if (directions.get(i).isVertical() && direction.isHorizontal()) {
+                    this.prevHorDirection = direction;
+                }
+                prevDirection = direction;
+                this.direction = directions.get(i);
+            } else {
+                prevDirection = direction;
+                direction = direction.getOpposite();
+                this.setDiv(Vector2Utility.add(this.getDiv(),
+                                               direction.getVector()));
+                stepCount = (stepCount + 1) % MAX_STEP_COUNT;
+                System.out.println("Error turning!");
+            }
         }
+        this.align(direction);
     }
 
     /**
@@ -95,8 +126,8 @@ public abstract class Enemy extends Object {
      */
     public void floatToDriller(Vector2 coord) {
         Vector2 drillerLocation = coord;
-        double enemyX = this.location.getX();
-        double enemyY = this.location.getY();
+        double enemyX = this.getDiv().getX();
+        double enemyY = this.getDiv().getY();
         double drillerX = drillerLocation.getX();
         double drillerY = drillerLocation.getY();
         double horizontalMove = drillerX - enemyX;
@@ -107,20 +138,20 @@ public abstract class Enemy extends Object {
 
             if (horizontalMove < 0) {
                 if (verticalMove < 0) {
-                    this.location = new Vector2((enemyX + (.1 * horizontalMove)),
-                                                (enemyY + (.1 * verticalMove))); // vert and horiz are negative
+                    this.setDiv(new Vector2((enemyX + (.1 * horizontalMove)),
+                                            (enemyY + (.1 * verticalMove)))); // vert and horiz are negative
                 } else {
-                    this.location = new Vector2((enemyX + (.1 * horizontalMove)),
-                                                (enemyY - (.1 * verticalMove))); // vert is positive horiz is negative
+                    this.setDiv(new Vector2((enemyX + (.1 * horizontalMove)),
+                                            (enemyY - (.1 * verticalMove)))); // vert is positive horiz is negative
                 }
 
             } else if (verticalMove < 0) {
-                this.location = new Vector2((enemyX - (.1 * horizontalMove)),
-                                            (enemyY + (.1 * verticalMove))); // vert is neg and horiz is positive
+                this.setDiv(new Vector2((enemyX - (.1 * horizontalMove)),
+                                        (enemyY + (.1 * verticalMove)))); // vert is neg and horiz is positive
 
             } else {
-                this.location = new Vector2((enemyX - (.1 * horizontalMove)),
-                                            (enemyY - (.1 * verticalMove))); // vert and horiz are positive
+                this.setDiv(new Vector2((enemyX - (.1 * horizontalMove)),
+                                        (enemyY - (.1 * verticalMove)))); // vert and horiz are positive
             }
             i++;
         }
@@ -143,33 +174,29 @@ public abstract class Enemy extends Object {
     }
 
     /**
-     * Current location of the direction in divs with respect to location
+     * Current location of the direction in tiles with respect to location
      *
-     * @return Vector2 front location in divs
+     * @return Vector2 loc location in tiles
      */
     public Vector2 getDirection(Direction d) {
-        Vector2 front = this.getDiv();
-        if (d == Direction.RIGHT) {
-            front = Vector2Utility.add(front, Vector2Utility.scale(
-                                       Direction.RIGHT.getVector(),
-                                       Vector2.DIVS_PER_TILE));
-        } else if (d == Direction.DOWN) {
-            front = Vector2Utility.add(front, Vector2Utility.scale(
-                                       Direction.DOWN.getVector(),
-                                       Vector2.DIVS_PER_TILE));
-        }
+        Vector2 loc = getDiv();
+        loc = Vector2Utility.add(loc, Vector2Utility.scale(new Vector2(1, 1),
+                                                           Vector2.DIVS_PER_TILE / 2));
+        loc = Vector2Utility.add(loc, Vector2Utility.scale(d.getVector(),
+                                                           Vector2.DIVS_PER_TILE));
 
-        if (d == Direction.RIGHT || this.direction == Direction.LEFT) {
-            Vector2Utility.add(front, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
-        } else {
-            Vector2Utility.add(front, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
-        }
-
-        return front;
+        return loc;
     }
 
     public Vector2 getFront() {
-        return getDirection(this.direction);
+        Vector2 loc = getDiv();
+        loc = Vector2Utility.add(loc, Vector2Utility.scale(new Vector2(1, 1),
+                                                           Vector2.DIVS_PER_TILE / 2));
+        loc = Vector2Utility.add(loc,
+                                 Vector2Utility.scale(direction.getVector(),
+                                                      Vector2.DIVS_PER_TILE / 2 + speed));
+
+        return loc;
     }
 
     public boolean isIsPopped() {
@@ -237,6 +264,26 @@ public abstract class Enemy extends Object {
     public double curDeflateTime() {
         Date now = new Date();
         return now.compareTo(prevDeflateTime) / 1000.0;
+    }
+
+    @Override
+    public Vector2 getTile() {
+        Vector2 tile = Vector2Utility.divide(this.getDiv(),
+                                             Vector2.DIVS_PER_TILE);
+        if (direction == Direction.LEFT) {
+            tile.setX(Math.ceil(tile.getX()));
+            tile.setY(Math.floor(tile.getY()));
+        } else if (direction == Direction.RIGHT) {
+            tile.setX(Math.ceil(tile.getX()) - 1);
+            tile.setY(Math.floor(tile.getY()));
+        } else if (direction == Direction.UP) {
+            tile.setY(Math.ceil(tile.getY()));
+            tile.setX(Math.floor(tile.getX()));
+        } else if (direction == Direction.DOWN) {
+            tile.setY(Math.ceil(tile.getY()) - 1);
+            tile.setX(Math.floor(tile.getX()));
+        }
+        return tile;
     }
 
 }

@@ -29,8 +29,7 @@ public class GameBoard {
     final static int BOARD_WIDTH = Vector2.NUM_TILE_HORIZONTAL;
     public Tile[][] board = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
     protected ArrayList<Object> objects = new ArrayList<Object>();
-    protected ArrayList<Dragon> DragonList = new ArrayList<Dragon>();
-    protected ArrayList<Puff> PuffList = new ArrayList<Puff>();
+    protected ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
     final static int DIVS_TO_DIG = 1;
     protected Driller driller;
 
@@ -47,6 +46,17 @@ public class GameBoard {
 
     }
 
+    public void tempMakeBoard() {
+//        board[5][5].clearTileHorizontal();
+//        board[4][5].clearTileHorizontal();
+//        board[3][5].clearTileHorizontal();
+//
+//        board[9][11].clearTileHorizontal();
+//        board[8][11].clearTileHorizontal();
+//        board[10][11].clearTileHorizontal();
+
+    }
+
     public void setDriller(Driller d) {
         this.driller = d;
     }
@@ -56,30 +66,176 @@ public class GameBoard {
 
     }
 
-    /**
-     *
-     * @param location(in terms of divs)
-     * @param d
-     */
-    public boolean makeHole(Vector2 location, Direction d) {
-        int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
-        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
-        return board[x][y].makeHole(d, location, DIVS_TO_DIG);
+    public boolean isCollision() {
 
+        boolean isCollision = false;
+
+        for (Enemy e : enemyList) {
+
+            isCollision = e.isCollidedWith(this.driller);
+            if (isCollision) {
+                driller.kill();
+                break;
+            }
+//            if (((e.getDiv().getX() + Vector2.DIVS_PER_TILE) > driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
+//
+//                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("1");
+//                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("3");
+//
+//                }
+//            } else if (e.getDiv().getX() > driller.getDiv().getX() + Vector2.DIVS_PER_TILE && (e.getDiv().getX() < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
+//
+//                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("2");
+//                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
+//                    isCollision = true;
+//                    System.out.println("4");
+//                }
+//
+//            }
+
+            //System.out.println("collision");
+        }
+
+        return isCollision;
     }
 
     /**
-     * clears the dirt from a tile
+     * Will dig the hole for the digger based on the location and direction of
+     * the Driller.
      *
-     * @param num
-     * @param dir
+     * @author Sam Greenberg
+     * @param loc
+     * @param d
+     * @return
      */
-    public void clearTile(Vector2 num, Direction dir) {
-        int x = (int) num.getX();
-        int y = (int) num.getY();
+    public boolean digHole(Vector2 loc, Direction d) {
+        int x = (int) loc.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) loc.getY() / Vector2.DIVS_PER_TILE;
 
-        board[x][y].clearTile(dir);
+        boolean dig1 = false, dig2 = false;
 
+        if (d == Direction.RIGHT) {
+            if (x > 0) {
+                dig1 = board[x - 1][y].digHole(d,
+                                               Math.abs(
+                                                       (int) loc.getX() - (x - 1) * Vector2.DIVS_PER_TILE));
+                if (board[x - 1][y].isClearedVertical()) {
+                    board[x - 1][y].clearTileHorizontal();
+                    board[x - 1][y].clearTileVertical();
+                }
+            }
+            dig2 = board[x][y].digHole(d,
+                                       Math.abs(
+                                               (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
+            if (board[x - 1][y].isClearedVertical()) {
+                board[x - 1][y].clearTile();
+
+            }
+
+        } else if (d == Direction.LEFT) {
+            if (x <= Vector2.MAX_X) {
+                dig1 = board[x + 1][y].digHole(d, 31
+                                                  - Math.abs(
+                                                       (int) loc.getX() - (x + 1) * Vector2.DIVS_PER_TILE));
+                if (board[x + 1][y].isClearedVertical()) {
+                    board[x + 1][y].clearTileHorizontal();
+                    board[x + 1][y].clearTileVertical();
+                }
+            }
+            dig2 = board[x][y].digHole(d, 15
+                                          - Math.abs(
+                                               (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
+        } else if (d == Direction.UP) {
+            if (y <= Vector2.MAX_Y) {
+                dig1 = board[x][y + 1].digHole(d, 31
+                                                  - Math.abs(
+                                                       (int) loc.getY() - (y + 1) * Vector2.DIVS_PER_TILE));
+                if (board[x][y + 1].isClearedHorizontal()) {
+                    board[x][y + 1].clearTileHorizontal();
+                    board[x][y + 1].clearTileVertical();
+                }
+            }
+            dig2 = board[x][y].digHole(d, 15
+                                          - Math.abs(
+                                               (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
+        } else if (d == Direction.DOWN) {
+            if (y < Vector2.MAX_Y) {
+                dig1 = board[x][y - 1].digHole(d,
+                                               Math.abs(
+                                                       (int) loc.getY() - (y - 1) * Vector2.DIVS_PER_TILE));
+                if (board[x][y - 1].isClearedHorizontal()) {
+                    board[x][y - 1].clearTileHorizontal();
+                    board[x][y - 1].clearTileVertical();
+                }
+            }
+            dig2 = board[x][y].digHole(d,
+                                       Math.abs(
+                                               (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
+        }
+
+        return dig1 || dig2;
+    }
+
+    /**
+     * Will see if a hole is dug into by a certain amount.
+     *
+     * @author Sam Greenberg
+     * @param loc
+     * @param dir
+     * @return
+     */
+    public boolean isDugTo(Vector2 loc, Direction dir) {
+        int x = (int) loc.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) loc.getY() / Vector2.DIVS_PER_TILE;
+
+        if (x > Vector2.MAX_X || x < 0 || y > Vector2.MAX_Y || y < 0) {
+            return false;
+        } else {
+            if (dir == Direction.RIGHT) {
+                return board[x][y].isDugTo(dir, Math.abs(
+                                           (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
+            } else if (dir == Direction.LEFT) {
+                return board[x][y].isDugTo(dir, 15 - Math.abs(
+                                           (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
+            } else if (dir == Direction.UP) {
+                return board[x][y].isDugTo(dir, Math.abs(
+                                           (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
+            } else if (dir == Direction.DOWN) {
+                return board[x][y].isDugTo(dir, 15 - Math.abs(
+                                           (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Will see if a hole is dug into fully in the direction specified.
+     *
+     * @author Sam Greenberg
+     * @param loc
+     * @param dir
+     * @return
+     */
+    public boolean isTileDug(Vector2 loc, Direction dir) {
+        int x = (int) loc.getX();
+        int y = (int) loc.getY();
+
+        if (x > Vector2.MAX_X || x < 0 || y > Vector2.MAX_Y || y < 0) {
+            return false;
+        } else {
+            if (dir.isHorizontal()) {
+                return board[x][y].isClearedHorizontal();
+            } else {
+                return board[x][y].isClearedVertical();
+            }
+        }
     }
 
     /**
@@ -90,11 +246,7 @@ public class GameBoard {
      * @return true if tile is empty
      */
     public boolean isEmpty(int x, int y) {
-        if (board[x][y].isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return board[x][y].isEmpty();
     }
 
     /**
@@ -132,35 +284,32 @@ public class GameBoard {
                 j = 0;
                 i++;
             }
-            if (character == 'u') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(Direction.UP);
+            if (character == 'v') {
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTileVertical();
 
             }
-            if (character == 'd') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.DOWN);
+
+            if (character == 'h') {
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTileHorizontal();
 
             }
-            if (character == 'l') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.LEFT);
+            if (character == 'c') {
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTile();
 
             }
-            if (character == 'r') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.RIGHT);
 
-            }
             if (character == 'g') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.RIGHT);
-                //add dragon
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTile();
+                enemyList.add(new Dragon(Vector2Utility.scale(new Vector2(
+                        j % BOARD_HEIGHT, i % BOARD_WIDTH),
+                                                              Vector2.DIVS_PER_TILE)));
 
             }
             if (character == 'p') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.RIGHT);
-                //add puff
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTile();
+                enemyList.add(new Puff(Vector2Utility.scale(new Vector2(
+                        j % BOARD_HEIGHT, i % BOARD_WIDTH),
+                                                            Vector2.DIVS_PER_TILE)));
             }
 
             if (character == ' ' | character == '\n') {
@@ -171,57 +320,22 @@ public class GameBoard {
             j++;
         }
         buf.close();
-        this.generateEnemyFromFile(inputFile);
+
     }
 
-    /**
-     * @see
-     * <https://www.caveofprogramming.com/java/java-file-reading-and-writing-files-in-java.html>
-     * @param inputFile
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
-    private void generateEnemyFromFile(File inputFile) throws FileNotFoundException, IOException {
-        FileReader fileReader
-                   = new FileReader(inputFile);
-
-        BufferedReader buf
-                       = new BufferedReader(fileReader);
-        int num;
-        int i = 0;
-        int j = 0;
-        while ((num = buf.read()) != -1) {
-
-            char character = (char) num;
-
-            if (j == BOARD_WIDTH) {
-                j = 0;
-                i++;
+    public void resetBoard() {
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+            for (int j = 0; j < BOARD_HEIGHT; j++) {
+                board[i][j].fillHoles();
             }
-            if (character == 'g') {
-
-                DragonList.add(new Dragon(this));
-                System.out.println("dragon mades");
-
-            }
-            if (character == 'p') {
-
-                PuffList.add(new Puff(this));
-                System.out.println("puff mades");
-            }
-
-            if (character == ' ' | character == '\n') {
-
-                j--;
-            }
-
-            j++;
         }
-        buf.close();
+        enemyList.clear();
     }
 
-//TODO: May need to use this in future
     /**
+     *
+     *
+     * //TODO: May need to use this in future /**
      *
      * @param coord in div not tile
      * @return
@@ -266,7 +380,6 @@ public class GameBoard {
                                            (int) coord.getY())) {
                 returnList.add(objects.get(i));
             }
-
         }
         return returnList;
 
@@ -328,9 +441,14 @@ public class GameBoard {
      * @param t
      * @return boolean
      */
-    public boolean isClearedVertical(Tile t) {
-        return t.isClearedVertical();
-
+    public boolean isClearedVertical(Vector2 location) {
+        int x = (int) location.getX();
+        int y = (int) location.getY();
+        if (x < GameBoard.BOARD_WIDTH && y < GameBoard.BOARD_HEIGHT && x >= 0 && y >= 0) {
+            return board[x][y].isClearedVertical();
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -339,8 +457,15 @@ public class GameBoard {
      * @param t
      * @return boolean
      */
-    public boolean isClearedHorizontal(Tile t) {
-        return t.isClearedHorizontal();
+    public boolean isClearedHorizontal(Vector2 location) {
+        int x = (int) location.getX();
+        int y = (int) location.getY();
+        if (x < GameBoard.BOARD_WIDTH && y < GameBoard.BOARD_HEIGHT && x >= 0 && y >= 0) {
+            return board[x][y].isClearedHorizontal();
+        } else {
+            return false;
+        }
+
     }
 
     /**
@@ -360,6 +485,10 @@ public class GameBoard {
 //    }
     public Tile[][] getBoard() {
         return board;
+    }
+
+    public ArrayList<Enemy> getEnemyList() {
+        return enemyList;
     }
 
 }

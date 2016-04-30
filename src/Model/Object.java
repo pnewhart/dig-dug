@@ -21,15 +21,30 @@ import java.util.HashMap;
  */
 public abstract class Object {
 
-    protected Vector2 location = null;
+    static void loadBoard(GameBoard theBoard) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private Vector2 location = null;
     protected boolean isPumpable = false;
     protected boolean canCrush = false;
     protected boolean isCrushed = false;
     protected static HashMap<String, Image> Images = new HashMap<String, Image>();
     protected String currentImage;
 
+    private static GameBoard gBoard;
+
     public void loadImage(String name, Image image) {
+
         Images.put(name, image);
+    }
+
+    public static void setBoard(GameBoard b) {
+        gBoard = b;
+    }
+
+    public static GameBoard getBoard() {
+        return gBoard;
     }
 
     public Image getCurrentImage() {
@@ -42,6 +57,7 @@ public abstract class Object {
 
     public void setDiv(Vector2 location) {
         this.location = location;
+        location.adjust();
     }
 
     public Vector2 getTile() {
@@ -52,6 +68,32 @@ public abstract class Object {
         return new Vector2(this.location.getX(), this.location.getY());
     }
 
+    /**
+     * Is the object able to turn at its current location?
+     *
+     * @author Sam Greenberg
+     * @param loc (in divs)
+     * @return
+     */
+    public boolean isAtTurnableDiv(Vector2 loc) {
+        return (this.location.getX() % Vector2.DIVS_PER_TILE < 2 || this.location.getX() % Vector2.DIVS_PER_TILE > 14) && (this.location.getY() % Vector2.DIVS_PER_TILE < 2 || this.location.getY() % Vector2.DIVS_PER_TILE > 14);
+    }
+
+    public void align(Direction dir) {
+        Vector2 loc = getDiv();
+        if (dir.isHorizontal()) {
+            int y = (int) Math.round(
+                    loc.getY() / Vector2.DIVS_PER_TILE);
+            loc.setY(y * Vector2.DIVS_PER_TILE);
+            this.setDiv(loc);
+        } else if (dir.isVertical()) {
+            int x = (int) Math.round(
+                    loc.getX() / Vector2.DIVS_PER_TILE);
+            loc.setX(x * Vector2.DIVS_PER_TILE);
+            this.setDiv(loc);
+        }
+    }
+
     public int[] getPixel() {
         int[] loc = {(int) location.getX() * Vector2.PIXELS_PER_DIV, (int) location.getY() * Vector2.PIXELS_PER_DIV + Vector2.PIXELS_PER_DIV * Vector2.DIVS_PER_TILE};
         return loc;
@@ -59,6 +101,12 @@ public abstract class Object {
 
     public boolean containsDiv(int x, int y) {
         return x >= this.location.getX() && x < this.location.getX() + Vector2.DIVS_PER_TILE && y >= this.location.getY() && y < this.location.getY() + Vector2.DIVS_PER_TILE;
+    }
+
+    public boolean isCollidedWith(Object other) {
+        Vector2 dif = Vector2Utility.sub(this.getDiv(), other.getDiv());
+        return Math.abs(dif.getX()) < Vector2.DIVS_PER_TILE && Math.abs(
+                dif.getY()) < Vector2.DIVS_PER_TILE;
     }
 
     /**

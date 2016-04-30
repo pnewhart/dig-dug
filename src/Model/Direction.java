@@ -29,4 +29,34 @@ public enum Direction {
         return this.vector;
     }
 
+    public Direction getOpposite() {
+        if (this == UP) {
+            return DOWN;
+        } else if (this == DOWN) {
+            return UP;
+        } else if (this == RIGHT) {
+            return LEFT;
+        } else if (this == LEFT) {
+            return RIGHT;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean isHorizontal() {
+        return (this == RIGHT || this == LEFT);
+    }
+
+    public boolean isVertical() {
+        return (this == UP || this == DOWN);
+    }
+
+    public boolean isComplementaryTo(Direction other) {
+        if (other == null) {
+            return false;
+        } else {
+            return (this.isHorizontal() && other.isVertical()) || (this.isVertical() && other.isHorizontal());
+        }
+    }
+
 }

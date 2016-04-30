@@ -37,17 +37,17 @@ public class Vector2 {
         this.x = x;
         this.y = y;
 
-        this.adjust();
+        //this.adjust();
     }
 
     public void setX(double x) {
         this.x = x;
-        this.adjust();
+        //this.adjust();
     }
 
     public void setY(double y) {
         this.y = y;
-        this.adjust();
+        //this.adjust();
     }
 
     public double getX() {
@@ -58,7 +58,7 @@ public class Vector2 {
         return this.y;
     }
 
-    private void adjust() {
+    public void adjust() {
         if (this.y > MAX_DIV_Y) {
             this.y = MAX_DIV_Y;
         } else if (this.y < 0) {

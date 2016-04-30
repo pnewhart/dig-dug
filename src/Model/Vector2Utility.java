@@ -24,6 +24,10 @@ public class Vector2Utility {
         return new Vector2(vec1.getX() + vec2.getX(), vec1.getY() + vec2.getY());
     }
 
+    public static Vector2 sub(Vector2 vec1, Vector2 vec2) {
+        return new Vector2(vec1.getX() - vec2.getX(), vec1.getY() - vec2.getY());
+    }
+
     public static Vector2 negate(Vector2 vec) {
         return new Vector2(-vec.getX(), -vec.getY());
     }
@@ -33,8 +37,7 @@ public class Vector2Utility {
     }
 
     public static Vector2 roundDivide(Vector2 vec, double div) {
-        return new Vector2(Math.round(vec.getX() / div), Math.round(
-                           vec.getY() / div));
+        return new Vector2((int) vec.getX() / div, (int) (vec.getY() / div));
     }
 
     public static Vector2 scale(Vector2 vec, double factor) {

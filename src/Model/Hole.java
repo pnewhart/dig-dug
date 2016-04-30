@@ -22,6 +22,8 @@ public class Hole {
     private final int MAX_FILL = 0;
     private final int MIN_FILL = 19;
     protected Direction dir;
+    protected boolean isEmpty;
+    protected boolean hasBeenDug = false;
 
     /**
      *
@@ -36,7 +38,11 @@ public class Hole {
      * @return percent of hole filled
      */
     public int getPercentRemoved() {
-        return percentRemoved;
+        if (isClear()) {
+            return 19;
+        } else {
+            return percentRemoved;
+        }
     }
 
     /**
@@ -47,32 +53,85 @@ public class Hole {
      */
     public boolean destroy(int percentToDestroy) throws Exception {
         if (percentRemoved >= MIN_FILL) {
-            percentRemoved = MIN_FILL;
+            isEmpty = true;
             return false;
-        } else {
-            if (percentRemoved < 6) {
+        } else if (!hasBeenDug && percentRemoved < 2) {
+            if (percentRemoved < 4) {
                 percentRemoved += 1;
             }
             percentRemoved += percentToDestroy;
-
-            System.out.println(percentRemoved);
-
+            isEmpty = false;
+            hasBeenDug = true;
             return true;
-
+        } else if (hasBeenDug && percentRemoved < 19) {
+            if (percentRemoved < 4) {
+                percentRemoved += 1;
+            }
+            percentRemoved += percentToDestroy;
+            isEmpty = false;
+            hasBeenDug = true;
+            return true;
+        } else {
+            return false;
         }
     }
 
     /**
+     * Digs in the correct amount
      *
-     * @return true if hole is full
+     * @param digAmount
+     * @return
      */
-    public boolean isFull() {
-        if (percentRemoved == MAX_FILL) {
+    public boolean dig(int digAmount) {
+        if (digAmount == 1 && !hasBeenDug) {
+            percentRemoved = 1;
+            hasBeenDug = true;
             return true;
+        } else if (hasBeenDug) {
+            if (!isDugTo(digAmount)) {
+                percentRemoved = digAmount;
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
+    }
 
+    /**
+     * Digs in the correct amount for special circumstances
+     *
+     * @param digAmount
+     * @return boolean
+     */
+    public boolean forceDig(int digAmount) {
+        if (!isDugTo(digAmount)) {
+            percentRemoved = digAmount;
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Is the hole cleared (dug more than or equal to 19)
+     *
+     * @return boolean
+     */
+    public boolean isClear() {
+        return this.percentRemoved >= 19;
+    }
+
+    /**
+     * Clears the hole
+     */
+    public void clear() {
+        this.percentRemoved = 100;
+    }
+
+    public boolean isDugTo(int digAmount) {
+        return percentRemoved >= digAmount;
     }
 
     /**
@@ -80,16 +139,18 @@ public class Hole {
      * @return true if hole if empty
      */
     public boolean isEmpty() {
-        if (percentRemoved == MIN_FILL) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.isEmpty;
 
     }
 
     public void clearHole() {
         percentRemoved = MIN_FILL;
+        this.percentRemoved = MIN_FILL;
+        this.isEmpty = true;
+    }
+
+    public void fillHole() {
+        percentRemoved = MAX_FILL;
     }
 
     public String filePath() {
