@@ -12,23 +12,26 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author patricknewhart
  */
 public class MainMenuManager {
-    import java.awt.Image ;
-    import java.io.File ;
-    import java.io.IOException ;
-    import javax.imageio.ImageIO ;
 
-    /**
-     *
-     * @author patricknewhart
-     */
-    public class MainMenuManager {
+    private Image background;
 
-        private Image background;
+    public MainMenuManager() {
+        try {
+            this.initialize();
+        } catch (Exception e) {
+            System.out.println("cannot make menu");
+        }
+    }
 
     private void initialize() throws IOException {
 
@@ -46,32 +49,16 @@ public class MainMenuManager {
 
             spriteImage = spriteImage.getScaledInstance(pixWidth, pixHeight,
                                                         java.awt.Image.SCALE_SMOOTH);
+
         } catch (IOException ex) {
             System.out.println(ex.toString() + imageName);
         }
-
-        private void initialize() throws IOException {
-
-            this.background = this.loadAndResizeSprite("Background.png", 672,
-                                                       864);
-        }
-
-        public static Image loadAndResizeSprite(String imageName, int pixWidth,
-                                                int pixHeight) {
-
-            Image spriteImage = null;
-            try {
-                File inStream = new File("src/PNGImages/" + imageName);
-
-                spriteImage = ImageIO.read(inStream);
-
-                spriteImage = spriteImage.getScaledInstance(pixWidth, pixHeight,
-                                                            java.awt.Image.SCALE_SMOOTH);
-            } catch (IOException ex) {
-                System.out.println(ex.toString() + imageName);
-            }
-
-            return spriteImage;
-        }
+        return spriteImage;
 
     }
+
+    public Image getBackGround() {
+        return this.background;
+
+    }
+}

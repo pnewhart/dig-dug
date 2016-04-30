@@ -43,21 +43,18 @@ public class GameBoard {
 
             }
         }
-        board[5][5].clearTileHorizontal();
-        board[4][5].clearTileHorizontal();
-        board[3][5].clearTileHorizontal();
 
-        board[9][11].clearTileHorizontal();
-        board[8][11].clearTileHorizontal();
-        board[10][11].clearTileHorizontal();
+    }
 
-        Dragon d = new Dragon(Vector2Utility.scale(new Vector2(4, 5),
-                                                   Vector2.DIVS_PER_TILE));
-        Puff p = new Puff(Vector2Utility.scale(new Vector2(9, 11),
-                                               Vector2.DIVS_PER_TILE));
+    public void tempMakeBoard() {
+//        board[5][5].clearTileHorizontal();
+//        board[4][5].clearTileHorizontal();
+//        board[3][5].clearTileHorizontal();
+//
+//        board[9][11].clearTileHorizontal();
+//        board[8][11].clearTileHorizontal();
+//        board[10][11].clearTileHorizontal();
 
-        enemyList.add(d);
-        enemyList.add(p);
     }
 
     public void setDriller(Driller d) {
@@ -287,40 +284,32 @@ public class GameBoard {
                 j = 0;
                 i++;
             }
-            if (character == 'u') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(Direction.UP);
+            if (character == 'v') {
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTileVertical();
 
             }
-            if (character == 'd') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.DOWN);
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(Direction.UP);
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.RIGHT);
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.LEFT);
+
+            if (character == 'h') {
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTileHorizontal();
 
             }
-            if (character == 'l') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.LEFT);
+            if (character == 'c') {
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTile();
 
             }
-            if (character == 'r') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.RIGHT);
 
-            }
             if (character == 'g') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.RIGHT);
-                //add dragon
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTile();
+                enemyList.add(new Dragon(Vector2Utility.scale(new Vector2(
+                        j % BOARD_HEIGHT, i % BOARD_WIDTH),
+                                                              Vector2.DIVS_PER_TILE)));
 
             }
             if (character == 'p') {
-                board[i % BOARD_HEIGHT][j % BOARD_WIDTH].clearTile(
-                        Direction.RIGHT);
-                //add puff
+                board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTile();
+                enemyList.add(new Puff(Vector2Utility.scale(new Vector2(
+                        j % BOARD_HEIGHT, i % BOARD_WIDTH),
+                                                            Vector2.DIVS_PER_TILE)));
             }
 
             if (character == ' ' | character == '\n') {
@@ -331,55 +320,22 @@ public class GameBoard {
             j++;
         }
         buf.close();
-        this.generateEnemyFromFile(inputFile);
+
     }
 
-    /**
-     * @see
-     * <https://www.caveofprogramming.com/java/java-file-reading-and-writing-files-in-java.html>
-     * @param inputFile
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
-    private void generateEnemyFromFile(File inputFile) throws FileNotFoundException, IOException {
-        FileReader fileReader
-                   = new FileReader(inputFile);
-
-        BufferedReader buf
-                       = new BufferedReader(fileReader);
-        int num;
-        int i = 0;
-        int j = 0;
-        while ((num = buf.read()) != -1) {
-            Vector2 location = new Vector2(i, j);
-            char character = (char) num;
-
-            if (j == BOARD_WIDTH) {
-                j = 0;
-                i++;
+    public void resetBoard() {
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+            for (int j = 0; j < BOARD_HEIGHT; j++) {
+                board[i][j].fillHoles();
             }
-            if (character == 'g') {
-
-                System.out.println("dragon made");
-
-            }
-            if (character == 'p') {
-
-                System.out.println("puff made");
-            }
-
-            if (character == ' ' | character == '\n') {
-
-                j--;
-            }
-
-            j++;
         }
-        buf.close();
+        enemyList.clear();
     }
 
-//TODO: May need to use this in future
     /**
+     *
+     *
+     * //TODO: May need to use this in future /**
      *
      * @param coord in div not tile
      * @return

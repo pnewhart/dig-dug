@@ -149,6 +149,10 @@ public class Hole {
         this.isEmpty = true;
     }
 
+    public void fillHole() {
+        percentRemoved = MAX_FILL;
+    }
+
     public String filePath() {
         String pathString = "";
         if (this.dir == Direction.UP) {

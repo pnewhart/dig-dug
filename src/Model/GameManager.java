@@ -32,16 +32,62 @@ public class GameManager {
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
     public HashMap<String, Image> boardImageMap;
+    protected MainMenuManager menu = new MainMenuManager();
+    private int levelCounter = 0;
 
     public GameManager() {
-        theBoard = new GameBoard();
-        Object.setBoard(theBoard);
-        loadSprites();
+
         try {
-            initializeFromFile();
+            initializeGame();
         } catch (Exception ex) {
             System.out.println("ERRONEOUS FILE INTITIALIZATION!");
         }
+    }
+
+    private void initializeGame() throws IOException {
+        loadSprites();
+        theBoard = new GameBoard();
+        this.backGround = this.menu.getBackGround();
+
+    }
+
+    public void createGame() {
+        try {
+
+            this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
+                                                       864);
+
+            theBoard.tempMakeBoard();
+            Object.setBoard(theBoard);
+            player1.setBoard(theBoard);
+            File f = new File("input.txt");
+            this.theBoard.generateFromFile(f);
+            this.player1 = new Driller();
+            theBoard.setDriller(this.player1);
+
+        } catch (Exception e) {
+            System.out.println("cannot find input file");
+        }
+    }
+
+    public void nextLevel() {
+        theBoard.resetBoard();
+        try {
+            String levelString = String.format("src/level%d.txt", levelCounter);
+            System.out.println(levelString);
+            File inputFile = new File(levelString);
+            theBoard.generateFromFile(inputFile);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("cannot go to next level");
+        }
+        levelCounter++;
+
+    }
+
+    public void changeBackground() {
+        this.backGround = menu.getBackGround();
     }
 
     private void loadSprites() {
@@ -116,28 +162,6 @@ public class GameManager {
     public void checkCollision() {
 
         this.getTheBoard().isCollision();
-    }
-
-    private void initializeFromFile() throws IOException {
-
-        try {
-            this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
-                                                       864);
-            System.out.println("worked");
-            this.theBoard = new GameBoard();
-            player1.setBoard(theBoard);
-            System.out.println("2");
-            //File f = new File("input.txt");
-            //this.theBoard.generateFromFile(f);
-            this.player1 = new Driller();
-            theBoard.setDriller(this.player1);
-            this.loadPlayerSprites();
-            this.loadMapSprites();
-            this.loadEnemySprites();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
     }
 
     private void loadEnemySprites() {
