@@ -15,14 +15,13 @@ package Controller;
 import DigDugMain.MainView;
 import Model.Direction;
 import Model.GameManager;
+import View.MainMenuVisual;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -33,6 +32,7 @@ import javax.swing.event.ChangeListener;
 public class Controller implements ActionListener, ChangeListener, KeyListener {
     private GameManager theModel;
     private MainView GUI;
+    private MainMenuVisual menuVis;
     private Direction moveState;
     private boolean shoot;
     private Timer timer;
@@ -42,17 +42,19 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private boolean upIsPressed;
     private boolean downIsPressed;
     private boolean spaceIsPressed;
+    private boolean enterIsPressed;
 
     private final int DELAY = 25;
 
     public Controller(MainView GUI, GameManager theModel) {
         this.theModel = theModel;
         this.GUI = GUI;
+
         this.moveState = null;
         this.shoot = false;
 
         GUI.addKeyListener(this);
-        this.playTheme();
+
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -63,24 +65,10 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
     }
 
-    /**
-     *
-     */
-    public void playTheme() {
-        try {
-            String theme = "DDTheme.mp3";
-            Media hit = new Media(theme);
-            MediaPlayer mediaPlayer = new MediaPlayer(hit);
-            mediaPlayer.play();
-        } catch (Exception e) {
-            System.out.println("cannot play theme");
-
-        }
-    }
-
     public void update() {
-        theModel.checkCollision();
+
         theModel.moveObjects();
+        theModel.checkCollision();
 
         if (rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = Direction.RIGHT;
@@ -101,8 +89,15 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (!rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = null;
         }
+        if (enterIsPressed) {
+            this.changeToGame();
+        }
         this.theModel.movePlayer(moveState);
         GUI.repaint();
+    }
+
+    protected void changeToGame() {
+
     }
 
     @Override
@@ -135,6 +130,10 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             spaceIsPressed = true;
         }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            enterIsPressed = true;
+            theModel.createGame();
+        }
     }
 
     @Override
@@ -165,4 +164,5 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             spaceIsPressed = false;
         }
     }
+
 }

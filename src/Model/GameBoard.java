@@ -43,6 +43,10 @@ public class GameBoard {
 
             }
         }
+
+    }
+
+    public void tempMakeBoard() {
         board[5][5].clearTileHorizontal();
         board[4][5].clearTileHorizontal();
         board[3][5].clearTileHorizontal();
