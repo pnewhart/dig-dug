@@ -425,6 +425,13 @@ public class Tile extends Object {
 
     }
 
+    public void fillHoles() {
+        rightHole.fillHole();
+        leftHole.fillHole();
+        upHole.fillHole();
+        downHole.fillHole();
+    }
+
     /**
      * Will not be called
      */

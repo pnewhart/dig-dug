@@ -43,6 +43,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private boolean downIsPressed;
     private boolean spaceIsPressed;
     private boolean enterIsPressed;
+    private boolean gameCreated = false;
 
     private final int DELAY = 25;
 
@@ -132,7 +133,11 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             enterIsPressed = true;
+            gameCreated = true;
             theModel.createGame();
+            if (gameCreated) {
+                theModel.nextLevel();
+            }
         }
     }
 
