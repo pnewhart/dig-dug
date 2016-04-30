@@ -22,8 +22,9 @@ import java.util.Random;
  */
 public abstract class Enemy extends Object {
 
-    protected final double INITIAL_SPEED = 1.0;
+    protected final double INITIAL_SPEED = 0.8;
 
+    protected Direction prevHorDirection;
     protected Direction prevDirection;
     protected Direction direction;
     protected double speed;
@@ -50,7 +51,7 @@ public abstract class Enemy extends Object {
         this.direction = Direction.RIGHT;
         this.setDiv(location);
         this.direction = Direction.RIGHT;
-        this.prevDirection = Direction.RIGHT;
+        this.prevHorDirection = Direction.RIGHT;
     }
 
     @Override
@@ -59,7 +60,7 @@ public abstract class Enemy extends Object {
             this.setDiv(Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
                                            this.direction.getVector(), speed)));
             stepCount = (stepCount + 1) % MAX_STEP_COUNT;
-
+            prevDirection = direction;
         } else {
             ArrayList<Direction> directions = new ArrayList<Direction>();
 
@@ -67,35 +68,47 @@ public abstract class Enemy extends Object {
             Vector2 down = this.getDirection(Direction.DOWN);
             Vector2 left = this.getDirection(Direction.LEFT);
             Vector2 right = this.getDirection(Direction.RIGHT);
-            if ((direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
-                                            getDiv()))) && getBoard().isDugTo(up,
-                                                                              Direction.UP)) {
+
+            String Up = "", Down = "", Left = "", Right = "";
+            String canTurn = this.isAtTurnableDiv(getDiv()) ? "Can Turn" : "Cannot Turn";
+            if (prevDirection != Direction.UP.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
+                                                                                           getDiv()))) && getBoard().isDugTo(
+                    up,
+                    Direction.UP)) {
                 directions.add(Direction.UP);
+                Up = "up" + up.toString();
             }
-            if ((direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
-                                            getDiv()))) && getBoard().isDugTo(
+            if (prevDirection != Direction.DOWN.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
+                                                                                             getDiv()))) && getBoard().isDugTo(
                     down, Direction.DOWN)) {
                 directions.add(Direction.DOWN);
+                Down = "down" + down.toString();
             }
-            if ((direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
-                                              getDiv()))) && getBoard().isDugTo(
+            if (prevDirection != Direction.LEFT.getOpposite() && (direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
+                                                                                               getDiv()))) && getBoard().isDugTo(
                     left, Direction.LEFT)) {
                 directions.add(Direction.LEFT);
+                Left = "left" + left.toString();
             }
-            if ((direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
-                                              getDiv()))) && getBoard().isDugTo(
+            if (prevDirection != Direction.RIGHT.getOpposite() && (direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
+                                                                                                getDiv()))) && getBoard().isDugTo(
                     right, Direction.RIGHT)) {
                 directions.add(Direction.RIGHT);
+                Right = "right" + up.toString();
             }
+            System.out.printf("%s: %s %s %s %s\n", canTurn, Up, Down, Left,
+                              Right);
 
             Random r = new Random();
             if (directions.size() > 0) {
                 int i = r.nextInt(directions.size());
                 if (directions.get(i).isVertical() && direction.isHorizontal()) {
-                    this.prevDirection = direction;
+                    this.prevHorDirection = direction;
                 }
+                prevDirection = direction;
                 this.direction = directions.get(i);
             } else {
+                prevDirection = direction;
                 direction = direction.getOpposite();
                 this.setDiv(Vector2Utility.add(this.getDiv(),
                                                direction.getVector()));
@@ -166,29 +179,22 @@ public abstract class Enemy extends Object {
      * @return Vector2 loc location in tiles
      */
     public Vector2 getDirection(Direction d) {
-        Vector2 loc = Vector2Utility.scale(this.getTile(), Vector2.DIVS_PER_TILE);
-        if (d == Direction.RIGHT || d == Direction.DOWN) {
-            loc = Vector2Utility.add(loc, Vector2Utility.scale(
-                                     d.getVector(),
-                                     Vector2.DIVS_PER_TILE));
-        }
-        loc = Vector2Utility.add(loc, Vector2Utility.scale(
-                                 d.getVector(),
-                                 speed));
+        Vector2 loc = getDiv();
+        loc = Vector2Utility.add(loc, Vector2Utility.scale(new Vector2(1, 1),
+                                                           Vector2.DIVS_PER_TILE / 2));
+        loc = Vector2Utility.add(loc, Vector2Utility.scale(d.getVector(),
+                                                           Vector2.DIVS_PER_TILE));
 
         return loc;
     }
 
     public Vector2 getFront() {
         Vector2 loc = getDiv();
-        if (direction == Direction.RIGHT || direction == Direction.DOWN) {
-            loc = Vector2Utility.add(loc, Vector2Utility.scale(
-                                     direction.getVector(),
-                                     Vector2.DIVS_PER_TILE));
-        }
-        loc = Vector2Utility.add(loc, Vector2Utility.scale(
-                                 direction.getVector(),
-                                 speed));
+        loc = Vector2Utility.add(loc, Vector2Utility.scale(new Vector2(1, 1),
+                                                           Vector2.DIVS_PER_TILE / 2));
+        loc = Vector2Utility.add(loc,
+                                 Vector2Utility.scale(direction.getVector(),
+                                                      Vector2.DIVS_PER_TILE / 2 + speed));
 
         return loc;
     }

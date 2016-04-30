@@ -28,7 +28,7 @@ public class Puff extends Enemy {
     public Image getCurrentImage() {
         String dir = null;
         if (direction == Direction.UP || direction == Direction.DOWN) {
-            if (prevDirection == Direction.LEFT) {
+            if (prevHorDirection == Direction.LEFT) {
                 dir = "Left";
             } else {
                 dir = "Right";

@@ -134,7 +134,7 @@ public class Driller extends Object {
             }
         }
         if (isDead()) {
-            s3 = String.valueOf(deadCount / 12);
+            s3 = String.valueOf(1 + deadCount / 12);
         } else if (prevWalkState < NUM_WALK_STATES / 2) {
             s3 = "1";
         } else {
@@ -143,8 +143,7 @@ public class Driller extends Object {
 
         String string = String.format("%s_%s%s.png", s1, s2, s3);
 
-        System.out.println(string);
-
+        //System.out.println(string);
         return this.Images.get(string);
     }
 

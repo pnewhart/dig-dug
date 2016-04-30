@@ -219,6 +219,29 @@ public class GameBoard {
     }
 
     /**
+     * Will see if a hole is dug into fully in the direction specified.
+     *
+     * @author Sam Greenberg
+     * @param loc
+     * @param dir
+     * @return
+     */
+    public boolean isTileDug(Vector2 loc, Direction dir) {
+        int x = (int) loc.getX();
+        int y = (int) loc.getY();
+
+        if (x > Vector2.MAX_X || x < 0 || y > Vector2.MAX_Y || y < 0) {
+            return false;
+        } else {
+            if (dir.isHorizontal()) {
+                return board[x][y].isClearedHorizontal();
+            } else {
+                return board[x][y].isClearedVertical();
+            }
+        }
+    }
+
+    /**
      * checks to see if tile is empty
      *
      * @param x
