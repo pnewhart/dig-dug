@@ -21,6 +21,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -50,7 +52,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         this.shoot = false;
 
         GUI.addKeyListener(this);
-
+        this.playTheme();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -59,6 +61,21 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             }
         }, 0, DELAY);
 
+    }
+
+    /**
+     *
+     */
+    public void playTheme() {
+        try {
+            String theme = "DDTheme.mp3";
+            Media hit = new Media(theme);
+            MediaPlayer mediaPlayer = new MediaPlayer(hit);
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.out.println("cannot play theme");
+
+        }
     }
 
     public void update() {
