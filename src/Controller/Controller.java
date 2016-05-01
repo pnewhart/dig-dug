@@ -46,6 +46,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private boolean gameCreated = false;
 
     private int timesPushed = 0;
+    private int timesPlayed = 0;
 
     private final int DELAY = 25;
 
@@ -101,6 +102,16 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         collectibleTimer++;
         if (collectibleTimer == 100) { //1200 is about 40 seconds
             theModel.setCollectible();
+        }
+        if (theModel.getPlayer1().isDead()) {
+            if (timesPlayed == 0) {
+                Model.Sound.DigDugDead();
+                timesPlayed += 1;
+            }
+
+        }
+        if (theModel.getPlayer1().isDead() == false) {
+            timesPlayed = 0;
         }
     }
 
