@@ -431,7 +431,7 @@ public class GameManager {
                               "Dead_Down_R1.png", "Dead_Down_R2.png", "Dead_Down_R3.png", "Dead_Down_R4.png", "Dead_Down_R5.png",
                               "Dead_Up_L1.png", "Dead_Up_L2.png", "Dead_Up_L3.png", "Dead_Up_L4.png", "Dead_Up_L5.png",
                               "Dead_Up_R1.png", "Dead_Up_R2.png", "Dead_Up_R3.png", "Dead_Up_R4.png", "Dead_Up_R5.png",
-                              "Dead_Rock_Left", "Dead_Rock_Right", "Dead_Fire_Left", "Dead_Fire_Right"};
+                              "Dead_Rock_Left.png", "Dead_Rock_Right.png", "Dead_Fire_Left.png", "Dead_Fire_Right.png"};
 
         for (String file : deadFiles) {
             BoardObject.loadImage(file, loadAndResizeSprite(file,
