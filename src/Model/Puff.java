@@ -27,6 +27,14 @@ public class Puff extends Enemy {
     @Override
     public Image getCurrentImage() {
         String dir = null;
+        if (isCrushed) {
+            if (prevHorDirection == Direction.LEFT) {
+                return Images.get("Pooka_Rock_Left.png");
+            } else {
+                return Images.get("Pooka_Rock_Right.png");
+            }
+        }
+
         if (direction == Direction.UP || direction == Direction.DOWN) {
             if (prevHorDirection == Direction.LEFT) {
                 dir = "Left";

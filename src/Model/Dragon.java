@@ -28,56 +28,6 @@ public class Dragon extends Enemy {
         super(location);
     }
 
-//    @Override
-//    public void move() {
-//        if (getBoard().isDivEmpty(this.getFront())) {
-//            this.location = Vector2Utility.add(location, Vector2Utility.scale(
-//                                               this.direction.getVector(), speed));
-//        } else {
-//            ArrayList<Vector2> locations = new ArrayList<Vector2>();
-//            ArrayList<Direction> directions = new ArrayList<Direction>();
-//
-//            Vector2 up = this.getDirection(Direction.UP);
-//            Vector2 down = this.getDirection(Direction.DOWN);
-//            Vector2 left = this.getDirection(Direction.LEFT);
-//            Vector2 right = this.getDirection(Direction.RIGHT);
-//
-//            if (getBoard().isDivEmpty(up)) {
-//                locations.add(up);
-//                directions.add(Direction.UP);
-//            }
-//            if (getBoard().isDivEmpty(down)) {
-//                locations.add(down);
-//                directions.add(Direction.DOWN);
-//            }
-//            if (getBoard().isDivEmpty(left)) {
-//                locations.add(left);
-//                directions.add(Direction.LEFT);
-//            }
-//            if (getBoard().isDivEmpty(right)) {
-//                locations.add(right);
-//                directions.add(Direction.RIGHT);
-//            }
-//
-//            Random r = new Random();
-//
-//            int i = r.nextInt(locations.size() + 2);
-//            if (i == (locations.size() + 1)) {
-//                this.direction = this.direction;
-//                this.location = this.location;
-//
-//            }
-//            if (i == (locations.size() + 2)) {
-//                this.floatToDriller(getBoard().getDrillerLocation());
-//
-//            }
-//            if (direction == Direction.LEFT || direction == Direction.RIGHT) {
-//                this.prevHorDirection = direction;
-//            }
-//            direction = directions.get(i);
-//            this.location = locations.get(i);
-//        }
-//    }
     public boolean isIsFire() {
         return isFire;
     }
@@ -98,6 +48,15 @@ public class Dragon extends Enemy {
     @Override
     public Image getCurrentImage() {
         String dir = null;
+
+        if (isCrushed) {
+            if (prevHorDirection == Direction.LEFT) {
+                return Images.get("Fygar_Rock_Left.png");
+            } else {
+                return Images.get("Fygar_Rock_Right.png");
+            }
+        }
+
         if (direction == Direction.UP || direction == Direction.DOWN) {
             if (prevHorDirection == Direction.LEFT) {
                 dir = "Left";

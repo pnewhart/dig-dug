@@ -80,7 +80,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
             }
 
             String scoreStr = "SCORE";
-            for (int i = 0; i < scoreStr.length() + 1 + theModel.getPlayer1().getScoreAsString().length(); i++) {
+            for (int i = 0; i < scoreStr.length(); i++) {
                 if (i < scoreStr.length()) {
                     String iChar = scoreStr.substring(i, i + 1);
 
@@ -93,6 +93,16 @@ public class GameBoardVisual extends javax.swing.JComponent {
                                 i * theModel.NUMBER_WIDTH * theModel.PIXELS_PER_DIV,
                                 0, this);
                 }
+            }
+
+            int xOffset = (scoreStr.length() + 1) * theModel.NUMBER_WIDTH * theModel.PIXELS_PER_DIV;
+            String score = theModel.getPlayer1().getScoreAsString();
+            for (int i = 0; i < score.length(); i++) {
+                String scoreChar = score.substring(i, i + 1);
+
+                g.drawImage(theModel.getNumbersAndLives().get(scoreChar),
+                            xOffset + i * theModel.NUMBER_WIDTH * theModel.PIXELS_PER_DIV,
+                            0, this);
             }
         } catch (Exception ex) {
             //this exception is caught when the images for score and lives aren't loaded yet and therefore should not be displayed

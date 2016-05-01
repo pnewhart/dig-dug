@@ -32,6 +32,9 @@ public class GameBoard {
     protected ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
     final static int DIVS_TO_DIG = 1;
     protected Driller driller;
+    private Collectible collect;
+
+    private boolean collectPlaced = false;
 
     /**
      * creates a new GameBoard of tiles
@@ -46,6 +49,14 @@ public class GameBoard {
 
     }
 
+    public Collectible getCollect() {
+        return collect;
+    }
+
+    public void setCollect(Collectible collect) {
+        this.collect = collect;
+    }
+
     public void tempMakeBoard() {
 //        board[5][5].clearTileHorizontal();
 //        board[4][5].clearTileHorizontal();
@@ -55,6 +66,19 @@ public class GameBoard {
 //        board[8][11].clearTileHorizontal();
 //        board[10][11].clearTileHorizontal();
 
+    }
+
+    public void placeCollectible(Collectible c) {
+        this.collect = c;
+        c.setDiv(new Vector2(
+                (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
+                (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE));
+        collectPlaced = true;
+
+    }
+
+    public void destroyCollectible() {
+        this.collect.destroy();
     }
 
     public void setDriller(Driller d) {
@@ -82,6 +106,14 @@ public class GameBoard {
                 break;
             }
 
+        }
+        if (collectPlaced && this.collect != null) {
+            if (this.collect.isCollidedWith(this.driller)) {
+
+                driller.addToScore(this.collect.getType().getPoints());
+                this.destroyCollectible();
+
+            }
         }
 
         return isCollision;
@@ -254,6 +286,7 @@ public class GameBoard {
         int num;
         int i = 0;
         int j = 0;
+        this.objects.clear();
         while ((num = buf.read()) != -1) {
 
             char character = (char) num;
@@ -277,6 +310,7 @@ public class GameBoard {
             }
 
             if (character == 'r') {
+
                 this.objects.add(new Rock(Vector2Utility.scale(new Vector2(
                         j % BOARD_WIDTH, i % BOARD_HEIGHT),
                                                                Vector2.DIVS_PER_TILE)));

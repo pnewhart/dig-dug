@@ -74,7 +74,10 @@ public class GameManager {
             theBoard.setDriller(this.player1);
 
             this.loadScoreAndLivesSprites();
+
+            this.setCollectible();
         } catch (Exception e) {
+            System.out.println(e);
             System.out.println("cannot find input file");
         }
     }
@@ -92,6 +95,14 @@ public class GameManager {
             System.out.println("cannot go to next level");
         }
         levelCounter++;
+
+    }
+
+    public void setCollectible() {
+        System.out.println("start set collect");
+
+        theBoard.placeCollectible(new Collectible(levelCounter));
+        System.out.println("collect set");
 
     }
 
@@ -114,7 +125,7 @@ public class GameManager {
                                  this.LIFE_ICON_DIMMENSIONS,
                                  this.LIFE_ICON_DIMMENSIONS));
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             String iString = Integer.toString(i);
             this.numbersAndLives.put(iString, loadAndResizeSprite(
                                      iString + ".png",
@@ -191,7 +202,9 @@ public class GameManager {
         for (Enemy enemy : getEnemies()) {
             enemy.move();
         }
+
         for (BoardObject obj : getObjects()) {
+
             obj.move();
         }
         //move rocks (handles animations
