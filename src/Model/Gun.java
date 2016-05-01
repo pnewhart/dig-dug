@@ -19,7 +19,7 @@ import java.util.Date;
  *
  * @author spg011
  */
-public class Gun extends Object {
+public class Gun extends BoardObject {
 
     public static final int MAX_LENGTH = 3;
     private static final double SPEED = 0.02;

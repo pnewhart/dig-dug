@@ -18,7 +18,7 @@ import java.awt.Image;
  *
  * @author spg011
  */
-public class Driller extends Object {
+public class Driller extends BoardObject {
 
     /**
      * Direction in the Dig Dug board (LEFT, RIGHT, UP, DOWN)

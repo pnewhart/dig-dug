@@ -16,7 +16,7 @@ package Model;
  *
  * @author spg011
  */
-public abstract class Character extends Object {
+public abstract class Character extends BoardObject {
 
     /**
      * Direction in the Dig Dug board (LEFT, RIGHT, UP, DOWN)

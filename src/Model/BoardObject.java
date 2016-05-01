@@ -6,7 +6,7 @@
  * Time: 3:43:01 PM *
  * Project: csci205FinalProject
  * Package: Model
- * File: Object
+ * File: BoardObject
  * Description:
  *
  * **************************************** */
@@ -19,7 +19,7 @@ import java.util.HashMap;
  *
  * @author laa024
  */
-public abstract class Object {
+public abstract class BoardObject {
 
     static void loadBoard(GameBoard theBoard) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -34,7 +34,7 @@ public abstract class Object {
 
     private static GameBoard gBoard;
 
-    public void loadImage(String name, Image image) {
+    public static void loadImage(String name, Image image) {
 
         Images.put(name, image);
     }
@@ -103,10 +103,14 @@ public abstract class Object {
         return x >= this.location.getX() && x < this.location.getX() + Vector2.DIVS_PER_TILE && y >= this.location.getY() && y < this.location.getY() + Vector2.DIVS_PER_TILE;
     }
 
-    public boolean isCollidedWith(Object other) {
+//    public boolean isCollidedWith(BoardObject other) {
+//        Vector2 dif = Vector2Utility.sub(this.getDiv(), other.getDiv());
+//        return Math.abs(dif.getX()) < Vector2.DIVS_PER_TILE && Math.abs(
+//                dif.getY()) < Vector2.DIVS_PER_TILE;
+//    }
+    public boolean isCollidedWith(BoardObject other) {
         Vector2 dif = Vector2Utility.sub(this.getDiv(), other.getDiv());
-        return Math.abs(dif.getX()) < Vector2.DIVS_PER_TILE && Math.abs(
-                dif.getY()) < Vector2.DIVS_PER_TILE;
+        return Math.sqrt(Math.pow(dif.getX(), 2) + Math.pow(dif.getY(), 2)) < Vector2.DIVS_PER_TILE;
     }
 
     /**
