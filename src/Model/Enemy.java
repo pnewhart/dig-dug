@@ -60,6 +60,8 @@ public abstract class Enemy extends BoardObject {
 
     @Override
     public void move() {
+        boolean shouldFloat = this.decideToFloat();
+        System.out.println("Should float" + shouldFloat);
         if (!this.hasBeenKilled()) {
             if (getBoard().isDugTo(getFront(), direction)) {
                 this.setDiv(Vector2Utility.add(this.getDiv(),
@@ -68,7 +70,15 @@ public abstract class Enemy extends BoardObject {
                                                        speed)));
                 stepCount = (stepCount + 1) % MAX_STEP_COUNT;
                 prevDirection = direction;
-            } else {
+            } else if (shouldFloat && !isFloating) {
+                System.out.println("floating");
+                this.floatToDriller(getBoard().getDrillerLocation());
+                System.out.println("called");
+            } else if (shouldFloat && isFloating) {
+                this.floatToDriller(getBoard().getDrillerLocation());
+
+            } else if (!isFloating) {
+
                 ArrayList<Direction> directions = new ArrayList<Direction>();
 
                 Direction[] dirs = {Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT};
@@ -108,43 +118,64 @@ public abstract class Enemy extends BoardObject {
 
     }
 
+    private boolean decideToFloat() {
+        Random r = new Random();
+        int choice = r.nextInt(4);
+        if (choice > 2) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     /**
      * makes enemy float to driller location that is given
      *
      * @param coord (Vector2)
      */
     public void floatToDriller(Vector2 coord) {
+        System.out.println("in float driller");
         Vector2 drillerLocation = coord;
-        double enemyX = this.getDiv().getX();
-        double enemyY = this.getDiv().getY();
-        double drillerX = drillerLocation.getX();
-        double drillerY = drillerLocation.getY();
-        double horizontalMove = drillerX - enemyX;
-        double verticalMove = drillerY - enemyY;
-        int i = 0;
-        startFloat();
-        while (i < 10 && isFloating) {
+        int enemyXTile = (int) this.getTile().getX() / Vector2.DIVS_PER_TILE;
+        int enemyYTile = (int) this.getTile().getY() / Vector2.DIVS_PER_TILE;
+        int drillerXTile = (int) (drillerLocation.getX() / Vector2.DIVS_PER_TILE);
+        int drillerYTile = (int) (drillerLocation.getY() / Vector2.DIVS_PER_TILE);
+        int horizontalMove = enemyXTile - drillerXTile;
+        int verticalMove = enemyYTile - drillerYTile;
 
-            if (horizontalMove < 0) {
-                if (verticalMove < 0) {
-                    this.setDiv(new Vector2((enemyX + (.1 * horizontalMove)),
-                                            (enemyY + (.1 * verticalMove)))); // vert and horiz are negative
-                } else {
-                    this.setDiv(new Vector2((enemyX + (.1 * horizontalMove)),
-                                            (enemyY - (.1 * verticalMove)))); // vert is positive horiz is negative
-                }
+        this.startFloat();
+        System.out.println(horizontalMove);
+        System.out.println(verticalMove);
+        if (horizontalMove < 0) {
+            this.setDiv(new Vector2(
+                    enemyXTile * Vector2.DIVS_PER_TILE + Vector2.DIVS_PER_TILE,
+                    enemyYTile * Vector2.DIVS_PER_TILE));
 
-            } else if (verticalMove < 0) {
-                this.setDiv(new Vector2((enemyX - (.1 * horizontalMove)),
-                                        (enemyY + (.1 * verticalMove)))); // vert is neg and horiz is positive
+        } else if (horizontalMove > 0) {
+            this.setDiv(new Vector2(
+                    enemyXTile * Vector2.DIVS_PER_TILE - Vector2.DIVS_PER_TILE,
+                    enemyYTile * Vector2.DIVS_PER_TILE));
 
-            } else {
-                this.setDiv(new Vector2((enemyX - (.1 * horizontalMove)),
-                                        (enemyY - (.1 * verticalMove)))); // vert and horiz are positive
-            }
-            i++;
+        } else if (horizontalMove == 0) {
+
+        } else if (verticalMove < 0) {
+            this.setDiv(new Vector2(
+                    enemyXTile * Vector2.DIVS_PER_TILE,
+                    enemyYTile * Vector2.DIVS_PER_TILE + Vector2.DIVS_PER_TILE));
+
+        } else if (verticalMove > 0) {
+            this.setDiv(new Vector2(
+                    enemyXTile * Vector2.DIVS_PER_TILE,
+                    enemyYTile * Vector2.DIVS_PER_TILE - Vector2.DIVS_PER_TILE));
+        } else if (verticalMove == 0) {
+
+        } else if (this.getBoard().isClearedVertical(this.getDiv()) || this.getBoard().isClearedHorizontal(
+                this.getDiv())) {
+            System.out.println("going to end floating");
+            this.stopFloat();
+
         }
-        stopFloat();
 
     }
 
