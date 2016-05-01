@@ -74,6 +74,7 @@ public class GameManager {
             theBoard.setDriller(this.player1);
 
             this.loadScoreAndLivesSprites();
+
         } catch (Exception e) {
             System.out.println("cannot find input file");
         }
@@ -114,7 +115,7 @@ public class GameManager {
                                  this.LIFE_ICON_DIMMENSIONS,
                                  this.LIFE_ICON_DIMMENSIONS));
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             String iString = Integer.toString(i);
             this.numbersAndLives.put(iString, loadAndResizeSprite(
                                      iString + ".png",
