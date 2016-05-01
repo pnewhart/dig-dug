@@ -43,6 +43,7 @@ public class Rock extends BoardObject {
         isBroken = false;
         brokenCount = 0;
         wiggleCount = 0;
+        crushedObjects = new ArrayList();
     }
 
     /**
@@ -51,17 +52,7 @@ public class Rock extends BoardObject {
      * @return true if rock should fall
      */
     public boolean shouldRockFall() {
-        int x = ((int) this.getDiv().getX()) / Vector2.DIVS_PER_TILE;
-        int y = ((int) this.getDiv().getY()) / Vector2.DIVS_PER_TILE + 1; // -1 to look at the tile below the rock
-        if (getBoard().board[x][y].isClearedVertical() || getBoard().board[x][y].isEmpty() || getBoard().board[x][y].isClearedHorizontal()) {
-            this.breakRock();
-            return true;
-
-        } else {
-            return false;
-
-        }
-
+        return getBoard().isDugTo(getBottom(), Direction.DOWN);
     }
 
     public Vector2 getBottom() {
@@ -109,10 +100,12 @@ public class Rock extends BoardObject {
     public void move() {
         if (shouldRockFall() && !this.isFalling && wiggleCount < MAX_WIGGLES && !isBroken) {
             this.wiggleCount += 1;
+            System.out.println("Wiggling");
         } else if (shouldRockFall() && !this.isFalling && wiggleCount >= MAX_WIGGLES && !isBroken) {
             this.isFalling = true;
         } else if (shouldRockFall() && this.isFalling && !isBroken) {
-            this.getDiv().setY(this.getDiv().getY() + this.speed);
+            System.out.println("Falling");
+            this.setY(this.getDiv().getY() + this.speed);
             this.crushObjectsBelow();
             for (BoardObject obj : this.crushedObjects) {
                 obj.setDiv(this.getBottomLeft());
@@ -120,9 +113,11 @@ public class Rock extends BoardObject {
         } else if (!shouldRockFall() && this.isFalling && !isBroken) {
             this.isBroken = true;
             this.isFalling = false;
-        } else if (isBroken && brokenCount < MAX_BROKEN) {
+        } else if (isBroken) {
             brokenCount += 1;
-        } else if (brokenCount >= MAX_BROKEN) {
+            if (this.brokenCount > MAX_BROKEN) {
+                this.destroy();
+            }
         }
     }
 
@@ -136,14 +131,25 @@ public class Rock extends BoardObject {
 
     @Override
     public Image getCurrentImage() {
-        if (!isFalling && wiggleCount > 0) {
+        if (isFalling) {
+            return Images.get("Rock_2.png");
+        } else if ((!isFalling && wiggleCount > 0) && !isBroken) {
             return Images.get(String.format("Rock_%d.png",
                                             (wiggleCount / (MAX_WIGGLES / 8)) % 2 + 1));
         } else if (isBroken) {
             return Images.get(String.format("Rock_Ground_%d.png",
-                                            (brokenCount / (MAX_BROKEN / 2)) % 2 + 1));
+                                            (2 * brokenCount / (MAX_BROKEN)) + 1));
         } else {
-            return Images.get("Rock_2.png");
+            return null;
+        }
+    }
+
+    @Override
+    public void destroy() {
+        try {
+            getBoard().objects.remove(this);
+        } catch (Exception e) {
+            System.out.println("Could not destroy Rock!");
         }
     }
 }

@@ -68,6 +68,16 @@ public abstract class BoardObject {
         return new Vector2(this.location.getX(), this.location.getY());
     }
 
+    public void setY(double y) {
+        this.location.setY(y);
+    }
+
+    public void setX(double x) {
+        this.location.setY(x);
+    }
+
+    public abstract void destroy();
+
     /**
      * Is the object able to turn at its current location?
      *

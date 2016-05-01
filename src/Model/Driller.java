@@ -459,4 +459,12 @@ public class Driller extends BoardObject {
         return this.isCrushed || this.isKilled;
     }
 
+    public void destroy() {
+        try {
+            getBoard().driller = null;
+        } catch (Exception e) {
+            System.out.println("Could not destroy Rock!");
+        }
+    }
+
 }

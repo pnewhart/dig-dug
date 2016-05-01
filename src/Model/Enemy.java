@@ -46,6 +46,10 @@ public abstract class Enemy extends BoardObject {
     protected boolean canCrush = true;
     protected boolean isCrushed = false;
 
+    private int deadCount;
+    private boolean isDead;
+    private final int MAX_DEAD_COUNT = 32;
+
     public Enemy(Vector2 location) {
         this.speed = INITIAL_SPEED;
         this.direction = Direction.RIGHT;
@@ -56,43 +60,52 @@ public abstract class Enemy extends BoardObject {
 
     @Override
     public void move() {
-        if (getBoard().isDugTo(getFront(), direction)) {
-            this.setDiv(Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
-                                           this.direction.getVector(), speed)));
-            stepCount = (stepCount + 1) % MAX_STEP_COUNT;
-            prevDirection = direction;
-        } else {
-            ArrayList<Direction> directions = new ArrayList<Direction>();
-
-            Direction[] dirs = {Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT};
-
-            for (Direction dir : dirs) {
-                Vector2 place = this.getDirection(dir);
-
-                if (prevDirection != dir.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
-                                                                                      getDiv()))) && getBoard().isDugTo(
-                        place,
-                        dir)) {
-                    directions.add(dir);
-                }
-            }
-            Random r = new Random();
-            if (directions.size() > 0) {
-                int i = r.nextInt(directions.size());
-                if (directions.get(i).isVertical() && direction.isHorizontal()) {
-                    this.prevHorDirection = direction;
-                }
-                prevDirection = direction;
-                this.direction = directions.get(i);
-            } else {
-                prevDirection = direction;
-                direction = direction.getOpposite();
+        if (!this.hasBeenKilled()) {
+            if (getBoard().isDugTo(getFront(), direction)) {
                 this.setDiv(Vector2Utility.add(this.getDiv(),
-                                               direction.getVector()));
+                                               Vector2Utility.scale(
+                                                       this.direction.getVector(),
+                                                       speed)));
                 stepCount = (stepCount + 1) % MAX_STEP_COUNT;
+                prevDirection = direction;
+            } else {
+                ArrayList<Direction> directions = new ArrayList<Direction>();
+
+                Direction[] dirs = {Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT};
+
+                for (Direction dir : dirs) {
+                    Vector2 place = this.getDirection(dir);
+
+                    if (prevDirection != dir.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
+                                                                                          getDiv()))) && getBoard().isDugTo(
+                            place,
+                            dir)) {
+                        directions.add(dir);
+                    }
+                }
+                Random r = new Random();
+                if (directions.size() > 0) {
+                    int i = r.nextInt(directions.size());
+                    if (directions.get(i).isVertical() && direction.isHorizontal()) {
+                        this.prevHorDirection = direction;
+                    }
+                    prevDirection = direction;
+                    this.direction = directions.get(i);
+                } else {
+                    prevDirection = direction;
+                    direction = direction.getOpposite();
+                    this.setDiv(Vector2Utility.add(this.getDiv(),
+                                                   direction.getVector()));
+                    stepCount = (stepCount + 1) % MAX_STEP_COUNT;
+                }
             }
+            this.align(direction);
+        } else if (hasBeenKilled() && deadCount < MAX_DEAD_COUNT && isDead) {
+            deadCount += 1;
+        } else if (isDead && deadCount >= MAX_DEAD_COUNT) {
+            this.destroy();
         }
-        this.align(direction);
+
     }
 
     /**
@@ -146,7 +159,14 @@ public abstract class Enemy extends BoardObject {
     @Override
     public void crush() {
         isCrushed = true;
+    }
 
+    public void kill() {
+        this.isDead = true;
+    }
+
+    public boolean hasBeenKilled() {
+        return this.isCrushed || this.isPopped;
     }
 
     /**
@@ -188,8 +208,9 @@ public abstract class Enemy extends BoardObject {
             prevPumpTime = new Date();
             prevDeflateTime = new Date();
         }
-        if (pumpCount > MAX_PUMPS) {
+        if (pumpCount >= MAX_PUMPS) {
             isPopped = true;
+            isDead = true;
         }
     }
 
@@ -260,6 +281,15 @@ public abstract class Enemy extends BoardObject {
             tile.setX(Math.floor(tile.getX()));
         }
         return tile;
+    }
+
+    @Override
+    public void destroy() {
+        try {
+            getBoard().enemyList.remove(this);
+        } catch (Exception e) {
+            System.out.println("Could not destroy enemy!");
+        }
     }
 
 }
