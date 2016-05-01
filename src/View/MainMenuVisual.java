@@ -27,6 +27,7 @@ public class MainMenuVisual extends javax.swing.JPanel {
      */
     public MainMenuVisual() {
         try {
+
             initComponents();
             this.theModel = null;
 
@@ -46,6 +47,7 @@ public class MainMenuVisual extends javax.swing.JPanel {
     @Override
     public void paintComponent(Graphics g) {
         drawMenu(g);
+
     }
 
     /**
@@ -73,5 +75,6 @@ public class MainMenuVisual extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     private void drawMenu(Graphics g) {
         g.drawImage(theModel.getBackGround(), 0, 0, this);
+
     }
 }

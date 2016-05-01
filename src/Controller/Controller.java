@@ -138,7 +138,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             gameCreated = true;
             theModel.createGame();
             if (timesPushed == 0) {
-                Model.Sound.DigDugMusic();
+                Model.Sound.DigDugGameMusic();
             }
             if (gameCreated) {
                 theModel.nextLevel();

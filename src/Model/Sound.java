@@ -40,13 +40,30 @@ public class Sound {
         }).start();
     }
 
-    public static void DigDugMusic() {
+    public static void DigDugStartMusic() {
         new Thread(new Runnable() {
             public void run() {
                 try {
                     Clip clip = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(
                             new File("src/02 Start Music.wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception e) {
+                    System.out.println(
+                            "play sound error: " + e.getMessage() + " for Dig_Dug_Dead.wav");
+                }
+            }
+        }).start();
+    }
+
+    public static void DigDugGameMusic() {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                            new File("src/InGameMusic.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (Exception e) {

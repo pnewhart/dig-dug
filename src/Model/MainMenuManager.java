@@ -36,6 +36,7 @@ public class MainMenuManager {
     private void initialize() throws IOException {
 
         this.background = this.loadAndResizeSprite("MainMenu.png", 672, 864);
+        Model.Sound.DigDugStartMusic();
     }
 
     public static Image loadAndResizeSprite(String imageName, int pixWidth,
