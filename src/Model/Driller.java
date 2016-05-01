@@ -441,7 +441,7 @@ public class Driller extends BoardObject {
      */
     public void crush() {
         this.isCrushed = true;
-        Sound.DigDugDead();
+
     }
 
     /**
@@ -459,6 +459,7 @@ public class Driller extends BoardObject {
      */
     public boolean isDead() {
         return this.isCrushed || this.isKilled;
+
     }
 
     public void destroy() {
