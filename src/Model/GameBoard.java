@@ -33,6 +33,7 @@ public class GameBoard {
     final static int DIVS_TO_DIG = 1;
     protected Driller driller;
     private Collectible collect;
+
     private boolean collectPlaced = false;
 
     /**
@@ -46,6 +47,14 @@ public class GameBoard {
             }
         }
 
+    }
+
+    public Collectible getCollect() {
+        return collect;
+    }
+
+    public void setCollect(Collectible collect) {
+        this.collect = collect;
     }
 
     public void tempMakeBoard() {
@@ -66,6 +75,10 @@ public class GameBoard {
                 (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE));
         collectPlaced = true;
 
+    }
+
+    public void destroyCollectible() {
+        this.collect.destroy();
     }
 
     public void setDriller(Driller d) {
@@ -94,9 +107,11 @@ public class GameBoard {
             }
 
         }
-        if (collectPlaced) {
+        if (collectPlaced && this.collect != null) {
             if (this.collect.isCollidedWith(this.driller)) {
+
                 driller.addToScore(this.collect.getType().getPoints());
+                this.destroyCollectible();
 
             }
         }
