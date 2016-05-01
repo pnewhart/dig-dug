@@ -31,8 +31,7 @@ public class SimpleGameManager {
         File inputFile = new File("input.txt");
         theBoard.generateFromFile(inputFile);
 
-        player1 = new Driller(theBoard);
-
+        //player1 = new Driller(theBoard);
     }
 
     public void movePlayer(Direction dir) {

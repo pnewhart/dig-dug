@@ -36,7 +36,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private Direction moveState;
     private boolean shoot;
     private Timer timer;
-
+    private int collectibleTimer = 0;
     private boolean rightIsPressed;
     private boolean leftIsPressed;
     private boolean upIsPressed;
@@ -94,9 +94,14 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         }
         if (enterIsPressed) {
             this.changeToGame();
+            collectibleTimer = 0;
         }
         this.theModel.movePlayer(moveState);
         GUI.repaint();
+        collectibleTimer++;
+        if (collectibleTimer == 100) { //1200 is about 40 seconds
+            theModel.setCollectible();
+        }
     }
 
     protected void changeToGame() {
