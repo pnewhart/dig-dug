@@ -29,25 +29,47 @@ public class Sound {
 
     private static Clip myMainClip;
     private static Clip myStartClip;
+    private static Clip myGameOverClip;
+    private static Clip myDeadClip;
 
     /**
-     * plays music when driller is killed
+     * starts the music for main menu
      */
-    public static void DigDugDead() {
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    Clip clip = AudioSystem.getClip();
-                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                            new File("src/Dig_Dug_Dead.wav"));
-                    clip.open(inputStream);
-                    clip.start();
-                } catch (Exception e) {
-                    System.out.println(
-                            "play sound error: " + e.getMessage() + " for Dig_Dug_Dead.wav");
-                }
+    public static void DigDugDeadMusic() {
+        try {
+            File file = new File("src/Dig_Dug_Dead.wav");
+            if (file.exists()) {
+                myDeadClip = AudioSystem.getClip();
+                AudioInputStream ais = AudioSystem.getAudioInputStream(
+                        file.toURI().toURL());
+                myDeadClip.open(ais);
+            } else {
+                throw new RuntimeException("Sound: file not found: Start Music");
             }
-        }).start();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Sound: Malformed URL: " + e);
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException("Sound: Unsupported Audio File: " + e);
+        } catch (IOException e) {
+            throw new RuntimeException("Sound: Input/Output Error: " + e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException("Sound: Line Unavailable: " + e);
+        }
+        playDead();
+    }
+
+    public static void playDead() {
+        myDeadClip.setFramePosition(0);  // Must always rewind!
+        myDeadClip.loop(0);
+        myDeadClip.start();
+    }
+
+    public static void loopDead() {
+        myDeadClip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public static void stopDead() {
+        myDeadClip.stop();
     }
 
     /**
@@ -128,4 +150,45 @@ public class Sound {
     public static void stopMain() {
         myMainClip.stop();
     }
+
+    /**
+     * starts the music for main menu
+     */
+    public static void DigDugGameOverMusic() {
+        try {
+            File file = new File("src/21 Game Over.wav");
+            if (file.exists()) {
+                myGameOverClip = AudioSystem.getClip();
+                AudioInputStream ais = AudioSystem.getAudioInputStream(
+                        file.toURI().toURL());
+                myGameOverClip.open(ais);
+            } else {
+                throw new RuntimeException("Sound: file not found: Game Over");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Sound: Malformed URL: " + e);
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException("Sound: Unsupported Audio File: " + e);
+        } catch (IOException e) {
+            throw new RuntimeException("Sound: Input/Output Error: " + e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException("Sound: Line Unavailable: " + e);
+        }
+        playGameOver();
+    }
+
+    public static void playGameOver() {
+        myGameOverClip.setFramePosition(0);  // Must always rewind!
+        myGameOverClip.loop(0);
+        myGameOverClip.start();
+    }
+
+    public static void loopGameOver() {
+        myGameOverClip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public static void stopGameOver() {
+        myGameOverClip.stop();
+    }
+
 }

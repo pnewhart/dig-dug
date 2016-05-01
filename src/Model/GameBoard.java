@@ -385,6 +385,8 @@ public class GameBoard {
             }
         }
         enemyList.clear();
+        objects.clear();
+
     }
 
     /**

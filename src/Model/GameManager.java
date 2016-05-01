@@ -52,6 +52,8 @@ public class GameManager {
     protected MainMenuManager menu = new MainMenuManager();
     private int levelCounter = 0;
 
+    protected GameOverManager gameOver = new GameOverManager();
+
     /**
      *
      */
@@ -144,6 +146,11 @@ public class GameManager {
         }
         levelCounter++;
 
+    }
+
+    public void gameOver() {
+        theBoard.resetBoard();
+        this.backGround = gameOver.getBackGround();
     }
 
     /**

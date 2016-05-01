@@ -47,6 +47,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
     private int timesPushed = 0;
     private int timesPlayed = 0;
+    private int timesGO = 0;
 
     private final int DELAY = 25;
 
@@ -108,15 +109,30 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         }
         if (theModel.getPlayer1().isDead()) {
             if (timesPlayed == 0) {
-                Model.Sound.DigDugDead();
+                Model.Sound.DigDugDeadMusic();
                 timesPlayed += 1;
                 theModel.getPlayer1().killDriller();
+
+                //theModel.getPlayer1().setDiv(new Vector2(
+                //        Vector2.NUM_TILE_HORIZONTAL * Vector2.DIVS_PER_TILE,
+                //        Vector2.NUM_TILE_VERTICAL * Vector2.DIVS_PER_TILE));
             }
 
         }
         if (theModel.getPlayer1().isDead() == false) {
             timesPlayed = 0;
         }
+
+        if (theModel.getPlayer1().getLives() == 0) {
+            if (timesGO == 0) {
+                theModel.gameOver();
+                Model.Sound.stopMain();
+                Model.Sound.stopDead();
+                Model.Sound.DigDugGameOverMusic();
+            }
+            timesGO += 1;
+        }
+
     }
 
     protected void changeToGame() {

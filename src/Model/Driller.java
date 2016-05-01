@@ -85,7 +85,7 @@ public class Driller extends BoardObject {
 
         this.prevWalkState = 0;
 
-        this.lives = 3;
+        this.lives = 1;
     }
 
     @Override
