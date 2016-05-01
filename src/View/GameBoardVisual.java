@@ -64,6 +64,38 @@ public class GameBoardVisual extends javax.swing.JComponent {
         drawEnemies(g);
         drawDriller(g);
 
+        drawScoreAndLives(g);
+
+    }
+
+    public void drawScoreAndLives(Graphics g) {
+        try {
+            for (int i = 0; i < theModel.getPlayer1().getLives(); i++) {
+                g.drawImage(theModel.getNumbersAndLives().get("LifeIcon"),
+                            i * theModel.LIFE_ICON_DIMMENSIONS,
+                            theModel.NUMBER_HEIGHT * theModel.PIXELS_PER_DIV,
+                            this);
+            }
+
+            String scoreStr = "SCORE";
+            for (int i = 0; i < scoreStr.length() + 1 + theModel.getPlayer1().getScoreAsString().length(); i++) {
+                if (i < scoreStr.length()) {
+                    String iChar = scoreStr.substring(i, i + 1);
+
+                    g.drawImage(theModel.getNumbersAndLives().get(iChar),
+                                i * theModel.NUMBER_WIDTH * theModel.PIXELS_PER_DIV,
+                                0,
+                                this);
+                } else if (i > scoreStr.length()) {
+                    g.drawImage(theModel.getNumbersAndLives().get("0"),
+                                i * theModel.NUMBER_WIDTH * theModel.PIXELS_PER_DIV,
+                                0, this);
+                }
+            }
+        } catch (Exception ex) {
+            //this exception is caught when the images for score and lives aren't loaded yet and therefore should not be displayed
+            //this catch is here so the game doesnt display the score and lives when its not supposed to
+        }
     }
 
     /**

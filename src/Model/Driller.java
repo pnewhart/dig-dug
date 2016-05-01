@@ -57,6 +57,8 @@ public class Driller extends Object {
     private final static int NUM_WALK_STATES = 8;
 
     private boolean isTurning;
+    private int lives;
+    private ScoreKeeper score;
 
     //TEMPORARY CHANGE LATER//
     private Image currentImage;
@@ -82,6 +84,10 @@ public class Driller extends Object {
         this.currentImage = null;
 
         this.prevWalkState = 0;
+
+        this.lives = 3;
+
+        this.score = new ScoreKeeper();
     }
 
     @Override
@@ -145,6 +151,26 @@ public class Driller extends Object {
 
         //System.out.println(string);
         return this.Images.get(string);
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void killDriller() {
+        this.lives -= 1;
+    }
+
+    public int getScore() {
+        return score.getCurrentScore();
+    }
+
+    public String getScoreAsString() {
+        return score.getScoreAsString();
+    }
+
+    public void addToScore(int scoreToBeAdded) {
+        this.score.addToScore(scoreToBeAdded);
     }
 
     public Vector2 getLocation() {
