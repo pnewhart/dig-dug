@@ -85,7 +85,7 @@ public class Driller extends BoardObject {
 
         this.prevWalkState = 0;
 
-        this.lives = 3;
+        this.lives = 1;
     }
 
     @Override
@@ -137,7 +137,13 @@ public class Driller extends BoardObject {
                 prevWalkState = 0;
             }
         }
-        if (isDead()) {
+        if (isCrushed) {
+            if (prevDirection == Direction.LEFT) {
+                return this.Images.get("Dead_Rock_Left.png");
+            } else if (prevDirection == Direction.RIGHT) {
+                return this.Images.get("Dead_Rock_Right.png");
+            }
+        } else if (isDead()) {
             s3 = String.valueOf(1 + deadCount / 12);
         } else if (prevWalkState < NUM_WALK_STATES / 2) {
             s3 = "1";

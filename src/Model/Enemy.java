@@ -101,6 +101,10 @@ public abstract class Enemy extends BoardObject {
                     }
                     prevDirection = direction;
                     this.direction = directions.get(i);
+                    this.setDiv(Vector2Utility.add(this.getDiv(),
+                                                   Vector2Utility.scale(
+                                                           this.direction.getVector(),
+                                                           speed)));
                 } else {
                     prevDirection = direction;
                     direction = direction.getOpposite();

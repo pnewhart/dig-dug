@@ -23,10 +23,10 @@ public class Rock extends BoardObject {
 
     private double speed;
     private boolean isBroken = false;
-    private final static double SPEED = 1.2; //moves over an entire tile per half second
+    private final static double SPEED = 2.0; //moves over an entire tile per half second
     private boolean isFalling;
     private int wiggleCount;
-    private static final int MAX_WIGGLES = 128;
+    private static final int MAX_WIGGLES = 96;
     private int brokenCount;
     private static final int MAX_BROKEN = 64;
 
@@ -102,11 +102,11 @@ public class Rock extends BoardObject {
     public void move() {
         if (shouldRockFall() && !this.isFalling && wiggleCount < MAX_WIGGLES && !isBroken) {
             this.wiggleCount += 1;
-            System.out.println("Wiggling");
+            //System.out.println("Wiggling");
         } else if (shouldRockFall() && !this.isFalling && wiggleCount >= MAX_WIGGLES && !isBroken) {
             this.isFalling = true;
         } else if (shouldRockFall() && this.isFalling && !isBroken) {
-            System.out.println("Falling");
+            //System.out.println("Falling");
             this.setY(this.getDiv().getY() + this.speed);
             this.crushObjectsBelow();
             for (BoardObject obj : this.crushedObjects) {
@@ -118,6 +118,9 @@ public class Rock extends BoardObject {
         } else if (isBroken) {
             brokenCount += 1;
             if (this.brokenCount > MAX_BROKEN) {
+                for (BoardObject obj : this.crushedObjects) {
+                    obj.destroy();
+                }
                 this.destroy();
             }
         }

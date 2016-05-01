@@ -125,27 +125,28 @@ public class GameBoard {
     public boolean isCollision() {
 
         boolean isCollision = false;
+        if (driller != null) {
+            for (Enemy e : enemyList) {
 
-        for (Enemy e : enemyList) {
-
-            isCollision = e.isCollidedWith(this.driller);
-            if (isCollision) {
-                driller.kill();
-                break;
-            }
-
-        }
-        try {
-            if (collectPlaced && this.collect != null) {
-                if (this.collect.isCollidedWith(this.driller)) {
-
-                    driller.addToScore(this.collect.getType().getPoints());
-                    this.destroyCollectible();
-
+                isCollision = e.isCollidedWith(this.driller);
+                if (isCollision) {
+                    driller.kill();
+                    break;
                 }
+
             }
-        } catch (Exception e) {
-            System.out.println("Collision with collectible error");
+            try {
+                if (collectPlaced && this.collect != null) {
+                    if (this.collect.isCollidedWith(this.driller)) {
+
+                        driller.addToScore(this.collect.getType().getPoints());
+                        this.destroyCollectible();
+
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Collision with collectible error");
+            }
         }
 
         return isCollision;
@@ -211,7 +212,7 @@ public class GameBoard {
                                           - Math.abs(
                                                (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
         } else if (d == Direction.DOWN) {
-            if (y < Vector2.MAX_Y) {
+            if (y <= Vector2.MAX_Y) {
                 dig1 = board[x][y - 1].digHole(d,
                                                Math.abs(
                                                        (int) loc.getY() - (y - 1) * Vector2.DIVS_PER_TILE));
@@ -384,6 +385,8 @@ public class GameBoard {
             }
         }
         enemyList.clear();
+        objects.clear();
+
     }
 
     /**
