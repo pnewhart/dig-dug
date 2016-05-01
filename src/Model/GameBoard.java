@@ -286,6 +286,7 @@ public class GameBoard {
         int num;
         int i = 0;
         int j = 0;
+        this.objects.clear();
         while ((num = buf.read()) != -1) {
 
             char character = (char) num;
@@ -309,6 +310,7 @@ public class GameBoard {
             }
 
             if (character == 'r') {
+
                 this.objects.add(new Rock(Vector2Utility.scale(new Vector2(
                         j % BOARD_WIDTH, i % BOARD_HEIGHT),
                                                                Vector2.DIVS_PER_TILE)));
