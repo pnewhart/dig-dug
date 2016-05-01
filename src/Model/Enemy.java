@@ -20,7 +20,7 @@ import java.util.Random;
  *
  * @author laa024
  */
-public abstract class Enemy extends Object {
+public abstract class Enemy extends BoardObject {
 
     protected final double INITIAL_SPEED = 0.8;
 
@@ -64,41 +64,18 @@ public abstract class Enemy extends Object {
         } else {
             ArrayList<Direction> directions = new ArrayList<Direction>();
 
-            Vector2 up = this.getDirection(Direction.UP);
-            Vector2 down = this.getDirection(Direction.DOWN);
-            Vector2 left = this.getDirection(Direction.LEFT);
-            Vector2 right = this.getDirection(Direction.RIGHT);
+            Direction[] dirs = {Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT};
 
-            String Up = "", Down = "", Left = "", Right = "";
-            String canTurn = this.isAtTurnableDiv(getDiv()) ? "Can Turn" : "Cannot Turn";
-            if (prevDirection != Direction.UP.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
-                                                                                           getDiv()))) && getBoard().isDugTo(
-                    up,
-                    Direction.UP)) {
-                directions.add(Direction.UP);
-                Up = "up" + up.toString();
-            }
-            if (prevDirection != Direction.DOWN.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
-                                                                                             getDiv()))) && getBoard().isDugTo(
-                    down, Direction.DOWN)) {
-                directions.add(Direction.DOWN);
-                Down = "down" + down.toString();
-            }
-            if (prevDirection != Direction.LEFT.getOpposite() && (direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
-                                                                                               getDiv()))) && getBoard().isDugTo(
-                    left, Direction.LEFT)) {
-                directions.add(Direction.LEFT);
-                Left = "left" + left.toString();
-            }
-            if (prevDirection != Direction.RIGHT.getOpposite() && (direction.isHorizontal() || (direction.isVertical() && this.isAtTurnableDiv(
-                                                                                                getDiv()))) && getBoard().isDugTo(
-                    right, Direction.RIGHT)) {
-                directions.add(Direction.RIGHT);
-                Right = "right" + up.toString();
-            }
-            System.out.printf("%s: %s %s %s %s\n", canTurn, Up, Down, Left,
-                              Right);
+            for (Direction dir : dirs) {
+                Vector2 place = this.getDirection(dir);
 
+                if (prevDirection != dir.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
+                                                                                      getDiv()))) && getBoard().isDugTo(
+                        place,
+                        dir)) {
+                    directions.add(dir);
+                }
+            }
             Random r = new Random();
             if (directions.size() > 0) {
                 int i = r.nextInt(directions.size());
@@ -113,7 +90,6 @@ public abstract class Enemy extends Object {
                 this.setDiv(Vector2Utility.add(this.getDiv(),
                                                direction.getVector()));
                 stepCount = (stepCount + 1) % MAX_STEP_COUNT;
-                System.out.println("Error turning!");
             }
         }
         this.align(direction);

@@ -27,7 +27,7 @@ public class GameManager {
     protected GameBoard theBoard;
     private Driller player1 = new Driller();
     private Image backGround;
-    private Object newObject;
+    private BoardObject newObject;
     private Enemy en;
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
@@ -66,7 +66,7 @@ public class GameManager {
                                                        864);
 
             theBoard.tempMakeBoard();
-            Object.setBoard(theBoard);
+            BoardObject.setBoard(theBoard);
             player1.setBoard(theBoard);
             File f = new File("input.txt");
             this.theBoard.generateFromFile(f);
@@ -103,6 +103,7 @@ public class GameManager {
         this.loadPlayerSprites();
         this.loadMapSprites();
         this.loadEnemySprites();
+        this.loadRockSprites();
     }
 
     private void loadScoreAndLivesSprites() {
@@ -129,6 +130,16 @@ public class GameManager {
                                      iChar + ".png",
                                      this.NUMBER_WIDTH * this.PIXELS_PER_DIV,
                                      this.NUMBER_HEIGHT * this.PIXELS_PER_DIV));
+        }
+    }
+
+    private void loadRockSprites() {
+        String[] rockSprites = {"Rock_1.png", "Rock_2.png", "Rock_Ground_1.png", "Rock_Ground_2.png"};
+
+        for (String rock : rockSprites) {
+            BoardObject.loadImage(rock, loadAndResizeSprite(rock,
+                                                            this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                            this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
         }
     }
 
@@ -180,6 +191,9 @@ public class GameManager {
         for (Enemy enemy : getEnemies()) {
             enemy.move();
         }
+        for (BoardObject obj : getObjects()) {
+            obj.move();
+        }
         //move rocks (handles animations
 
         //ANIMATIONS ARE REPRESENTED AS A NUMBER THAT REPRESENTS THE CURRENT FRAME
@@ -213,9 +227,9 @@ public class GameManager {
                                  "Fygar_Rock_Left.png", "Fygar_Rock_Right.png"};
 
         for (String fygar : fygarSprites) {
-            player1.loadImage(fygar, loadAndResizeSprite(fygar,
-                                                         this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                         this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
+            BoardObject.loadImage(fygar, loadAndResizeSprite(fygar,
+                                                             this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                             this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
         }
 
         String[] pookaSprites = {"Pooka_Float_1.png", "Pooka_Float_2.png",
@@ -228,9 +242,9 @@ public class GameManager {
                                  "Pooka_Rock_Left.png", "Pooka_Rock_Right.png"};
 
         for (String pooka : pookaSprites) {
-            player1.loadImage(pooka, loadAndResizeSprite(pooka,
-                                                         this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                         this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
+            BoardObject.loadImage(pooka, loadAndResizeSprite(pooka,
+                                                             this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                             this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
         }
     }
 
@@ -250,9 +264,9 @@ public class GameManager {
 
         for (String file : diggerFiles) {
 
-            player1.loadImage(file, loadAndResizeSprite(file,
-                                                        this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                        this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
+            BoardObject.loadImage(file, loadAndResizeSprite(file,
+                                                            this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                            this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
         }
 
         String[] walkerFiles = {"Walker_Up_L1.png",
@@ -269,9 +283,9 @@ public class GameManager {
                                 "Walker_Right_2.png"};
 
         for (String file : walkerFiles) {
-            player1.loadImage(file, this.loadAndResizeSprite(file,
-                                                             this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                             this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
+            BoardObject.loadImage(file, this.loadAndResizeSprite(file,
+                                                                 this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                                 this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
         }
 
         String[] pumperFiles = {"Pumper_Up_L1.png",
@@ -288,9 +302,9 @@ public class GameManager {
                                 "Pumper_Right_2.png"};
 
         for (String file : pumperFiles) {
-            player1.loadImage(file, loadAndResizeSprite(file,
-                                                        this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                        this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
+            BoardObject.loadImage(file, loadAndResizeSprite(file,
+                                                            this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                            this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
         }
 
         String[] deadFiles = {"Dead_Left_1.png", "Dead_Left_2.png", "Dead_Left_3.png", "Dead_Left_4.png", "Dead_Left_5.png",
@@ -302,9 +316,9 @@ public class GameManager {
                               "Dead_Rock_Left", "Dead_Rock_Right", "Dead_Fire_Left", "Dead_Fire_Right"};
 
         for (String file : deadFiles) {
-            player1.loadImage(file, loadAndResizeSprite(file,
-                                                        this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                        this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
+            BoardObject.loadImage(file, loadAndResizeSprite(file,
+                                                            this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                            this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
         }
 
         //Need to add dead images!!
@@ -332,29 +346,25 @@ public class GameManager {
                                     "digSouth13.png", "digSouth14.png", "digSouth15.png", "digSouth16.png",
                                     "digSouth17.png", "digSouth18.png", "digSouth19.png"};
 
-        for (Tile[] col : theBoard.board) {
-            for (Tile tile : col) {
-                for (String sprite : tileRightSprites) {
-                    newObject.loadImage(sprite, loadAndResizeSprite(sprite,
-                                                                    this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                                    this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
-                }
-                for (String sprite : tileLeftSprites) {
-                    newObject.loadImage(sprite, loadAndResizeSprite(sprite,
-                                                                    this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                                    this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
-                }
-                for (String sprite : tileUpSprites) {
-                    newObject.loadImage(sprite, loadAndResizeSprite(sprite,
-                                                                    this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                                    this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
-                }
-                for (String sprite : tileDownSprites) {
-                    newObject.loadImage(sprite, loadAndResizeSprite(sprite,
-                                                                    this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
-                                                                    this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
-                }
-            }
+        for (String sprite : tileRightSprites) {
+            BoardObject.loadImage(sprite, loadAndResizeSprite(sprite,
+                                                              this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                              this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
+        }
+        for (String sprite : tileLeftSprites) {
+            BoardObject.loadImage(sprite, loadAndResizeSprite(sprite,
+                                                              this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                              this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
+        }
+        for (String sprite : tileUpSprites) {
+            BoardObject.loadImage(sprite, loadAndResizeSprite(sprite,
+                                                              this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                              this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
+        }
+        for (String sprite : tileDownSprites) {
+            BoardObject.loadImage(sprite, loadAndResizeSprite(sprite,
+                                                              this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS,
+                                                              this.PIXELS_PER_DIV * this.TILE_SIZE_IN_DIVS));
         }
     }
 
@@ -372,6 +382,10 @@ public class GameManager {
 
     public ArrayList<Enemy> getEnemies() {
         return theBoard.getEnemyList();
+    }
+
+    public ArrayList<BoardObject> getObjects() {
+        return theBoard.getObjects();
     }
 
     public HashMap<String, Image> getBoardImageMap() {

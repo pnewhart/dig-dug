@@ -18,7 +18,7 @@ import java.awt.Image;
  *
  * @author laa024
  */
-public class Tile extends Object {
+public class Tile extends BoardObject {
 
     private Hole leftHole = new Hole(Direction.LEFT);
     private Hole rightHole = new Hole(Direction.RIGHT);

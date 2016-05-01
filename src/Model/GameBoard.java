@@ -28,7 +28,7 @@ public class GameBoard {
     final static int BOARD_HEIGHT = Vector2.NUM_TILE_VERTICAL;
     final static int BOARD_WIDTH = Vector2.NUM_TILE_HORIZONTAL;
     public Tile[][] board = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
-    protected ArrayList<Object> objects = new ArrayList<Object>();
+    protected ArrayList<BoardObject> objects = new ArrayList<BoardObject>();
     protected ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
     final static int DIVS_TO_DIG = 1;
     protected Driller driller;
@@ -66,6 +66,10 @@ public class GameBoard {
 
     }
 
+    public ArrayList<BoardObject> getObjects() {
+        return objects;
+    }
+
     public boolean isCollision() {
 
         boolean isCollision = false;
@@ -77,29 +81,7 @@ public class GameBoard {
                 driller.kill();
                 break;
             }
-//            if (((e.getDiv().getX() + Vector2.DIVS_PER_TILE) > driller.getDiv().getX() && (e.getDiv().getX() + Vector2.DIVS_PER_TILE) < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
-//
-//                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-//                    isCollision = true;
-//                    System.out.println("1");
-//                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-//                    isCollision = true;
-//                    System.out.println("3");
-//
-//                }
-//            } else if (e.getDiv().getX() > driller.getDiv().getX() + Vector2.DIVS_PER_TILE && (e.getDiv().getX() < (driller.getDiv().getX() + Vector2.DIVS_PER_TILE))) {
-//
-//                if ((e.getDiv().getY() + Vector2.DIVS_PER_TILE > driller.getDiv().getY() && e.getDiv().getY() + Vector2.DIVS_PER_TILE < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-//                    isCollision = true;
-//                    System.out.println("2");
-//                } else if ((e.getDiv().getY() > driller.getDiv().getY() && e.getDiv().getY() < (driller.getDiv().getY() + Vector2.DIVS_PER_TILE))) {
-//                    isCollision = true;
-//                    System.out.println("4");
-//                }
-//
-//            }
 
-            //System.out.println("collision");
         }
 
         return isCollision;
@@ -194,24 +176,22 @@ public class GameBoard {
         int x = (int) loc.getX() / Vector2.DIVS_PER_TILE;
         int y = (int) loc.getY() / Vector2.DIVS_PER_TILE;
 
-        if (x > Vector2.MAX_X || x < 0 || y > Vector2.MAX_Y || y < 0) {
+        if (x > Vector2.MAX_X || loc.getX() < 0 || y > Vector2.MAX_Y || loc.getY() < 0) {
             return false;
+        } else if (dir == Direction.RIGHT) {
+            return board[x][y].isDugTo(dir, Math.abs(
+                                       (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
+        } else if (dir == Direction.LEFT) {
+            return board[x][y].isDugTo(dir, 15 - Math.abs(
+                                       (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
+        } else if (dir == Direction.UP) {
+            return board[x][y].isDugTo(dir, Math.abs(
+                                       (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
+        } else if (dir == Direction.DOWN) {
+            return board[x][y].isDugTo(dir, 15 - Math.abs(
+                                       (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
         } else {
-            if (dir == Direction.RIGHT) {
-                return board[x][y].isDugTo(dir, Math.abs(
-                                           (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
-            } else if (dir == Direction.LEFT) {
-                return board[x][y].isDugTo(dir, 15 - Math.abs(
-                                           (int) loc.getX() - x * Vector2.DIVS_PER_TILE));
-            } else if (dir == Direction.UP) {
-                return board[x][y].isDugTo(dir, Math.abs(
-                                           (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
-            } else if (dir == Direction.DOWN) {
-                return board[x][y].isDugTo(dir, 15 - Math.abs(
-                                           (int) loc.getY() - y * Vector2.DIVS_PER_TILE));
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
@@ -229,12 +209,10 @@ public class GameBoard {
 
         if (x > Vector2.MAX_X || x < 0 || y > Vector2.MAX_Y || y < 0) {
             return false;
+        } else if (dir.isHorizontal()) {
+            return board[x][y].isClearedHorizontal();
         } else {
-            if (dir.isHorizontal()) {
-                return board[x][y].isClearedHorizontal();
-            } else {
-                return board[x][y].isClearedVertical();
-            }
+            return board[x][y].isClearedVertical();
         }
     }
 
@@ -295,6 +273,13 @@ public class GameBoard {
             }
             if (character == 'c') {
                 board[j % BOARD_WIDTH][i % BOARD_HEIGHT].clearTile();
+
+            }
+
+            if (character == 'r') {
+                this.objects.add(new Rock(Vector2Utility.scale(new Vector2(
+                        j % BOARD_WIDTH, i % BOARD_HEIGHT),
+                                                               Vector2.DIVS_PER_TILE)));
 
             }
 
@@ -373,8 +358,8 @@ public class GameBoard {
      * @param coord
      * @return list of objects at certain coord
      */
-    public ArrayList<Object> returnObjectsAt(Vector2 coord) {
-        ArrayList<Object> returnList = new ArrayList<>();
+    public ArrayList<BoardObject> returnObjectsAt(Vector2 coord) {
+        ArrayList<BoardObject> returnList = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
             if (objects.get(i).containsDiv((int) coord.getX(),
                                            (int) coord.getY())) {
@@ -393,7 +378,7 @@ public class GameBoard {
      */
     public boolean isPumpableObjectAt(Vector2 coord) {
         for (int i = 0; i < objects.size(); i++) {
-            Object a = objects.get(i);
+            BoardObject a = objects.get(i);
             if (objects.get(i).containsDiv((int) coord.getX(),
                                            (int) coord.getY())) {
                 return a.isPumpable();
@@ -412,7 +397,7 @@ public class GameBoard {
         ArrayList<Enemy> returnList = new ArrayList<>();
         Enemy b;
         for (int i = 0; i < objects.size(); i++) {
-            Object a = objects.get(i);
+            BoardObject a = objects.get(i);
             if (objects.get(i).containsDiv((int) coord.getX(),
                                            (int) coord.getY())) {
                 if (a.isPumpable()) {
