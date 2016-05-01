@@ -45,6 +45,8 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private boolean enterIsPressed;
     private boolean gameCreated = false;
 
+    private int timesPushed = 0;
+
     private final int DELAY = 25;
 
     public Controller(MainView GUI, GameManager theModel) {
@@ -135,9 +137,13 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             enterIsPressed = true;
             gameCreated = true;
             theModel.createGame();
+            if (timesPushed == 0) {
+                Model.Sound.DigDugMusic();
+            }
             if (gameCreated) {
                 theModel.nextLevel();
             }
+            timesPushed += 1;
         }
     }
 

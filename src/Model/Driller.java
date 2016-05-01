@@ -447,7 +447,7 @@ public class Driller extends Object {
      */
     public void kill() {
         this.isKilled = true;
-        Sound.DigDugDead();
+
     }
 
     /**
