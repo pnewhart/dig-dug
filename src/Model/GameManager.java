@@ -199,11 +199,16 @@ public class GameManager {
     }
 
     public void moveObjects() {
-        for (Enemy enemy : getEnemies()) {
-            enemy.move();
+        if (getEnemies().size() > 0) {
+            for (Enemy enemy : getEnemies()) {
+                enemy.move();
+            }
         }
-        for (BoardObject obj : getObjects()) {
-            obj.move();
+        if (getObjects().size() > 0) {
+            System.out.println(getObjects().toString());
+            for (BoardObject obj : getObjects()) {
+                obj.move();
+            }
         }
         //move rocks (handles animations
 
