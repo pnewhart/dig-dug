@@ -204,11 +204,13 @@ public class GameManager {
                 enemy.move();
             }
         }
-        if (getObjects().size() > 0) {
-            System.out.println(getObjects().toString());
+        try {
+            //System.out.println(getObjects().toString());
             for (BoardObject obj : getObjects()) {
                 obj.move();
             }
+        } catch (Exception e) {
+            System.out.println("Object ArrayList Error!");
         }
         //move rocks (handles animations
 

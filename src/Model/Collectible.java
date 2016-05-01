@@ -43,8 +43,12 @@ public class Collectible extends BoardObject {
             }
 
         }
-        int choice = r.nextInt(listSize);
-        type = collectibleList.get(choice);
+        if (listSize != 0) {
+            int choice = r.nextInt(listSize);
+            type = collectibleList.get(choice);
+        } else {
+            type = null;
+        }
 
     }
 

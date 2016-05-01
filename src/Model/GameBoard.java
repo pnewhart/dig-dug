@@ -107,13 +107,17 @@ public class GameBoard {
             }
 
         }
-        if (collectPlaced && this.collect != null) {
-            if (this.collect.isCollidedWith(this.driller)) {
+        try {
+            if (collectPlaced && this.collect != null) {
+                if (this.collect.isCollidedWith(this.driller)) {
 
-                driller.addToScore(this.collect.getType().getPoints());
-                this.destroyCollectible();
+                    driller.addToScore(this.collect.getType().getPoints());
+                    this.destroyCollectible();
 
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Collision with collectible error");
         }
 
         return isCollision;
@@ -451,6 +455,22 @@ public class GameBoard {
      * @return
      */
     public boolean isRockAt(Vector2 coord) {
+        int x = (int) (coord.getX() / Vector2.DIVS_PER_TILE);
+        int y = (int) (coord.getY() / Vector2.DIVS_PER_TILE);
+        try {
+            for (BoardObject obj : getObjects()) {
+                if (obj instanceof Rock) {
+                    int X = (int) (obj.getDiv().getX() / Vector2.DIVS_PER_TILE);
+                    int Y = (int) (obj.getDiv().getY() / Vector2.DIVS_PER_TILE);
+
+                    if (X == x && y == Y) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+
+        }
         return false;
     }
 
@@ -479,6 +499,39 @@ public class GameBoard {
     public boolean isClearedHorizontal(Vector2 location) {
         int x = (int) location.getX();
         int y = (int) location.getY();
+        if (x < GameBoard.BOARD_WIDTH && y < GameBoard.BOARD_HEIGHT && x >= 0 && y >= 0) {
+            return board[x][y].isClearedHorizontal();
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * checks if tile is cleared vertically
+     *
+     * @param t
+     * @return boolean
+     */
+    public boolean isDivClearedVertical(Vector2 location) {
+        int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
+        if (x < GameBoard.BOARD_WIDTH && y < GameBoard.BOARD_HEIGHT && x >= 0 && y >= 0) {
+            return board[x][y].isClearedVertical();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * checks if tile is cleared horizontally
+     *
+     * @param t
+     * @return boolean
+     */
+    public boolean isDivClearedHorizontal(Vector2 location) {
+        int x = (int) location.getX() / Vector2.DIVS_PER_TILE;
+        int y = (int) location.getY() / Vector2.DIVS_PER_TILE;
         if (x < GameBoard.BOARD_WIDTH && y < GameBoard.BOARD_HEIGHT && x >= 0 && y >= 0) {
             return board[x][y].isClearedHorizontal();
         } else {

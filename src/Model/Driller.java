@@ -200,31 +200,35 @@ public class Driller extends BoardObject {
     }
 
     public void move(Direction direction) {
-        if (!isDead()) {
-            if (this.isShooting && !this.gun.isPumping()) {
-                this.stop();
-            } else {
-                if (this.isShooting && this.gun != null) {
-                    this.gun.destroy();
-                }
-                if (direction == Direction.UP) {
-                    this.goUp();
-                } else if (direction == Direction.DOWN) {
-                    this.goDown();
-                } else if (direction == Direction.LEFT) {
-                    this.goLeft();
-                } else if (direction == Direction.RIGHT) {
-                    this.goRight();
-                } else {
+        try {
+            if (!isDead()) {
+                if ((this.isShooting && !this.gun.isPumping())) {
                     this.stop();
+                } else {
+                    if (this.isShooting && this.gun != null) {
+                        this.gun.destroy();
+                    }
+                    if (direction == Direction.UP) {
+                        this.goUp();
+                    } else if (direction == Direction.DOWN) {
+                        this.goDown();
+                    } else if (direction == Direction.LEFT) {
+                        this.goLeft();
+                    } else if (direction == Direction.RIGHT) {
+                        this.goRight();
+                    } else {
+                        this.stop();
+                    }
                 }
+                if (direction != null) {
+                    this.isDigging = getBoard().digHole(this.getFront(),
+                                                        this.direction);
+                }
+            } else {
+                deadCount += 1;
             }
-            if (direction != null) {
-                this.isDigging = getBoard().digHole(this.getFront(),
-                                                    this.direction);
-            }
-        } else {
-            deadCount += 1;
+        } catch (Exception e) {
+            System.out.println("Driller move failed");
         }
     }
 
@@ -254,7 +258,7 @@ public class Driller extends BoardObject {
                 this.setDiv(new Vector2(this.getDiv().getX() + speed,
                                         this.getDiv().getY()));
                 this.isTurning = true;
-            } else {
+            } else if (!getBoard().isRockAt(getDirection(Direction.UP))) {
                 setDiv(new Vector2(this.getTile().getX() * Vector2.DIVS_PER_TILE,
                                    getDiv().getY() - speed));
                 if (direction != Direction.UP) {
@@ -293,7 +297,7 @@ public class Driller extends BoardObject {
                 this.setDiv(new Vector2(this.getDiv().getX() + speed,
                                         this.getDiv().getY()));
                 this.isTurning = true;
-            } else {
+            } else if (!getBoard().isRockAt(getDirection(Direction.DOWN))) {
                 setDiv(new Vector2(this.getTile().getX() * Vector2.DIVS_PER_TILE,
                                    getDiv().getY() + speed));
                 if (direction != Direction.DOWN) {
@@ -333,7 +337,7 @@ public class Driller extends BoardObject {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() + speed));
             this.isTurning = true;
-        } else {
+        } else if (!getBoard().isRockAt(getDirection(Direction.LEFT))) {
             setDiv(new Vector2(getDiv().getX() - speed,
                                this.getTile().getY() * Vector2.DIVS_PER_TILE));
             if (this.getDiv().getX() < 0) {
@@ -367,7 +371,7 @@ public class Driller extends BoardObject {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() + speed));
             this.isTurning = true;
-        } else {
+        } else if (!getBoard().isRockAt(getDirection(Direction.RIGHT))) {
             setDiv(new Vector2(getDiv().getX() + speed,
                                this.getTile().getY() * Vector2.DIVS_PER_TILE));
             if (this.getDiv().getX() < 0) {
@@ -434,6 +438,21 @@ public class Driller extends BoardObject {
         }
 
         return front;
+    }
+
+    /**
+     * Current location of the direction in tiles with respect to location
+     *
+     * @return Vector2 loc location in tiles
+     */
+    public Vector2 getDirection(Direction d) {
+        Vector2 loc = getDiv();
+        loc = Vector2Utility.add(loc, Vector2Utility.scale(new Vector2(1, 1),
+                                                           Vector2.DIVS_PER_TILE / 2));
+        loc = Vector2Utility.add(loc, Vector2Utility.scale(d.getVector(),
+                                                           Vector2.DIVS_PER_TILE / 2 + 1));
+
+        return loc;
     }
 
     /**
