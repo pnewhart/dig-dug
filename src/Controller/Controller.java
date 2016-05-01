@@ -109,7 +109,6 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
     @Override
     public void stateChanged(ChangeEvent e) {
-
     }
 
     @Override
@@ -138,7 +137,9 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             gameCreated = true;
             theModel.createGame();
             if (timesPushed == 0) {
+                Model.Sound.stopStart();
                 Model.Sound.DigDugGameMusic();
+                Model.Sound.loopMain();
             }
             if (gameCreated) {
                 theModel.nextLevel();
