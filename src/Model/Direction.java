@@ -29,6 +29,10 @@ public enum Direction {
         return this.vector;
     }
 
+    /**
+     *
+     * @return opposite direction of current direction
+     */
     public Direction getOpposite() {
         if (this == UP) {
             return DOWN;
@@ -43,14 +47,28 @@ public enum Direction {
         }
     }
 
+    /**
+     *
+     * @return true if direction is horizontal
+     */
     public boolean isHorizontal() {
         return (this == RIGHT || this == LEFT);
     }
 
+    /**
+     *
+     * @return true if direction is up or down
+     */
     public boolean isVertical() {
         return (this == UP || this == DOWN);
     }
 
+    /**
+     * returns true if direction given is complementary to another direction
+     *
+     * @param other
+     * @return
+     */
     public boolean isComplementaryTo(Direction other) {
         if (other == null) {
             return false;

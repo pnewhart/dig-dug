@@ -68,6 +68,9 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
     }
 
+    /**
+     * updates the entire model based off of the key presses
+     */
     public void update() {
 
         theModel.moveObjects();

@@ -22,7 +22,9 @@ import javax.sound.sampled.Clip;
  * @author patricknewhart
  */
 public class Sound {
-
+    /**
+     * plays music when driller is killed
+     */
     public static void DigDugDead() {
         new Thread(new Runnable() {
             public void run() {
@@ -40,6 +42,9 @@ public class Sound {
         }).start();
     }
 
+    /**
+     * starts the music for main menu
+     */
     public static void DigDugStartMusic() {
         new Thread(new Runnable() {
             public void run() {
@@ -57,6 +62,9 @@ public class Sound {
         }).start();
     }
 
+    /**
+     * starts music for the game
+     */
     public static void DigDugGameMusic() {
         new Thread(new Runnable() {
             public void run() {
