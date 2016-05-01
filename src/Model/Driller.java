@@ -58,7 +58,7 @@ public class Driller extends BoardObject {
 
     private boolean isTurning;
     private int lives;
-    private ScoreKeeper score;
+    private static ScoreKeeper score = new ScoreKeeper();
 
     //TEMPORARY CHANGE LATER//
     private Image currentImage;
@@ -86,8 +86,6 @@ public class Driller extends BoardObject {
         this.prevWalkState = 0;
 
         this.lives = 3;
-
-        this.score = new ScoreKeeper();
     }
 
     @Override
@@ -161,16 +159,20 @@ public class Driller extends BoardObject {
         this.lives -= 1;
     }
 
-    public int getScore() {
+    public static int getScore() {
         return score.getCurrentScore();
     }
 
-    public String getScoreAsString() {
+    public static String getScoreAsString() {
         return score.getScoreAsString();
     }
 
-    public void addToScore(int scoreToBeAdded) {
-        this.score.addToScore(scoreToBeAdded);
+    public static void clearScore() {
+        score.addToScore(score.getCurrentScore() * -1);
+    }
+
+    public static void addToScore(int scoreToBeAdded) {
+        score.addToScore(scoreToBeAdded);
     }
 
     public Vector2 getLocation() {

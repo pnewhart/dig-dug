@@ -20,7 +20,7 @@ public class ScoreKeeper {
 
     private int currentScore;
 
-    private final int MAX_NUM_CHARACTERS = 5;
+    private final int MAX_NUM_CHARACTERS = 7;
     private final int MAX_SCORE = (int) Math.pow(10, MAX_NUM_CHARACTERS) - 1;
 
     public ScoreKeeper() {
