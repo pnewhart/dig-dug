@@ -75,7 +75,9 @@ public class GameManager {
 
             this.loadScoreAndLivesSprites();
 
+            this.setCollectible();
         } catch (Exception e) {
+            System.out.println(e);
             System.out.println("cannot find input file");
         }
     }
@@ -93,6 +95,14 @@ public class GameManager {
             System.out.println("cannot go to next level");
         }
         levelCounter++;
+
+    }
+
+    public void setCollectible() {
+        System.out.println("start set collect");
+
+        theBoard.placeCollectible(new Collectible(levelCounter));
+        System.out.println("collect set");
 
     }
 
