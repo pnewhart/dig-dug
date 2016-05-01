@@ -24,6 +24,10 @@ import javax.imageio.ImageIO;
  * @author laa024
  */
 public class GameManager {
+
+    /**
+     *
+     */
     protected GameBoard theBoard;
     private Driller player1 = new Driller();
     private Image backGround;
@@ -31,18 +35,51 @@ public class GameManager {
     private Enemy en;
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
+
+    /**
+     *
+     */
     public HashMap<String, Image> boardImageMap;
+
+    /**
+     *
+     */
     public HashMap<String, Image> numbersAndLives;
+
+    /**
+     *
+     */
     protected MainMenuManager menu = new MainMenuManager();
     private int levelCounter = 0;
 
+    /**
+     *
+     */
     public final int NUMBER_WIDTH = 9;
+
+    /**
+     *
+     */
     public final int NUMBER_HEIGHT = 9;
+
+    /**
+     *
+     */
     public final int LIFE_ICON_DIMMENSIONS = 32;
 
+    /**
+     *
+     */
     public final int PIXELS_PER_DIV = 3;
+
+    /**
+     *
+     */
     public final int TILE_SIZE_IN_DIVS = 16;
 
+    /**
+     *
+     */
     public GameManager() {
 
         try {
@@ -52,6 +89,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * initialize an instance of a game
+     *
+     * @throws IOException
+     */
     private void initializeGame() throws IOException {
         loadSprites();
         theBoard = new GameBoard();
@@ -59,13 +101,16 @@ public class GameManager {
 
     }
 
+    /**
+     * creates a game without creating all the enemies and setting all the
+     * images, used to create the main menu screen
+     */
     public void createGame() {
         try {
 
             this.backGround = this.loadAndResizeSprite("GrassLevel.png", 672,
                                                        864);
 
-            theBoard.tempMakeBoard();
             BoardObject.setBoard(theBoard);
             player1.setBoard(theBoard);
             File f = new File("input.txt");
@@ -82,6 +127,9 @@ public class GameManager {
         }
     }
 
+    /**
+     * when called, sets the board to the next level
+     */
     public void nextLevel() {
         theBoard.resetBoard();
         try {
@@ -98,6 +146,9 @@ public class GameManager {
 
     }
 
+    /**
+     * sets collectibles on the board
+     */
     public void setCollectible() {
         System.out.println("start set collect");
 
@@ -106,10 +157,16 @@ public class GameManager {
 
     }
 
+    /**
+     * changes the background of the game
+     */
     public void changeBackground() {
         this.backGround = menu.getBackGround();
     }
 
+    /**
+     * loads all the sprites of the characters into a hashmap
+     */
     private void loadSprites() {
         this.loadPlayerSprites();
         this.loadMapSprites();
@@ -117,6 +174,9 @@ public class GameManager {
         this.loadRockSprites();
     }
 
+    /**
+     * loads the scores and lives onto the screen
+     */
     private void loadScoreAndLivesSprites() {
         this.numbersAndLives = new HashMap<>();
 
@@ -144,6 +204,9 @@ public class GameManager {
         }
     }
 
+    /**
+     * loads rock sprites into the hashmap
+     */
     private void loadRockSprites() {
         String[] rockSprites = {"Rock_1.png", "Rock_2.png", "Rock_Ground_1.png", "Rock_Ground_2.png"};
 
@@ -154,6 +217,9 @@ public class GameManager {
         }
     }
 
+    /**
+     * loads the sprites of the holes into the hashmap
+     */
     private void loadMapSprites() {
         String[] directions = {"North", "South", "East", "West"};
         String imageName;
@@ -176,10 +242,22 @@ public class GameManager {
 
     }
 
+    /**
+     *
+     * @return background
+     */
     public Image getBackGround() {
         return backGround;
     }
 
+    /**
+     * takes in a sprite and returns a newly resized image
+     *
+     * @param imageName
+     * @param pixWidth
+     * @param pixHeight
+     * @return
+     */
     public static Image loadAndResizeSprite(String imageName, int pixWidth,
                                             int pixHeight) {
 
@@ -198,6 +276,9 @@ public class GameManager {
         return spriteImage;
     }
 
+    /**
+     * moves all the objects on the board
+     */
     public void moveObjects() {
         if (getEnemies().size() > 0) {
             for (Enemy enemy : getEnemies()) {
@@ -218,22 +299,38 @@ public class GameManager {
         //THE PNGS WILL BE CHANGED LATER
     }
 
+    /**
+     * moves the driller in the specified direction
+     *
+     * @param dir
+     */
     public void movePlayer(Direction dir) {
         //System.out.println(this.player1.getDiv());
 
         player1.move(dir);
     }
 
+    /**
+     * shoots the drillers gun
+     *
+     * @param shoot
+     */
     public void shoot(boolean shoot) {
         player1.shoot(shoot);
         //System.out.println("SHOOT");
     }
 
+    /**
+     * checks the board to see if there is a collision
+     */
     public void checkCollision() {
 
         this.getTheBoard().isCollision();
     }
 
+    /**
+     * laods all the enemy sprites into the hashmap
+     */
     private void loadEnemySprites() {
         String[] fygarSprites = {"Fygar_Float_1.png", "Fygar_Float_2.png",
                                  "Fygar_Left_Inflate_1.png", "Fygar_Left_Inflate_2.png",
@@ -266,6 +363,9 @@ public class GameManager {
         }
     }
 
+    /**
+     * laods all of the driller sprites into the hashmap
+     */
     private void loadPlayerSprites() {
         String[] diggerFiles = {"Digger_Up_L1.png",
                                 "Digger_Up_L2.png",
@@ -342,6 +442,9 @@ public class GameManager {
         //Need to add dead images!!
     }
 
+    /**
+     * loads all of the hole images into the hashmap
+     */
     public void loadTileSprites() {
         String[] tileRightSprites = {"digEast1.png", "digEast2.png", "digEast3.png", "digEast4.png",
                                      "digEast5.png", "digEast6.png", "digEast7.png", "digEast8.png",
@@ -386,6 +489,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * returns all the numbers and lives that the driller has
+     *
+     * @return
+     */
     public HashMap<String, Image> getNumbersAndLives() {
         return numbersAndLives;
     }

@@ -155,6 +155,9 @@ public class Driller extends BoardObject {
         return lives;
     }
 
+    /**
+     * removes life from driller
+     */
     public void killDriller() {
         this.lives -= 1;
     }
@@ -199,6 +202,11 @@ public class Driller extends BoardObject {
         return this.isDigging && getDiv().getY() >= 1;
     }
 
+    /**
+     * moves the driller in a specified direction
+     *
+     * @param direction
+     */
     public void move(Direction direction) {
         try {
             if (!isDead()) {
@@ -386,10 +394,18 @@ public class Driller extends BoardObject {
         this.isMoving = true;
     }
 
+    /**
+     * stops the driller from moving
+     */
     public void stop() {
         this.isMoving = false;
     }
 
+    /**
+     * shoots the drillers gun
+     *
+     * @param pump
+     */
     public void shoot(boolean pump) {
         if (!isShooting && pump) {
             isShooting = true;
@@ -460,7 +476,7 @@ public class Driller extends BoardObject {
      */
     public void crush() {
         this.isCrushed = true;
-        Sound.DigDugDead();
+
     }
 
     /**
@@ -478,6 +494,7 @@ public class Driller extends BoardObject {
      */
     public boolean isDead() {
         return this.isCrushed || this.isKilled;
+
     }
 
     public void destroy() {

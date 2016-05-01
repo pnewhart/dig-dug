@@ -27,10 +27,14 @@ public class GameBoard {
 
     final static int BOARD_HEIGHT = Vector2.NUM_TILE_VERTICAL;
     final static int BOARD_WIDTH = Vector2.NUM_TILE_HORIZONTAL;
+
     public Tile[][] board = new Tile[BOARD_WIDTH][BOARD_HEIGHT];
+
     protected ArrayList<BoardObject> objects = new ArrayList<BoardObject>();
+
     protected ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
     final static int DIVS_TO_DIG = 1;
+
     protected Driller driller;
     private Collectible collect;
 
@@ -49,25 +53,28 @@ public class GameBoard {
 
     }
 
+    /**
+     *
+     * @return collectible on the board
+     */
     public Collectible getCollect() {
         return collect;
     }
 
+    /**
+     * sets collectible on the board
+     *
+     * @param collect
+     */
     public void setCollect(Collectible collect) {
         this.collect = collect;
     }
 
-    public void tempMakeBoard() {
-//        board[5][5].clearTileHorizontal();
-//        board[4][5].clearTileHorizontal();
-//        board[3][5].clearTileHorizontal();
-//
-//        board[9][11].clearTileHorizontal();
-//        board[8][11].clearTileHorizontal();
-//        board[10][11].clearTileHorizontal();
-
-    }
-
+    /**
+     * places collectible on the board in the center
+     *
+     * @param c
+     */
     public void placeCollectible(Collectible c) {
         this.collect = c;
         c.setDiv(new Vector2(
@@ -77,23 +84,44 @@ public class GameBoard {
 
     }
 
+    /**
+     * takes collectible off the board
+     */
     public void destroyCollectible() {
         this.collect.destroy();
     }
 
+    /**
+     * gives board access to the driller
+     *
+     * @param d
+     */
     public void setDriller(Driller d) {
         this.driller = d;
     }
 
+    /**
+     *
+     * @return Vector2 driller location
+     */
     public Vector2 getDrillerLocation() {
         return this.driller.getLocation();
 
     }
 
+    /**
+     *
+     * @return list of all objects on the board
+     */
     public ArrayList<BoardObject> getObjects() {
         return objects;
     }
 
+    /**
+     * checks to see if there is a collision on the board
+     *
+     * @return boolean isCollison
+     */
     public boolean isCollision() {
 
         boolean isCollision = false;
@@ -346,6 +374,9 @@ public class GameBoard {
 
     }
 
+    /**
+     * resets the board between levels
+     */
     public void resetBoard() {
         for (int i = 0; i < BOARD_WIDTH; i++) {
             for (int j = 0; j < BOARD_HEIGHT; j++) {
@@ -355,22 +386,6 @@ public class GameBoard {
         enemyList.clear();
     }
 
-    /**
-     *
-     *
-     * //TODO: May need to use this in future /**
-     *
-     * @param coord in div not tile
-     * @return
-     */
-    //public boolean isHole(Vector2 coord) {
-    //coord = coord.getTile();
-    //int x = (int) coord.getX() / Vector2.DIVS_PER_TILE;
-    //int y = (int) coord.getY() / Vector2.DIVS_PER_TILE;
-    //return board[x][y].isThere((int) coord.getX() % Vector2.DIVS_PER_TILE,
-    //                           (int) coord.getY() % Vector2.DIVS_PER_TILE);
-//
-    //}
     /**
      * checks to see if there is an object at the coord
      *
@@ -477,7 +492,7 @@ public class GameBoard {
     /**
      * checks if tile is cleared vertically
      *
-     * @param t
+     * @param location
      * @return boolean
      */
     public boolean isClearedVertical(Vector2 location) {
@@ -493,7 +508,7 @@ public class GameBoard {
     /**
      * checks if tile is cleared horizontally
      *
-     * @param t
+     * @param location
      * @return boolean
      */
     public boolean isClearedHorizontal(Vector2 location) {

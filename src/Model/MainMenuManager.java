@@ -33,12 +33,25 @@ public class MainMenuManager {
         }
     }
 
+    /**
+     * initializes the main menu background
+     *
+     * @throws IOException
+     */
     private void initialize() throws IOException {
 
         this.background = this.loadAndResizeSprite("MainMenu.png", 672, 864);
         Model.Sound.DigDugStartMusic();
     }
 
+    /**
+     * resizes the given sprite to the given dimensions
+     *
+     * @param imageName
+     * @param pixWidth
+     * @param pixHeight
+     * @return image that has been resized
+     */
     public static Image loadAndResizeSprite(String imageName, int pixWidth,
                                             int pixHeight) {
 
