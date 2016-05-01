@@ -107,6 +107,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             if (timesPlayed == 0) {
                 Model.Sound.DigDugDead();
                 timesPlayed += 1;
+                theModel.getPlayer1().killDriller();
             }
 
         }
