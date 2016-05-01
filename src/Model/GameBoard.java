@@ -32,6 +32,8 @@ public class GameBoard {
     protected ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
     final static int DIVS_TO_DIG = 1;
     protected Driller driller;
+    private Collectible collect;
+    private boolean collectPlaced = false;
 
     /**
      * creates a new GameBoard of tiles
@@ -54,6 +56,15 @@ public class GameBoard {
 //        board[9][11].clearTileHorizontal();
 //        board[8][11].clearTileHorizontal();
 //        board[10][11].clearTileHorizontal();
+
+    }
+
+    public void placeCollectible(Collectible c) {
+        this.collect = c;
+        c.setDiv(new Vector2(
+                (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
+                (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE));
+        collectPlaced = true;
 
     }
 
@@ -82,6 +93,12 @@ public class GameBoard {
                 break;
             }
 
+        }
+        if (collectPlaced) {
+            if (this.collect.isCollidedWith(this.driller)) {
+                driller.addToScore(this.collect.getType().getPoints());
+
+            }
         }
 
         return isCollision;

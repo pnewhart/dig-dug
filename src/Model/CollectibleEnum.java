@@ -17,17 +17,25 @@ package Model;
  * @author laa024
  */
 public enum CollectibleEnum {
-    APPLE("APPLE", 100), CARROT("CARROT", 150), EAGLE("EAGLE", 500), EGGPLANT(
-            "EGGPLANT", 150), GARLIC("GARLIC", 75), MUSHROOM("MUSHROOM", 50), ONION(
+    APPLE("APPLE", 100), CARROT("CARROT", 100), EAGLE("EAGLE", 800), EGGPLANT(
+            "EGGPLANT", 200), GARLIC("GARLIC", 200), MUSHROOM("MUSHROOM", 300), ONION(
                     "ONION",
-                    125), PICKLE("PICKLE", 80), PINEAPPLE("PINEAPPLE", 150), TOMATO(
-                    "TOMATO", 160), WATERMELON("WATERMELON", 200);
+                    400), PICKLE("PICKLE", 500), PINEAPPLE("PINEAPPLE", 600), TOMATO(
+                    "TOMATO", 500), WATERMELON("WATERMELON", 700);
     private int points;
     private String name;
 
     CollectibleEnum(String name, int score) {
         this.points = score;
         this.name = name;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

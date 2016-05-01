@@ -12,17 +12,44 @@
  * **************************************** */
 package Model;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 /**
  *
  * @author laa024
  */
-public class Collectible extends Object {
+public class Collectible extends BoardObject {
 
     private CollectibleEnum type;
+    private int difficulty;
+    private ArrayList<CollectibleEnum> collectibleList = new ArrayList<CollectibleEnum>();
 
     public Collectible(int level) {
-        super();
+        this.difficulty = level;
+        this.pickCollectibleType();
 
+    }
+
+    private void pickCollectibleType() {
+        Random r = new Random();
+        int listSize = 0;
+
+        for (CollectibleEnum ce : CollectibleEnum.values()) {
+            if (ce.getPoints() < (this.difficulty * 100)) {
+                collectibleList.add(ce);
+                listSize++;
+
+            }
+
+        }
+        int choice = r.nextInt(listSize);
+        type = collectibleList.get(choice);
+
+    }
+
+    public CollectibleEnum getType() {
+        return type;
     }
 
     @Override
