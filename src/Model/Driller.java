@@ -416,12 +416,21 @@ public class Driller extends BoardObject {
 
         if (!isShooting && pump) {
             isShooting = true;
-            this.gun = new Gun(getDiv(), direction, this.getBoard());
+            this.gun = new Gun(getDiv(), direction, prevDirection);
         } else if (isShooting && this.gun.isAlive()) {
             this.gun.shoot(pump);
         } else {
             this.gun = null;
         }
+    }
+
+    /**
+     * Gets the gun object
+     *
+     * @return
+     */
+    public Gun getGun() {
+        return this.gun;
     }
 
     /**

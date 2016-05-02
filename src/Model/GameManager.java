@@ -179,6 +179,7 @@ public class GameManager {
         this.loadMapSprites();
         this.loadEnemySprites();
         this.loadRockSprites();
+        this.loadGunSprites();
     }
 
     /**
@@ -211,8 +212,23 @@ public class GameManager {
         }
     }
 
+    private void loadGunSprites() {
+        String[] gunSprites = {"Cable_Down_L1.png", "Cable_Down_L2.png",
+                               "Cable_Down_R1.png", "Cable_Down_R2.png",
+                               "Cable_Up_L1.png", "Cable_Up_L2.png",
+                               "Cable_Up_R1.png", "Cable_Up_R2.png",
+                               "Cable_Right_1.png", "Cable_Right_2.png",
+                               "Cable_Left_1.png", "Cable_Left_2.png"};
+
+        for (String gun : gunSprites) {
+            BoardObject.loadImage(gun, loadAndResizeSprite(gun,
+                                                           GameManager.PIXELS_PER_DIV * GameManager.TILE_SIZE_IN_DIVS,
+                                                           GameManager.PIXELS_PER_DIV * GameManager.TILE_SIZE_IN_DIVS));
+        }
+    }
+
     /**
-     * loads rock sprites into the hashmap
+     * loads gun sprites into the hashmap
      */
     private void loadRockSprites() {
         String[] rockSprites = {"Rock_1.png", "Rock_2.png", "Rock_Ground_1.png", "Rock_Ground_2.png"};
@@ -287,10 +303,14 @@ public class GameManager {
      * moves all the objects on the board
      */
     public void moveObjects() {
-        if (getEnemies().size() > 0) {
-            for (Enemy enemy : getEnemies()) {
-                enemy.move();
+        try {
+            if (getEnemies().size() > 0) {
+                for (Enemy enemy : getEnemies()) {
+                    enemy.move();
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Enemy ArrayList Error!");
         }
         try {
             //System.out.println(getObjects().toString());

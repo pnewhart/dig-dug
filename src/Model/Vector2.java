@@ -40,6 +40,11 @@ public class Vector2 {
         //this.adjust();
     }
 
+    public boolean equalTo(Vector2 other, int comp) {
+        return Math.abs(this.x - other.getX()) < comp && Math.abs(
+                this.y - other.getY()) < comp;
+    }
+
     public void setX(double x) {
         this.x = x;
         //this.adjust();
