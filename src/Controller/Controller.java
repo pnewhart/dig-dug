@@ -83,6 +83,16 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
         GUI.repaint();
 
+        handleSound();
+
+        handleLevels();
+
+    }
+
+    /**
+     * Plays the sounds based on the current state of the game.
+     */
+    private void handleSound() {
         if (theModel.getPlayer1().isDead()) {
             if (timesPlayed == 0) {
                 Model.Sound.DigDugDeadMusic();
@@ -116,7 +126,12 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             Model.Sound.stopLastOneMusic();
             Model.Sound.loopMain();
         }
+    }
 
+    /**
+     * Handles switched between levels or resetting levels.
+     */
+    private void handleLevels() {
         if (theModel.getEnemies().size() == 1 && theModel.getLevelCounter() > 0) {
             if (timesPlayed1 == 0) {
                 Model.Sound.stopMain();
@@ -128,9 +143,11 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             theModel.getPlayer1().hasReset = false;
             theModel.getPlayer1().decrementLife();
         }
-
     }
 
+    /**
+     * Moves the Driller based on the button presses.
+     */
     private void moveDriller() {
         if (rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = Direction.RIGHT;
