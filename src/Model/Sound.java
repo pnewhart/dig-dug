@@ -31,6 +31,8 @@ public class Sound {
     private static Clip myStartClip;
     private static Clip myGameOverClip;
     private static Clip myDeadClip;
+    private static Clip myLastOneSoundClip;
+    private static Clip myLastOneSoundMusic;
 
     /**
      * starts the music for main menu
@@ -189,6 +191,44 @@ public class Sound {
 
     public static void stopGameOver() {
         myGameOverClip.stop();
+    }
+
+    public static void DigDugLastOneMusic() {
+        try {
+            File file = new File("src/08 Last One Music.wav");
+            if (file.exists()) {
+                myLastOneSoundMusic = AudioSystem.getClip();
+                AudioInputStream ais = AudioSystem.getAudioInputStream(
+                        file.toURI().toURL());
+                myLastOneSoundMusic.open(ais);
+            } else {
+                throw new RuntimeException(
+                        "Sound: file not found: Last One Music");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Sound: Malformed URL: " + e);
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException("Sound: Unsupported Audio File: " + e);
+        } catch (IOException e) {
+            throw new RuntimeException("Sound: Input/Output Error: " + e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException("Sound: Line Unavailable: " + e);
+        }
+        playLastOneMusic();
+    }
+
+    public static void playLastOneMusic() {
+        myLastOneSoundMusic.setFramePosition(0);  // Must always rewind!
+        myLastOneSoundMusic.loop(0);
+        myLastOneSoundMusic.start();
+    }
+
+    public static void loopLastOneMusic() {
+        myLastOneSoundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public static void stopLastOneMusic() {
+        myLastOneSoundMusic.stop();
     }
 
 }

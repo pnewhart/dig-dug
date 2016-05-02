@@ -49,6 +49,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private int timesPushed = 0;
     private int timesPlayed = 0;
     private int timesGO = 0;
+    private int timesPlayed1 = 0;
 
     private final int DELAY = 25;
 
@@ -102,11 +103,9 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             if (timesPlayed == 0) {
                 Model.Sound.DigDugDeadMusic();
                 timesPlayed += 1;
-
             }
-
         }
-        if (theModel.getPlayer1().isDead() == false) {
+        if (!theModel.getPlayer1().isDead()) {
             timesPlayed = 0;
         }
 
@@ -121,10 +120,27 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         }
         if (theModel.getEnemies().size() == 0 && theModel.getLevelCounter() > 1) {
             theModel.nextLevel();
+
+            timesPlayed = 0;
+            timesPlayed1 = 0;
+            timesGO = 0;
+            timesPushed = 0;
+            Model.Sound.stopLastOneMusic();
+            Model.Sound.loopMain();
         }
+
         if (theModel.getTheBoard().getObjects().size() == 0 && theModel.getLevelCounter() > 1) {
             theModel.getTheBoard().resetBoard();
             theModel.gameOver();
+
+        }
+        if (theModel.getEnemies().size() == 1 && theModel.getLevelCounter() > 0) {
+            if (timesPlayed1 == 0) {
+                Model.Sound.stopMain();
+
+                Model.Sound.loopLastOneMusic();
+            }
+            timesPlayed1 += 1;
 
         }
 
