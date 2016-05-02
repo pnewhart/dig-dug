@@ -135,12 +135,17 @@ public class GameManager {
      */
     public void nextLevel() {
         theBoard.resetBoard();
+
         try {
-            String levelString = String.format("src/level%d.txt", levelCounter);
+            String levelString = String.format("src/level%d.txt",
+                                               levelCounter);
             System.out.println(levelString);
             File inputFile = new File(levelString);
             theBoard.generateFromFile(inputFile);
-
+            this.setCollectible();
+            player1.setDiv(new Vector2(
+                    (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
+                    ((Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE)));
         } catch (Exception e) {
             System.out.println(e);
             System.out.println("cannot go to next level");
@@ -170,6 +175,14 @@ public class GameManager {
      */
     public void changeBackground() {
         this.backGround = menu.getBackGround();
+    }
+
+    public int getLevelCounter() {
+        return levelCounter;
+    }
+
+    public void setLevelCounter(int levelCounter) {
+        this.levelCounter = levelCounter;
     }
 
     /**

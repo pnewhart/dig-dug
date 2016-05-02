@@ -94,29 +94,15 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (!rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = null;
         }
-        if (enterIsPressed) {
 
-            collectibleTimer = 0;
-            enterIsPressed = false;
-
-        }
-        theModel.shoot(spaceIsPressed);
         this.theModel.movePlayer(moveState);
         GUI.repaint();
 
-        if (collectibleTimer == 1200 && theModel.timesPressed >= 3) { //1200 is about 40 seconds
-            collectibleTimer++;
-            theModel.setCollectible();
-        }
         if (theModel.getPlayer1().isDead()) {
             if (timesPlayed == 0) {
                 Model.Sound.DigDugDeadMusic();
                 timesPlayed += 1;
-                theModel.getPlayer1().killDriller();
 
-                //theModel.getPlayer1().setDiv(new Vector2(
-                //        Vector2.NUM_TILE_HORIZONTAL * Vector2.DIVS_PER_TILE,
-                //        Vector2.NUM_TILE_VERTICAL * Vector2.DIVS_PER_TILE));
             }
 
         }
@@ -132,6 +118,14 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
                 Model.Sound.DigDugGameOverMusic();
             }
             timesGO += 1;
+        }
+        if (theModel.getEnemies().size() == 0 && theModel.getLevelCounter() > 1) {
+            theModel.nextLevel();
+        }
+        if (theModel.getTheBoard().getObjects().size() == 0 && theModel.getLevelCounter() > 1) {
+            theModel.getTheBoard().resetBoard();
+            theModel.gameOver();
+
         }
 
     }
@@ -167,8 +161,10 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             enterIsPressed = true;
-            gameCreated = true;
-            theModel.createGame();
+            if (!gameCreated) {
+                gameCreated = true;
+                theModel.createGame();
+            }
             if (timesPushed == 0) {
                 Model.Sound.stopStart();
                 Model.Sound.DigDugGameMusic();
@@ -180,6 +176,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             theModel.timesPressed += 1;
             timesPushed += 1;
         }
+
     }
 
     @Override

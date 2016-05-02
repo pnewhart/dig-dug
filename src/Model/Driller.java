@@ -164,6 +164,10 @@ public class Driller extends BoardObject {
         this.lives -= 1;
     }
 
+    public void reviveDriller() {
+        this.isKilled = false;
+    }
+
     public static int getScore() {
         return score.getCurrentScore();
     }
