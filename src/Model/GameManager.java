@@ -135,8 +135,10 @@ public class GameManager {
      */
     public void nextLevel() {
         theBoard.resetBoard();
+
         try {
-            String levelString = String.format("src/level%d.txt", levelCounter);
+            String levelString = String.format("src/level%d.txt",
+                                               levelCounter);
             System.out.println(levelString);
             File inputFile = new File(levelString);
             theBoard.generateFromFile(inputFile);
@@ -173,6 +175,14 @@ public class GameManager {
      */
     public void changeBackground() {
         this.backGround = menu.getBackGround();
+    }
+
+    public int getLevelCounter() {
+        return levelCounter;
+    }
+
+    public void setLevelCounter(int levelCounter) {
+        this.levelCounter = levelCounter;
     }
 
     /**

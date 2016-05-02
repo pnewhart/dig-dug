@@ -104,9 +104,6 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
                 timesPlayed += 1;
                 theModel.getPlayer1().killDriller();
 
-                //theModel.getPlayer1().setDiv(new Vector2(
-                //        Vector2.NUM_TILE_HORIZONTAL * Vector2.DIVS_PER_TILE,
-                //        Vector2.NUM_TILE_VERTICAL * Vector2.DIVS_PER_TILE));
             }
 
         }
@@ -122,6 +119,9 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
                 Model.Sound.DigDugGameOverMusic();
             }
             timesGO += 1;
+        }
+        if (theModel.getEnemies().size() == 0 && theModel.getLevelCounter() > 1) {
+            theModel.nextLevel();
         }
 
     }
