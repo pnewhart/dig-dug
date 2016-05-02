@@ -102,7 +102,6 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             if (timesPlayed == 0) {
                 Model.Sound.DigDugDeadMusic();
                 timesPlayed += 1;
-                theModel.getPlayer1().killDriller();
 
             }
 
@@ -122,6 +121,11 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         }
         if (theModel.getEnemies().size() == 0 && theModel.getLevelCounter() > 1) {
             theModel.nextLevel();
+        }
+        if (theModel.getTheBoard().getObjects().size() == 0 && theModel.getLevelCounter() > 1) {
+            theModel.getTheBoard().resetBoard();
+            theModel.gameOver();
+
         }
 
     }
