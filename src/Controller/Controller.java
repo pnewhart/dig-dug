@@ -104,7 +104,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             timesGO += 1;
             GUI.getGameBoardVisual1().boardVisible = false;
         } else {
-            System.out.println(theModel.getTheBoard().getObjects().isEmpty());
+            //System.out.println(theModel.getTheBoard().getObjects().isEmpty());
         }
 
         if (theModel.getEnemies().isEmpty() && theModel.getLevelCounter() > 1) {

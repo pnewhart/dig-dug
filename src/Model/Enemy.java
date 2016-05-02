@@ -73,7 +73,7 @@ public abstract class Enemy extends BoardObject {
             if (!isFloating && getBoard().isDugTo(getFront(), direction)) {
                 moveForward();
             } else if (shouldFloat || isFloating) {
-                System.out.println("floating");
+                //System.out.println("floating");
                 this.floatToDriller();
             } else if (!isFloating) {
                 this.changeDirection();
@@ -174,16 +174,16 @@ public abstract class Enemy extends BoardObject {
 
         Vector2 move = Vector2Utility.setMagnitude(new Vector2(xMove, yMove),
                                                    0.5);
-        System.out.println(move);
+        //System.out.println(move);
 
         Vector2 prevDiv = getDiv();
         this.setDiv(Vector2Utility.add(getDiv(), move));
         Vector2 curDiv = getDiv();
-        System.out.println(prevDiv + " " + curDiv);
+        //System.out.println(prevDiv + " " + curDiv);
 
         if (this.getBoard().isClearedVertical(this.getRoundTile()) && Vector2Utility.distanceBetween(
                 getDiv(), startFloatTile) > 2) {
-            System.out.println("going to end floating");
+            //System.out.println("going to end floating");
             if (yMove >= 0) {
                 this.direction = Direction.UP;
             } else {
@@ -193,7 +193,7 @@ public abstract class Enemy extends BoardObject {
             this.align(direction);
         } else if (getBoard().isClearedHorizontal(this.getRoundTile()) && Vector2Utility.distanceBetween(
                 getDiv(), startFloatTile) > Vector2.DIVS_PER_TILE) {
-            System.out.println("going to end floating");
+            //System.out.println("going to end floating");
             if (xMove >= 0) {
                 this.direction = Direction.RIGHT;
             } else {
@@ -352,7 +352,7 @@ public abstract class Enemy extends BoardObject {
         try {
             getBoard().enemyList.remove(this);
         } catch (Exception e) {
-            System.out.println("Could not destroy enemy!");
+            //System.out.println("Could not destroy enemy!");
         }
     }
 

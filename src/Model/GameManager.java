@@ -139,7 +139,7 @@ public class GameManager {
         try {
             String levelString = String.format("src/level%d.txt",
                                                levelCounter);
-            System.out.println(levelString);
+            //System.out.println(levelString);
             File inputFile = new File(levelString);
             theBoard.generateFromFile(inputFile);
             this.setCollectible();
@@ -162,7 +162,7 @@ public class GameManager {
         try {
             String levelString = String.format("src/level%d.txt",
                                                levelCounter);
-            System.out.println(levelString);
+            //System.out.println(levelString);
             File inputFile = new File(levelString);
             theBoard.generateFromFile(inputFile);
             this.setCollectible();
@@ -170,8 +170,8 @@ public class GameManager {
                     (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
                     ((Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE)));
         } catch (Exception e) {
-            System.out.println(e);
-            System.out.println("cannot go to next level");
+            //System.out.println(e);
+            //System.out.println("cannot go to next level");
         }
 
     }
@@ -185,10 +185,10 @@ public class GameManager {
      * sets collectables on the board
      */
     public void setCollectible() {
-        System.out.println("start set collect");
+        //System.out.println("start set collect");
 
         theBoard.placeCollectible(new Collectible(levelCounter));
-        System.out.println("collect set");
+        //System.out.println("collect set");
 
     }
 

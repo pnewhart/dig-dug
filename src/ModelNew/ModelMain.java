@@ -59,7 +59,7 @@ public class ModelMain {
                 imageName = "base" + biome + layer;
 
                 try {
-                    System.out.println("./src/PNGImages/" + imageName + ".png");
+                    //System.out.println("./src/PNGImages/" + imageName + ".png");
 
                     InputStream in = getClass().getResourceAsStream(
                             "./src/PNGImages/" + imageName + ".png");
