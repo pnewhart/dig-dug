@@ -26,7 +26,7 @@ import java.awt.Image;
  */
 public class GameBoardVisual extends javax.swing.JComponent {
     private GameManager theModel;
-    public boolean boardVisible = true;
+    public boolean boardVisible = false;
 //    private Timer timer;
 //    private final int DELAY = 25;
 
@@ -176,6 +176,14 @@ public class GameBoardVisual extends javax.swing.JComponent {
                 }
             }
         }
+    }
+
+    public boolean isBoardVisible() {
+        return boardVisible;
+    }
+
+    public void setBoardVisible(boolean boardVisible) {
+        this.boardVisible = boardVisible;
     }
 
     /**
