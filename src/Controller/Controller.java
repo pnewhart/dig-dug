@@ -78,7 +78,45 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
         theModel.moveObjects();
         theModel.checkCollision();
+        moveDriller();
 
+        GUI.repaint();
+
+        if (theModel.getPlayer1().isDead()) {
+            if (timesPlayed == 0) {
+                Model.Sound.DigDugDeadMusic();
+                timesPlayed += 1;
+            }
+        }
+        if (theModel.getPlayer1().isDead() == false) {
+            timesPlayed = 0;
+        }
+
+        if (theModel.getPlayer1().getLives() == 0) {
+            if (timesGO == 0) {
+                theModel.getTheBoard().resetBoard();
+                theModel.gameOver();
+                Model.Sound.stopMain();
+                Model.Sound.stopDead();
+                Model.Sound.DigDugGameOverMusic();
+            }
+            timesGO += 1;
+            GUI.getGameBoardVisual1().boardVisible = false;
+        } else {
+            System.out.println(theModel.getTheBoard().getObjects().isEmpty());
+        }
+
+        if (theModel.getEnemies().isEmpty() && theModel.getLevelCounter() > 1) {
+            theModel.nextLevel();
+        } else if (theModel.getPlayer1().hasReset || (theModel.getTheBoard().getObjects().isEmpty() && theModel.getLevelCounter() >= 1)) {
+            theModel.resetLevel();
+            theModel.getPlayer1().hasReset = false;
+            theModel.getPlayer1().decrementLife();
+        }
+
+    }
+
+    private void moveDriller() {
         if (rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = Direction.RIGHT;
         }
@@ -96,38 +134,6 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         }
 
         this.theModel.movePlayer(moveState);
-        GUI.repaint();
-
-        if (theModel.getPlayer1().isDead()) {
-            if (timesPlayed == 0) {
-                Model.Sound.DigDugDeadMusic();
-                timesPlayed += 1;
-
-            }
-
-        }
-        if (theModel.getPlayer1().isDead() == false) {
-            timesPlayed = 0;
-        }
-
-        if (theModel.getPlayer1().getLives() == 0) {
-            if (timesGO == 0) {
-                theModel.gameOver();
-                Model.Sound.stopMain();
-                Model.Sound.stopDead();
-                Model.Sound.DigDugGameOverMusic();
-            }
-            timesGO += 1;
-        }
-        if (theModel.getEnemies().size() == 0 && theModel.getLevelCounter() > 1) {
-            theModel.nextLevel();
-        }
-        if (theModel.getTheBoard().getObjects().size() == 0 && theModel.getLevelCounter() > 1) {
-            theModel.getTheBoard().resetBoard();
-            theModel.gameOver();
-
-        }
-
     }
 
     @Override

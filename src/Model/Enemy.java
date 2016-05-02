@@ -48,6 +48,7 @@ public abstract class Enemy extends BoardObject {
     protected boolean isPumpable = true;
     private boolean isPopped = false;
     public boolean isFloating = false;
+    public boolean wasFloating = false;
     protected boolean canCrush = true;
     protected boolean isCrushed = false;
 
@@ -92,6 +93,7 @@ public abstract class Enemy extends BoardObject {
                                                speed)));
         prevDirection = direction;
         this.align(direction);
+        wasFloating = false;
     }
 
     private void changeDirection() {
@@ -102,8 +104,8 @@ public abstract class Enemy extends BoardObject {
         for (Direction dir : dirs) {
             Vector2 place = this.getDirection(dir);
 
-            if (prevDirection != dir.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
-                                                                                  getDiv()))) && getBoard().isDugTo(
+            if ((prevDirection != dir.getOpposite() && !wasFloating) && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
+                                                                                                    getDiv()))) && getBoard().isDugTo(
                     place,
                     dir)) {
                 directions.add(dir);
@@ -205,6 +207,7 @@ public abstract class Enemy extends BoardObject {
     public void startFloat() {
         this.startFloatTile = this.getDiv();
         isFloating = true;
+        wasFloating = true;
     }
 
     public void stopFloat() {

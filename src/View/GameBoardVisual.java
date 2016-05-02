@@ -26,6 +26,7 @@ import java.awt.Image;
  */
 public class GameBoardVisual extends javax.swing.JComponent {
     private GameManager theModel;
+    public boolean boardVisible = true;
 //    private Timer timer;
 //    private final int DELAY = 25;
 
@@ -62,10 +63,12 @@ public class GameBoardVisual extends javax.swing.JComponent {
     public void paintComponent(Graphics g) {
         drawBackGround(g);
 
-        drawHoles(g);
-        drawEnemies(g);
-        drawObjects(g);
-        drawDriller(g);
+        if (boardVisible) {
+            drawHoles(g);
+            drawEnemies(g);
+            drawObjects(g);
+            drawDriller(g);
+        }
 
         drawScoreAndLives(g);
 

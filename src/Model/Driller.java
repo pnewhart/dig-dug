@@ -51,13 +51,16 @@ public class Driller extends BoardObject {
     private boolean isKilled;
 
     private int deadCount;
-    private final int MAX_DEAD_COUNT = 5;
+    private final int DEAD_STATES = 5;
+    private final int MAX_DEAD_COUNT = 16;
 
     private int prevWalkState;
     private final static int NUM_WALK_STATES = 8;
 
     private int lives;
     private static ScoreKeeper score = new ScoreKeeper();
+
+    public boolean hasReset = false;
 
     public Driller() {
         initDriller(3);
@@ -157,13 +160,6 @@ public class Driller extends BoardObject {
         return lives;
     }
 
-    /**
-     * removes life from driller
-     */
-    public void killDriller() {
-        this.lives -= 1;
-    }
-
     public void reviveDriller() {
         this.isKilled = false;
     }
@@ -238,8 +234,10 @@ public class Driller extends BoardObject {
                     this.isDigging = getBoard().digHole(this.getFront(),
                                                         this.direction);
                 }
-            } else {
+            } else if (deadCount < MAX_DEAD_COUNT * DEAD_STATES) {
                 deadCount += 1;
+            } else {
+                destroy();
             }
         } catch (Exception e) {
             System.out.println("Driller move failed");
@@ -490,7 +488,6 @@ public class Driller extends BoardObject {
      */
     public void kill() {
         this.isKilled = true;
-
     }
 
     /**
@@ -500,11 +497,15 @@ public class Driller extends BoardObject {
      */
     public boolean isDead() {
         return this.isCrushed || this.isKilled;
+    }
 
+    public void decrementLife() {
+        this.lives = lives - 1;
     }
 
     public void destroy() {
-        initDriller(lives - 1);
+        initDriller(lives);
+        hasReset = true;
     }
 
 }
