@@ -45,6 +45,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private boolean enterIsPressed;
     private boolean gameCreated = false;
     private int enterPressed = 0;
+    private boolean gameOver = false;
 
     private int timesPushed = 0;
     private int timesPlayed = 0;
@@ -107,6 +108,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             if (timesGO == 0) {
                 theModel.getTheBoard().resetBoard();
                 theModel.gameOver();
+                gameOver = true;
                 Model.Sound.stopMain();
                 Model.Sound.stopDead();
                 Model.Sound.DigDugGameOverMusic();
@@ -124,6 +126,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             timesPushed = 0;
             Model.Sound.stopLastOneMusic();
             Model.Sound.loopMain();
+
         }
     }
 
@@ -134,6 +137,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (theModel.getEnemies().size() == 1 && theModel.getLevelCounter() > 0) {
             if (timesPlayed1 == 0) {
                 Model.Sound.stopMain();
+                //Model.Sound.DigDugLastOneSound();
                 Model.Sound.playLastOneMusic();
             }
             timesPlayed1 += 1;
