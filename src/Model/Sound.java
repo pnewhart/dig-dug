@@ -194,6 +194,7 @@ public class Sound {
     public static void stopGameOver() {
         if (myGameOverClip.isActive()) {
             myGameOverClip.stop();
+
         }
     }
 
@@ -246,6 +247,43 @@ public class Sound {
         if (myLastOneSoundMusic.isActive()) {
             myLastOneSoundMusic.stop();
         }
+    }
+
+    public static void DigDugLastOneSound() {
+        try {
+            File file = new File("src/07 Last One Sound.wav");
+            if (file.exists()) {
+                myLastOneSoundClip = AudioSystem.getClip();
+                AudioInputStream ais = AudioSystem.getAudioInputStream(
+                        file.toURI().toURL());
+                myLastOneSoundClip.open(ais);
+            } else {
+                throw new RuntimeException("Sound: file not found: LastOneClip");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Sound: Malformed URL: " + e);
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException("Sound: Unsupported Audio File: " + e);
+        } catch (IOException e) {
+            throw new RuntimeException("Sound: Input/Output Error: " + e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException("Sound: Line Unavailable: " + e);
+        }
+        playLastOneSoundClip();
+    }
+
+    public static void playLastOneSoundClip() {
+        myLastOneSoundClip.setFramePosition(0);  // Must always rewind!
+        myLastOneSoundClip.loop(0);
+        myLastOneSoundClip.start();
+    }
+
+    public static void loopLastOneSoundClip() {
+        myLastOneSoundClip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public static void stopLastOneSoundClip() {
+        myLastOneSoundClip.stop();
     }
 
 }
