@@ -145,7 +145,7 @@ public class GameBoard {
                 if (collectPlaced && this.collect != null) {
                     if (this.collect.isCollidedWith(this.driller)) {
 
-                        driller.addToScore(this.collect.getType().getPoints());
+                        Driller.addToScore(this.collect.getType().getPoints());
                         this.destroyCollectible();
 
                     }

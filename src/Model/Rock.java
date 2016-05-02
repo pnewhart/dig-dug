@@ -117,9 +117,11 @@ public class Rock extends BoardObject {
             this.isFalling = false;
         } else if (isBroken) {
             brokenCount += 1;
-            if (this.brokenCount > MAX_BROKEN) {
+            if (this.brokenCount == MAX_BROKEN) {
                 for (BoardObject obj : this.crushedObjects) {
-                    obj.destroy();
+                    if (!(obj instanceof Driller)) {
+                        obj.destroy();
+                    }
                 }
                 this.destroy();
             }
