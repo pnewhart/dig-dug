@@ -53,6 +53,10 @@ public class GameBoard {
 
     }
 
+    public boolean isCollectPlaced() {
+        return collectPlaced;
+    }
+
     /**
      *
      * @return collectible on the board
@@ -89,6 +93,7 @@ public class GameBoard {
      */
     public void destroyCollectible() {
         this.collect.destroy();
+        collectPlaced = false;
     }
 
     /**

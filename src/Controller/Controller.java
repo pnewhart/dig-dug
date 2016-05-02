@@ -44,6 +44,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
     private boolean spaceIsPressed;
     private boolean enterIsPressed;
     private boolean gameCreated = false;
+    private int enterPressed = 0;
 
     private int timesPushed = 0;
     private int timesPlayed = 0;
@@ -94,14 +95,19 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             moveState = null;
         }
         if (enterIsPressed) {
+            enterPressed++;
             this.changeToGame();
             collectibleTimer = 0;
+
         }
         theModel.shoot(spaceIsPressed);
         this.theModel.movePlayer(moveState);
         GUI.repaint();
-        collectibleTimer++;
-        if (collectibleTimer == 100) { //1200 is about 40 seconds
+        if (enterPressed > 1) {
+            collectibleTimer++;
+        }
+
+        if (collectibleTimer == 200) { //1200 is about 40 seconds
             theModel.setCollectible();
         }
         if (theModel.getPlayer1().isDead()) {
