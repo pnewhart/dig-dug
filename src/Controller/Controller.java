@@ -183,6 +183,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             enterIsPressed = true;
             if (!gameCreated) {
+                GUI.getGameBoardVisual1().setBoardVisible(true);
                 gameCreated = true;
                 theModel.createGame();
             }
