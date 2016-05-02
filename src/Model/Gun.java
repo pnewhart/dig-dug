@@ -12,8 +12,8 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
@@ -26,11 +26,10 @@ public class Gun extends BoardObject {
 
     private double length;
     private Direction direction;
+    private Direction prevDirection;
     private boolean destroyed;
 
     private boolean isPumping;
-
-    private Date timeCreated;
 
     private GameBoard board;
 
@@ -52,26 +51,15 @@ public class Gun extends BoardObject {
         return destroyed;
     }
 
-    public Gun(Vector2 location, Direction direction, GameBoard board) {
+    public Gun(Vector2 location, Direction direction, Direction prevDirection) {
         this.length = 0.0;
         this.direction = direction;
-        this.timeCreated = new Date();
+        this.prevDirection = prevDirection;
         this.setDiv(location);
         this.destroyed = false;
 
         this.isPumping = false;
         this.board = board;
-    }
-
-    /**
-     * Will return double representing the number of seconds that the gun has
-     * existed.
-     *
-     * @return double
-     */
-    public double curTime() {
-        Date now = new Date();
-        return now.compareTo(timeCreated) / 1000.0;
     }
 
     /**
@@ -82,21 +70,8 @@ public class Gun extends BoardObject {
     public Vector2 getTip() {
         Vector2 tip = Vector2Utility.add(this.getDiv(), Vector2Utility.scale(
                                          direction.getVector(), length));
-        if (this.direction == Direction.RIGHT) {
-            tip = Vector2Utility.add(tip, Vector2Utility.scale(
-                                     Direction.RIGHT.getVector(),
-                                     Vector2.DIVS_PER_TILE));
-        } else if (this.direction == Direction.DOWN) {
-            tip = Vector2Utility.add(tip, Vector2Utility.scale(
-                                     Direction.DOWN.getVector(),
-                                     Vector2.DIVS_PER_TILE));
-        }
-
-        if (this.direction == Direction.RIGHT || this.direction == Direction.LEFT) {
-            Vector2Utility.add(tip, new Vector2(0, Vector2.DIVS_PER_TILE / 2));
-        } else {
-            Vector2Utility.add(tip, new Vector2(Vector2.DIVS_PER_TILE / 2, 0));
-        }
+        tip = Vector2Utility.add(tip, new Vector2(Vector2.DIVS_PER_TILE / 2,
+                                                  Vector2.DIVS_PER_TILE / 2));
 
         return tip;
     }
@@ -141,6 +116,10 @@ public class Gun extends BoardObject {
         this.destroyed = true;
     }
 
+    public boolean isAlive() {
+        return !this.destroyed;
+    }
+
     @Override
     public void move() {
 
@@ -149,5 +128,29 @@ public class Gun extends BoardObject {
     @Override
     public void crush() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Image getCurrentImage() {
+        if (this.direction == Direction.LEFT) {
+            return this.Images.get("Cable_Left_2.png");
+        } else if (this.direction == Direction.RIGHT) {
+            return this.Images.get("Cable_Right_2.png");
+        } else if (this.direction == Direction.UP) {
+            if (this.prevDirection == Direction.RIGHT) {
+                return this.Images.get("Cable_Up_R2.png");
+            } else {
+                return this.Images.get("Cable_Up_L2.png");
+            }
+        } else if (this.direction == Direction.DOWN) {
+            if (this.prevDirection == Direction.RIGHT) {
+                return this.Images.get("Cable_Down_R2.png");
+            } else {
+                return this.Images.get("Cable_Down_L2.png");
+            }
+        } else {
+            return null;
+        }
+
     }
 }

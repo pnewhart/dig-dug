@@ -57,7 +57,7 @@ public abstract class BoardObject {
 
     public void setDiv(Vector2 location) {
         this.location = location;
-        location.adjust();
+        this.location.adjust();
     }
 
     public Vector2 getTile() {

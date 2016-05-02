@@ -29,6 +29,8 @@ public abstract class Enemy extends BoardObject {
     protected Direction direction;
     protected double speed;
 
+    protected Vector2 startFloatTile;
+
     protected int stepCount;
     protected final int MAX_STEP_COUNT = 12;
 
@@ -61,59 +63,16 @@ public abstract class Enemy extends BoardObject {
     @Override
     public void move() {
         boolean shouldFloat = this.decideToFloat();
-        System.out.println("Should float" + shouldFloat);
+        //System.out.println("Should float" + shouldFloat);
         if (!this.hasBeenKilled()) {
             if (getBoard().isDugTo(getFront(), direction)) {
-                this.setDiv(Vector2Utility.add(this.getDiv(),
-                                               Vector2Utility.scale(
-                                                       this.direction.getVector(),
-                                                       speed)));
-                stepCount = (stepCount + 1) % MAX_STEP_COUNT;
-                prevDirection = direction;
-            } else if (shouldFloat && !isFloating) {
+                moveForward();
+            } else if (shouldFloat || isFloating) {
                 System.out.println("floating");
-                this.floatToDriller(getBoard().getDrillerLocation());
-                System.out.println("called");
-            } else if (shouldFloat && isFloating) {
-                this.floatToDriller(getBoard().getDrillerLocation());
-
+                this.floatToDriller();
             } else if (!isFloating) {
-
-                ArrayList<Direction> directions = new ArrayList<Direction>();
-
-                Direction[] dirs = {Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT};
-
-                for (Direction dir : dirs) {
-                    Vector2 place = this.getDirection(dir);
-
-                    if (prevDirection != dir.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
-                                                                                          getDiv()))) && getBoard().isDugTo(
-                            place,
-                            dir)) {
-                        directions.add(dir);
-                    }
-                }
-                Random r = new Random();
-                if (directions.size() > 0) {
-                    int i = r.nextInt(directions.size());
-                    if (directions.get(i).isVertical() && direction.isHorizontal()) {
-                        this.prevHorDirection = direction;
-                    }
-                    prevDirection = direction;
-                    this.direction = directions.get(i);
-                    this.setDiv(Vector2Utility.add(this.getDiv(),
-                                                   Vector2Utility.scale(
-                                                           this.direction.getVector(),
-                                                           speed)));
-                } else {
-                    prevDirection = direction;
-                    direction = direction.getOpposite();
-                    this.setDiv(Vector2Utility.add(this.getDiv(),
-                                                   direction.getVector()));
-                    stepCount = (stepCount + 1) % MAX_STEP_COUNT;
-                }
+                this.changeDirection();
             }
-            this.align(direction);
         } else if (hasBeenKilled() && deadCount < MAX_DEAD_COUNT && isDead) {
             deadCount += 1;
         } else if (isDead && deadCount >= MAX_DEAD_COUNT) {
@@ -122,10 +81,57 @@ public abstract class Enemy extends BoardObject {
 
     }
 
+    private void moveForward() {
+        this.setDiv(Vector2Utility.add(this.getDiv(),
+                                       Vector2Utility.scale(
+                                               this.direction.getVector(),
+                                               speed)));
+        stepCount = (stepCount + 1) % MAX_STEP_COUNT;
+        prevDirection = direction;
+        this.align(direction);
+    }
+
+    private void changeDirection() {
+        ArrayList<Direction> directions = new ArrayList<Direction>();
+
+        Direction[] dirs = {Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT};
+
+        for (Direction dir : dirs) {
+            Vector2 place = this.getDirection(dir);
+
+            if (prevDirection != dir.getOpposite() && (direction.isVertical() || (direction.isHorizontal() && this.isAtTurnableDiv(
+                                                                                  getDiv()))) && getBoard().isDugTo(
+                    place,
+                    dir)) {
+                directions.add(dir);
+            }
+        }
+        Random r = new Random();
+        if (directions.size() > 0) {
+            int i = r.nextInt(directions.size());
+            if (directions.get(i).isVertical() && direction.isHorizontal()) {
+                this.prevHorDirection = direction;
+            }
+            prevDirection = direction;
+            this.direction = directions.get(i);
+            this.setDiv(Vector2Utility.add(this.getDiv(),
+                                           Vector2Utility.scale(
+                                                   this.direction.getVector(),
+                                                   speed)));
+        } else {
+            prevDirection = direction;
+            direction = direction.getOpposite();
+            this.setDiv(Vector2Utility.add(this.getDiv(),
+                                           direction.getVector()));
+            stepCount = (stepCount + 1) % MAX_STEP_COUNT;
+        }
+        this.align(direction);
+    }
+
     private boolean decideToFloat() {
         Random r = new Random();
-        int choice = r.nextInt(4);
-        if (choice > 2) {
+        int choice = r.nextInt(20);
+        if (choice == 1) {
             return true;
         } else {
             return false;
@@ -138,52 +144,63 @@ public abstract class Enemy extends BoardObject {
      *
      * @param coord (Vector2)
      */
-    public void floatToDriller(Vector2 coord) {
-        System.out.println("in float driller");
-        Vector2 drillerLocation = coord;
-        int enemyXTile = (int) this.getTile().getX() / Vector2.DIVS_PER_TILE;
-        int enemyYTile = (int) this.getTile().getY() / Vector2.DIVS_PER_TILE;
-        int drillerXTile = (int) (drillerLocation.getX() / Vector2.DIVS_PER_TILE);
-        int drillerYTile = (int) (drillerLocation.getY() / Vector2.DIVS_PER_TILE);
-        int horizontalMove = enemyXTile - drillerXTile;
-        int verticalMove = enemyYTile - drillerYTile;
+    public void floatToDriller() {
+        //System.out.println("in float driller");
 
-        this.startFloat();
-        System.out.println(horizontalMove);
-        System.out.println(verticalMove);
-        if (horizontalMove < 0) {
-            this.setDiv(new Vector2(
-                    enemyXTile * Vector2.DIVS_PER_TILE + Vector2.DIVS_PER_TILE,
-                    enemyYTile * Vector2.DIVS_PER_TILE));
+        Vector2 relLoc = Vector2Utility.sub(getBoard().driller.getDiv(),
+                                            getDiv());
 
-        } else if (horizontalMove > 0) {
-            this.setDiv(new Vector2(
-                    enemyXTile * Vector2.DIVS_PER_TILE - Vector2.DIVS_PER_TILE,
-                    enemyYTile * Vector2.DIVS_PER_TILE));
+        double xMove = 0;
+        double yMove = 0;
 
-        } else if (horizontalMove == 0) {
-
-        } else if (verticalMove < 0) {
-            this.setDiv(new Vector2(
-                    enemyXTile * Vector2.DIVS_PER_TILE,
-                    enemyYTile * Vector2.DIVS_PER_TILE + Vector2.DIVS_PER_TILE));
-
-        } else if (verticalMove > 0) {
-            this.setDiv(new Vector2(
-                    enemyXTile * Vector2.DIVS_PER_TILE,
-                    enemyYTile * Vector2.DIVS_PER_TILE - Vector2.DIVS_PER_TILE));
-        } else if (verticalMove == 0) {
-
-        } else if (this.getBoard().isClearedVertical(this.getDiv()) || this.getBoard().isClearedHorizontal(
-                this.getDiv())) {
-            System.out.println("going to end floating");
-            this.stopFloat();
-
+        if (relLoc.getX() > 0) {
+            xMove = 0.5;
+        } else {
+            xMove = -0.5;
+        }
+        if (relLoc.getY() > 0) {
+            yMove = 0.5;
+        } else {
+            yMove = -0.5;
         }
 
+        if (!isFloating) {
+            this.startFloat();
+        }
+
+        Vector2 move = new Vector2(xMove, yMove);
+        System.out.println(move);
+
+        Vector2 prevDiv = getDiv();
+        this.setDiv(Vector2Utility.add(getDiv(), move));
+        Vector2 curDiv = getDiv();
+        System.out.println(prevDiv + " " + curDiv);
+
+//        if (this.getBoard().isClearedVertical(this.getTile()) && Vector2Utility.distanceBetween(
+//                getDiv(), startFloatTile) > 2) {
+//            System.out.println("going to end floating");
+//            if (yMove >= 0) {
+//                this.direction = Direction.UP;
+//            } else {
+//                this.direction = Direction.DOWN;
+//            }
+//            this.stopFloat();
+//            this.align(direction);
+//        } else if (this.getBoard().isClearedHorizontal(this.getTile()) && Vector2Utility.distanceBetween(
+//                getDiv(), startFloatTile) > 2) {
+//            System.out.println("going to end floating");
+//            if (xMove >= 0) {
+//                this.direction = Direction.RIGHT;
+//            } else {
+//                this.direction = Direction.LEFT;
+//            }
+//            this.stopFloat();
+//            this.align(direction);
+//        }
     }
 
     public void startFloat() {
+        this.startFloatTile = this.getTile();
         isFloating = true;
     }
 

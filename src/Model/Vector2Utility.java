@@ -52,4 +52,9 @@ public class Vector2Utility {
         return nearX && nearY;
     }
 
+    public static double distanceBetween(Vector2 vec1, Vector2 vec2) {
+        return Math.sqrt(Math.pow(vec1.getX() - vec2.getX(), 2) + Math.pow(
+                vec1.getY() - vec2.getY(), 2));
+    }
+
 }
