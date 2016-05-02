@@ -80,19 +80,15 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
         if (rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = Direction.RIGHT;
-            shoot = false;
         }
         if (!rightIsPressed && leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = Direction.LEFT;
-            shoot = false;
         }
         if (!rightIsPressed && !leftIsPressed && upIsPressed && !downIsPressed) {
             moveState = Direction.UP;
-            shoot = false;
         }
         if (!rightIsPressed && !leftIsPressed && !upIsPressed && downIsPressed) {
             moveState = Direction.DOWN;
-            shoot = false;
         }
         if (!rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = null;
@@ -101,6 +97,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             this.changeToGame();
             collectibleTimer = 0;
         }
+        theModel.shoot(spaceIsPressed);
         this.theModel.movePlayer(moveState);
         GUI.repaint();
         collectibleTimer++;

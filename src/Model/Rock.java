@@ -26,7 +26,7 @@ public class Rock extends BoardObject {
     private final static double SPEED = 2.0; //moves over an entire tile per half second
     private boolean isFalling;
     private int wiggleCount;
-    private static final int MAX_WIGGLES = 96;
+    private static final int MAX_WIGGLES = 64;
     private int brokenCount;
     private static final int MAX_BROKEN = 64;
 
@@ -140,7 +140,7 @@ public class Rock extends BoardObject {
             return Images.get("Rock_2.png");
         } else if ((!isFalling && wiggleCount > 0) && !isBroken) {
             return Images.get(String.format("Rock_%d.png",
-                                            (wiggleCount / (MAX_WIGGLES / 16)) % 2 + 1));
+                                            (wiggleCount / (MAX_WIGGLES / 8)) % 2 + 1));
         } else if (isBroken) {
             return Images.get(String.format("Rock_Ground_%d.png",
                                             (2 * brokenCount / (MAX_BROKEN)) + 1));
