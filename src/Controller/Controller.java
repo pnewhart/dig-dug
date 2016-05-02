@@ -98,20 +98,10 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (!rightIsPressed && !leftIsPressed && !upIsPressed && !downIsPressed) {
             moveState = null;
         }
-        if (enterIsPressed) {
-
-            collectibleTimer = 0;
-            enterIsPressed = false;
-
-        }
 
         this.theModel.movePlayer(moveState);
         GUI.repaint();
 
-        if (collectibleTimer == 1200 && theModel.timesPressed >= 3) { //1200 is about 40 seconds
-            collectibleTimer++;
-            theModel.setCollectible();
-        }
         if (theModel.getPlayer1().isDead()) {
             if (timesPlayed == 0) {
                 Model.Sound.DigDugDeadMusic();
@@ -171,8 +161,10 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             enterIsPressed = true;
-            gameCreated = true;
-            theModel.createGame();
+            if (!gameCreated) {
+                gameCreated = true;
+                theModel.createGame();
+            }
             if (timesPushed == 0) {
                 Model.Sound.stopStart();
                 Model.Sound.DigDugGameMusic();
@@ -184,6 +176,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             theModel.timesPressed += 1;
             timesPushed += 1;
         }
+
     }
 
     @Override

@@ -39,6 +39,7 @@ public class GameBoard {
     private Collectible collect;
 
     private boolean collectPlaced = false;
+    final static int COLLECT_OFFSET = 5 * Vector2.DIVS_PER_TILE;
 
     /**
      * creates a new GameBoard of tiles
@@ -83,7 +84,7 @@ public class GameBoard {
         this.collect = c;
         c.setDiv(new Vector2(
                 (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
-                ((Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE) + 1));
+                ((Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE) - COLLECT_OFFSET));
         collectPlaced = true;
 
     }
