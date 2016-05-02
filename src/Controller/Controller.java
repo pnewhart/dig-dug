@@ -119,7 +119,6 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
         if (theModel.getEnemies().isEmpty() && theModel.getLevelCounter() > 1) {
             theModel.nextLevel();
-            timesGO = 0;
             timesPlayed = 0;
             timesPlayed1 = 0;
             timesPushed = 0;

@@ -150,7 +150,9 @@ public class Sound {
     }
 
     public static void stopMain() {
-        myMainClip.stop();
+        if (myMainClip.isActive()) {
+            myMainClip.stop();
+        }
     }
 
     /**
@@ -190,7 +192,9 @@ public class Sound {
     }
 
     public static void stopGameOver() {
-        myGameOverClip.stop();
+        if (myGameOverClip.isActive()) {
+            myGameOverClip.stop();
+        }
     }
 
     public static void DigDugLastOneMusic() {
@@ -218,9 +222,19 @@ public class Sound {
     }
 
     public static void playLastOneMusic() {
-        myLastOneSoundMusic.setFramePosition(0);  // Must always rewind!
-        myLastOneSoundMusic.loop(0);
-        myLastOneSoundMusic.start();
+        try {
+            if (myLastOneSoundMusic == null) {
+                DigDugLastOneMusic();
+            } else if (myLastOneSoundMusic.isActive()) {
+                loopLastOneMusic();
+            } else {
+                myLastOneSoundMusic.setFramePosition(0);  // Must always rewind!
+                myLastOneSoundMusic.loop(0);
+                myLastOneSoundMusic.start();
+            }
+        } catch (Exception e) {
+            DigDugLastOneMusic();
+        }
     }
 
     public static void loopLastOneMusic() {
@@ -229,7 +243,9 @@ public class Sound {
     }
 
     public static void stopLastOneMusic() {
-        myLastOneSoundMusic.stop();
+        if (myLastOneSoundMusic.isActive()) {
+            myLastOneSoundMusic.stop();
+        }
     }
 
 }
