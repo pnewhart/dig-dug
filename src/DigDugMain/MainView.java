@@ -105,7 +105,6 @@ public class MainView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                System.out.println("running in mainview");
                 MainView theView = new MainView();
 
                 GameManager theModel = new GameManager();

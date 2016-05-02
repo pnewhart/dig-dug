@@ -18,9 +18,9 @@ public class MyKeyListener implements KeyListener {
     public void keyTyped(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("Right typed.");
+            //System.out.println("Right typed.");
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("Left typed.");
+            //System.out.println("Left typed.");
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             System.out.println("Up typed.");
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {

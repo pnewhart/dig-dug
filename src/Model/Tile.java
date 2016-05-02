@@ -310,10 +310,10 @@ public class Tile extends BoardObject {
                         downHole.getPercentRemoved());
 
             }
-            System.out.println(this.isClearedHorizontal());
+            //System.out.println(this.isClearedHorizontal());
             return false;
         } else {
-            System.out.println(this.isClearedHorizontal());
+            //System.out.println(this.isClearedHorizontal());
             return false;
         }
 
@@ -431,7 +431,7 @@ public class Tile extends BoardObject {
         }
 
         String returnString = String.format(" |%3d |", leastFill);
-        System.out.print(returnString);
+        //System.out.print(returnString);
 
     }
 

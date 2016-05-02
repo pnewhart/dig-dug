@@ -148,7 +148,7 @@ public class GameBoardVisual extends javax.swing.JComponent {
         }
 
         Collectible collect = theModel.getTheBoard().getCollect();
-        System.out.println(theModel.getTheBoard().isCollectPlaced());
+        //System.out.println(theModel.getTheBoard().isCollectPlaced());
         if (theModel.getTheBoard().isCollectPlaced() && theModel.timesPressed > 3) {
             g.drawImage(
                     theModel.getTheBoard().getCollect().getType().getCollectableImage(),

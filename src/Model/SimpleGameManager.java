@@ -36,13 +36,16 @@ public class SimpleGameManager {
 
     public void movePlayer(Direction dir) {
         player1.move(dir);
-        System.out.printf("%s == %s\n", this.player1.getTile(),
-                          this.player1.getDiv());
+        //System.out.printf("%s == %s\n", this.player1.getTile(),
+        this.player1.getDiv()
+
+
+    );
     }
 
     public void shoot(boolean shoot) {
         player1.shoot(shoot);
-        System.out.println("SHOOT");
+        //System.out.println("SHOOT");
     }
 
 }

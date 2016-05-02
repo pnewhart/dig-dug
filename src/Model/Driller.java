@@ -240,7 +240,7 @@ public class Driller extends BoardObject {
                 destroy();
             }
         } catch (Exception e) {
-            System.out.println("Driller move failed");
+            //System.out.println("Driller move failed");
         }
     }
 
