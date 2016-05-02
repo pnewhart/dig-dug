@@ -224,6 +224,7 @@ public class Sound {
     }
 
     public static void loopLastOneMusic() {
+        myLastOneSoundMusic.setFramePosition(0);
         myLastOneSoundMusic.loop(Clip.LOOP_CONTINUOUSLY);
     }
 

@@ -109,6 +109,20 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
 
         if (theModel.getEnemies().isEmpty() && theModel.getLevelCounter() > 1) {
             theModel.nextLevel();
+            timesGO = 0;
+            timesPlayed = 0;
+            timesPlayed1 = 0;
+            timesPushed = 0;
+            Model.Sound.stopLastOneMusic();
+            Model.Sound.loopMain();
+        }
+
+        if (theModel.getEnemies().size() == 1 && theModel.getLevelCounter() > 0) {
+            if (timesPlayed1 == 0) {
+                Model.Sound.stopMain();
+                Model.Sound.playLastOneMusic();
+            }
+            timesPlayed1 += 1;
         } else if (theModel.getPlayer1().hasReset || (theModel.getTheBoard().getObjects().isEmpty() && theModel.getLevelCounter() >= 1)) {
             theModel.resetLevel();
             theModel.getPlayer1().hasReset = false;
