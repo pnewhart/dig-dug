@@ -12,6 +12,8 @@
  * **************************************** */
 package Model;
 
+import java.awt.Image;
+
 /**
  *
  * @author laa024
@@ -32,10 +34,18 @@ public enum CollectibleEnum {
 
     private int points;
     private String name;
+    private Image collectableImage;
 
     CollectibleEnum(String name, int score) {
         this.points = score;
         this.name = name;
+        this.collectableImage = GameManager.loadAndResizeSprite(name + ".png",
+                                                                GameManager.PIXELS_PER_DIV * GameManager.TILE_SIZE_IN_DIVS,
+                                                                GameManager.PIXELS_PER_DIV * GameManager.TILE_SIZE_IN_DIVS);
+    }
+
+    public Image getCollectableImage() {
+        return collectableImage;
     }
 
     /**

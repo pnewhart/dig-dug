@@ -53,6 +53,10 @@ public class GameBoard {
 
     }
 
+    public boolean isCollectPlaced() {
+        return collectPlaced;
+    }
+
     /**
      *
      * @return collectible on the board
