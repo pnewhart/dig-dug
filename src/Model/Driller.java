@@ -85,7 +85,7 @@ public class Driller extends BoardObject {
 
         this.prevWalkState = 0;
 
-        this.lives = 1;
+        this.lives = 3;
     }
 
     @Override
@@ -166,6 +166,10 @@ public class Driller extends BoardObject {
      */
     public void killDriller() {
         this.lives -= 1;
+    }
+
+    public void reviveDriller() {
+        this.isKilled = false;
     }
 
     public static int getScore() {
