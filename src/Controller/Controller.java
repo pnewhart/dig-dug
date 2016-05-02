@@ -95,19 +95,17 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             moveState = null;
         }
         if (enterIsPressed) {
-            enterPressed++;
-            this.changeToGame();
+
             collectibleTimer = 0;
+            enterIsPressed = false;
 
         }
         theModel.shoot(spaceIsPressed);
         this.theModel.movePlayer(moveState);
         GUI.repaint();
-        if (enterPressed > 1) {
-            collectibleTimer++;
-        }
 
-        if (collectibleTimer == 200) { //1200 is about 40 seconds
+        if (collectibleTimer == 1200 && theModel.timesPressed >= 3) { //1200 is about 40 seconds
+            collectibleTimer++;
             theModel.setCollectible();
         }
         if (theModel.getPlayer1().isDead()) {
@@ -135,10 +133,6 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             }
             timesGO += 1;
         }
-
-    }
-
-    protected void changeToGame() {
 
     }
 
@@ -183,6 +177,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             if (gameCreated) {
                 theModel.nextLevel();
             }
+            theModel.timesPressed += 1;
             timesPushed += 1;
         }
     }
@@ -214,6 +209,7 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             spaceIsPressed = false;
         }
+
     }
 
 }

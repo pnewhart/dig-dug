@@ -13,6 +13,7 @@
 package View;
 
 import Model.BoardObject;
+import Model.Collectible;
 import Model.Enemy;
 import Model.GameManager;
 import Model.Tile;
@@ -143,15 +144,15 @@ public class GameBoardVisual extends javax.swing.JComponent {
                         obj.getPixel()[1], this);
         }
 
-//        Collectible collect = theModel.getTheBoard().getCollect();
-//        System.out.println(theModel.getTheBoard().isCollectPlaced());
-//        if (theModel.getTheBoard().isCollectPlaced()) {
-//            g.drawImage(
-//                    theModel.getTheBoard().getCollect().getType().getCollectableImage(),
-//                    (int) collect.getDiv().getX() * GameManager.PIXELS_PER_DIV,
-//                    (int) collect.getDiv().getY() * GameManager.PIXELS_PER_DIV,
-//                    this);
-//        }
+        Collectible collect = theModel.getTheBoard().getCollect();
+        System.out.println(theModel.getTheBoard().isCollectPlaced());
+        if (theModel.getTheBoard().isCollectPlaced() && theModel.timesPressed > 3) {
+            g.drawImage(
+                    theModel.getTheBoard().getCollect().getType().getCollectableImage(),
+                    (int) collect.getDiv().getX() * GameManager.PIXELS_PER_DIV,
+                    (int) collect.getDiv().getY() * GameManager.PIXELS_PER_DIV,
+                    this);
+        }
     }
 
     /**
