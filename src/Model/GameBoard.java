@@ -39,7 +39,7 @@ public class GameBoard {
     private Collectible collect;
 
     private boolean collectPlaced = false;
-    final static int COLLECT_OFFSET = 5 * Vector2.DIVS_PER_TILE;
+    final static int COLLECT_OFFSET = 6 * Vector2.DIVS_PER_TILE;
 
     /**
      * creates a new GameBoard of tiles
