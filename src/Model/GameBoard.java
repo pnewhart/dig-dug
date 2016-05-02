@@ -89,6 +89,7 @@ public class GameBoard {
      */
     public void destroyCollectible() {
         this.collect.destroy();
+        collectPlaced = false;
     }
 
     /**

@@ -13,6 +13,7 @@
 package Model;
 
 import java.awt.Image;
+import java.util.Date;
 
 /**
  *
@@ -27,6 +28,15 @@ public class Tile extends BoardObject {
     private String baseImageKey;
     private String biome;
     private int layer;
+    private Date lastTimeVisited;
+
+    public Date getLastTimeVisited() {
+        return lastTimeVisited;
+    }
+
+    public void setLastTimeVisited(Date lastTimeVisited) {
+        this.lastTimeVisited = lastTimeVisited;
+    }
 
     public Hole getLeftHole() {
         return leftHole;
