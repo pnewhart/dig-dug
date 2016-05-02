@@ -56,15 +56,14 @@ public class Driller extends BoardObject {
     private int prevWalkState;
     private final static int NUM_WALK_STATES = 8;
 
-    private boolean isTurning;
     private int lives;
     private static ScoreKeeper score = new ScoreKeeper();
 
-    //TEMPORARY CHANGE LATER//
-    private Image currentImage;
-    //////////////////////////
-
     public Driller() {
+        initDriller(3);
+    }
+
+    private void initDriller(int lives) {
         this.setDiv(new Vector2(
                 (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
                 (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE));
@@ -74,18 +73,15 @@ public class Driller extends BoardObject {
         this.isMoving = false;
         this.isShooting = false;
         this.isDigging = false;
-        this.isTurning = false;
         this.gun = null;
 
         this.isCrushed = false;
         this.isKilled = false;
         this.deadCount = 0;
 
-        this.currentImage = null;
-
         this.prevWalkState = 0;
 
-        this.lives = 1;
+        this.lives = lives;
     }
 
     @Override
@@ -266,12 +262,10 @@ public class Driller extends BoardObject {
                     this.getDiv())) {
                 this.setDiv(new Vector2(this.getDiv().getX() - speed,
                                         getDiv().getY()));
-                this.isTurning = true;
             } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
                     this.getDiv())) {
                 this.setDiv(new Vector2(this.getDiv().getX() + speed,
                                         this.getDiv().getY()));
-                this.isTurning = true;
             } else if (!getBoard().isRockAt(getDirection(Direction.UP))) {
                 setDiv(new Vector2(this.getTile().getX() * Vector2.DIVS_PER_TILE,
                                    getDiv().getY() - speed));
@@ -287,7 +281,6 @@ public class Driller extends BoardObject {
                     }
                     this.direction = Direction.UP;
                 }
-                this.isTurning = false;
             }
             this.isMoving = true;
         }
@@ -305,12 +298,10 @@ public class Driller extends BoardObject {
                     this.getDiv())) {
                 this.setDiv(new Vector2(this.getDiv().getX() - speed,
                                         getDiv().getY()));
-                this.isTurning = true;
             } else if (this.direction == Direction.RIGHT && !Vector2Utility.isNearTile(
                     this.getDiv())) {
                 this.setDiv(new Vector2(this.getDiv().getX() + speed,
                                         this.getDiv().getY()));
-                this.isTurning = true;
             } else if (!getBoard().isRockAt(getDirection(Direction.DOWN))) {
                 setDiv(new Vector2(this.getTile().getX() * Vector2.DIVS_PER_TILE,
                                    getDiv().getY() + speed));
@@ -326,7 +317,6 @@ public class Driller extends BoardObject {
                     }
                     this.direction = Direction.DOWN;
                 }
-                this.isTurning = false;
             }
             this.isMoving = true;
         }
@@ -345,12 +335,10 @@ public class Driller extends BoardObject {
                 this.getDiv())) {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() - speed));
-            this.isTurning = true;
         } else if (this.direction == Direction.DOWN && !Vector2Utility.isNearTile(
                 this.getDiv())) {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() + speed));
-            this.isTurning = true;
         } else if (!getBoard().isRockAt(getDirection(Direction.LEFT))) {
             setDiv(new Vector2(getDiv().getX() - speed,
                                this.getTile().getY() * Vector2.DIVS_PER_TILE));
@@ -361,7 +349,6 @@ public class Driller extends BoardObject {
                 this.prevDirection = direction;
                 this.direction = Direction.LEFT;
             }
-            this.isTurning = false;
         }
         this.isMoving = true;
     }
@@ -379,12 +366,10 @@ public class Driller extends BoardObject {
                 this.getDiv())) {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() - speed));
-            this.isTurning = true;
         } else if (this.direction == Direction.DOWN && !Vector2Utility.isNearTile(
                 this.getDiv())) {
             this.setDiv(new Vector2(getDiv().getX(),
                                     this.getDiv().getY() + speed));
-            this.isTurning = true;
         } else if (!getBoard().isRockAt(getDirection(Direction.RIGHT))) {
             setDiv(new Vector2(getDiv().getX() + speed,
                                this.getTile().getY() * Vector2.DIVS_PER_TILE));
@@ -395,7 +380,6 @@ public class Driller extends BoardObject {
                 this.prevDirection = direction;
                 this.direction = Direction.RIGHT;
             }
-            this.isTurning = false;
         }
         this.isMoving = true;
     }
@@ -516,11 +500,7 @@ public class Driller extends BoardObject {
     }
 
     public void destroy() {
-        try {
-            getBoard().driller = null;
-        } catch (Exception e) {
-            System.out.println("Could not destroy Rock!");
-        }
+        initDriller(lives - 1);
     }
 
 }

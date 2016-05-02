@@ -49,6 +49,10 @@ public class Puff extends Enemy {
             }
         }
 
+        if (isFloating) {
+            dir = "Float";
+        }
+
         return Images.get(
                 "Pooka_" + dir + "_" + (1 + stepCount / (MAX_STEP_COUNT / 2)) + ".png");
     }

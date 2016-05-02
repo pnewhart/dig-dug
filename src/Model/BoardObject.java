@@ -21,10 +21,6 @@ import java.util.HashMap;
  */
 public abstract class BoardObject {
 
-    static void loadBoard(GameBoard theBoard) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     private Vector2 location = null;
     protected boolean isPumpable = false;
     protected boolean canCrush = false;

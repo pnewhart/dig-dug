@@ -57,4 +57,13 @@ public class Vector2Utility {
                 vec1.getY() - vec2.getY(), 2));
     }
 
+    public static Vector2 setMagnitude(Vector2 vec, double mag) {
+        vec = Vector2Utility.divide(vec, Vector2Utility.distanceBetween(vec,
+                                                                        new Vector2(
+                                                                                0,
+                                                                                0)));
+        vec = Vector2Utility.scale(vec, mag);
+        return vec;
+    }
+
 }

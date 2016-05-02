@@ -71,6 +71,10 @@ public class Dragon extends Enemy {
             }
         }
 
+        if (isFloating) {
+            dir = "Float";
+        }
+
         return Images.get(
                 "Fygar_" + dir + "_" + (1 + stepCount / (MAX_STEP_COUNT / 2)) + ".png");
     }
