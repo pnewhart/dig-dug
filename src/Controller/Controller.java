@@ -107,8 +107,12 @@ public class Controller implements ActionListener, ChangeListener, KeyListener {
             if (timesGO == 0) {
                 theModel.getTheBoard().resetBoard();
                 theModel.gameOver();
-                Model.Sound.stopMain();
-                Model.Sound.stopDead();
+                try {
+                    Model.Sound.stopMain();
+                    Model.Sound.stopDead();
+                } catch (Exception e) {
+
+                }
                 Model.Sound.DigDugGameOverMusic();
             }
             timesGO += 1;
