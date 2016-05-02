@@ -35,6 +35,7 @@ public class GameManager {
     private Enemy en;
     //private Collectable collectables;
     //private ArrayList<Rock> rocks;
+    public int timesPressed = 0;
 
     /**
      *

@@ -83,7 +83,7 @@ public class GameBoard {
         this.collect = c;
         c.setDiv(new Vector2(
                 (Vector2.NUM_TILE_HORIZONTAL / 2 - 1) * Vector2.DIVS_PER_TILE,
-                (Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE));
+                ((Vector2.NUM_TILE_VERTICAL / 2 - 1) * Vector2.DIVS_PER_TILE) + 1));
         collectPlaced = true;
 
     }
