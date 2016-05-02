@@ -142,6 +142,16 @@ public class GameBoardVisual extends javax.swing.JComponent {
             g.drawImage(obj.getCurrentImage(), obj.getPixel()[0],
                         obj.getPixel()[1], this);
         }
+
+//        Collectible collect = theModel.getTheBoard().getCollect();
+//        System.out.println(theModel.getTheBoard().isCollectPlaced());
+//        if (theModel.getTheBoard().isCollectPlaced()) {
+//            g.drawImage(
+//                    theModel.getTheBoard().getCollect().getType().getCollectableImage(),
+//                    (int) collect.getDiv().getX() * GameManager.PIXELS_PER_DIV,
+//                    (int) collect.getDiv().getY() * GameManager.PIXELS_PER_DIV,
+//                    this);
+//        }
     }
 
     /**
